@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us | Minara Blog</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Contact Minara Blog – Email, YouTube aur Instagram ke through connect karein.">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- STYLES -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- SCROLL PROGRESS -->
+  <div id="scrollProgress"></div>
+
+  <!-- HEADER -->
+  <header>
+  <div class="header-inner">
+    <h1 class="logo">Minara<span>Blog</span></h1>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="trading.html">Trading</a>
+      <a href="forex.html">Forex</a>
+      <a href="thought.html">Thoughts</a>
+      <a href="daily.html">Daily Info</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <button id="themeToggle">☀️</button>
+  </div>
+</header>
+
+
+  <main>
+
+    <!-- INTRO -->
+    <section class="section card">
+      <h2>Contact Minara Blog</h2>
+      <p>
+        Aap Minara Blog se niche diye gaye platforms ke through
+        directly connect kar sakte hain.
+      </p>
+    </section>
+
+    <!-- CONTACT DETAILS -->
+    <section class="section card">
+      <h3>Get in Touch</h3>
+
+      <p>
+        <strong>Email:</strong><br>
+        <a href="mailto:innocentboy1566@gmail.com">
+          innocentboy1566@gmail.com
+        </a>
+      </p>
+
+      <p>
+        <strong>YouTube:</strong><br>
+        <a href="https://www.youtube.com/@Nexifyvibes1" target="_blank">
+          Nexify Vibes
+        </a>
+      </p>
+
+      <p>
+        <strong>Instagram:</strong><br>
+        <a href="https://www.instagram.com/innocent_boy1566" target="_blank">
+          @innocent_boy1566
+        </a>
+      </p>
+    </section>
+
+    <!-- NOTE -->
+    <section class="section card">
+      <p>
+        Business collaboration, feedback ya suggestions ke liye
+        email ke through contact karna best rahega.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer-pro">
+    <p>
+      © <span id="year"></span> Minara Blog · All Rights Reserved
+    </p>
+
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="mailto:innocentboy1566@gmail.com">Email</a>
+    </div>
+  </footer>
+
+  <!-- YEAR -->
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <!-- MAIN SCRIPT -->
+  <script src="script.js"></script>
+
+  <script>
+let lastScrollY = window.scrollY;
+const header = document.querySelector("header");
+
+window.addEventListener("scroll", () => {
+    if (window.scrollY > lastScrollY) {
+        header.classList.add("header-hide");
+    } else {
+        header.classList.remove("header-hide");
+    }
+    lastScrollY = window.scrollY;
+});
+</script>
+
+</body>
+</html>

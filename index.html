@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <title>Minara Blog | Trading & Forex Knowledge</title>
+
+  <!-- BASIC SEO -->
+  <meta name="description" content="Minara Blog – Trading, Forex, Daily Knowledge aur Motivation in Hinglish. Beginners, traders aur students ke liye real aur practical information.">
+  <meta name="keywords" content="trading blog hindi, forex knowledge, trading for beginners, daily information, stock market hindi">
+  <meta name="author" content="Minara Blog">
+  <meta name="robots" content="index, follow">
+
+  <!-- VIEWPORT -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- FAVICON -->
+  <link rel="icon" href="favicon.ico">
+
+  <!-- STYLES -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- SCROLL PROGRESS -->
+  <div id="scrollProgress"></div>
+
+  <!-- HEADER -->
+ <header>
+  <div class="header-inner">
+    <h1 class="logo">Minara<span>Blog</span></h1>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="trading.html">Trading</a>
+      <a href="forex.html">Forex</a>
+      <a href="thought.html">Thoughts</a>
+      <a href="daily.html">Daily Info</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <button id="themeToggle">☀️</button>
+  </div>
+</header>
+
+
+  <main>
+
+    <!-- HERO -->
+    <section id="home" class="section">
+      <img
+        src="profile.jpg"
+        alt="Minara Blog founder – trading and forex educator"
+        class="profile"
+      >
+
+      <h2>
+        <span id="autoText">Trading Knowledge</span>
+      </h2>
+
+      <p class="tagline">
+        Learn. Trade. Grow. Real knowledge — no hype.
+      </p>
+
+      <p>
+        Beginners, Traders, Students aur General Public ke liye
+        simple, practical aur honest market knowledge.
+      </p>
+    </section>
+
+    <!-- TRADING SECTION -->
+    <section class="section card">
+      <h2>Trading Vlog</h2>
+      <p>
+        Live market experience, real trades, discipline
+        aur proper risk management concepts.
+      </p>
+      <a href="trading.html">Open Trading Page →</a>
+
+      <h3 style="margin-top:40px;">Latest Shorts</h3>
+
+      <div class="video-grid">
+
+        <iframe
+          data-src="https://www.youtube.com/embed/c1NCF7XvhYA"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+
+        <iframe
+          data-src="https://www.youtube.com/embed/GZMTbA56DE4"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+
+        <iframe
+          data-src="https://www.youtube.com/embed/mCypTCltFP4"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+
+        <iframe
+          data-src="https://www.youtube.com/embed/ovQSrGf6P0o"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+
+      </div>
+
+      <button id="loadMoreBtn">Load More</button>
+    </section>
+
+    <!-- FOREX -->
+    <section class="section card">
+      <h2>Forex Knowledge</h2>
+      <p>
+        Forex basics se advance tak — currency pairs,
+        analysis aur risk management ke saath.
+      </p>
+      <a href="forex.html">Read Full Forex →</a>
+    </section>
+
+    <!-- THOUGHTS -->
+    <section class="section card">
+      <h2>Thoughts & Quotes</h2>
+      <p>
+        Discipline, patience aur mindset building
+        ke liye daily trading thoughts.
+      </p>
+      <a href="thought.html">Read Thoughts →</a>
+    </section>
+
+    <!-- DAILY INFO -->
+    <section class="section card">
+      <h2>Daily Information</h2>
+      <p>
+        Roz ki useful updates aur learning points
+        jo growth me help karein.
+      </p>
+      <a href="daily.html">View Daily Info →</a>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section card">
+      <h2>About Minara Blog</h2>
+      <p>
+        Minara Blog ek Hindi/Hinglish educational platform hai
+        jo beginners, traders aur students ko
+        trading, forex aur self-discipline ke through
+        sahi direction deta hai.
+      </p>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section card">
+      <h2>Contact</h2>
+
+      <p><strong>Email:</strong> innocentboy1566@gmail.com</p>
+
+      <p>
+        <strong>YouTube:</strong>
+        <a href="https://www.youtube.com/@Nexifyvibes1" target="_blank">
+          Nexify Vibes
+        </a>
+      </p>
+
+      <p>
+        <strong>Instagram:</strong>
+        <a href="https://www.instagram.com/innocent_boy1566" target="_blank">
+          @innocent_boy1566
+        </a>
+      </p>
+    </section>
+
+  </main>
+
+<section class="section card">
+  <h3>You May Also Like</h3>
+  <ul id="recommendBox"></ul>
+</section>
+
+  <!-- FOOTER -->
+  <footer class="footer-pro">
+    <p>
+      © <span id="year"></span> Minara Blog · All Rights Reserved
+    </p>
+
+    <div class="footer-links">
+      <a href="mailto:innocentboy1566@gmail.com">Email</a>
+      <a href="https://www.youtube.com/@Nexifyvibes1" target="_blank">YouTube</a>
+      <a href="https://www.instagram.com/innocent_boy1566" target="_blank">Instagram</a>
+    </div>
+  </footer>
+
+  <!-- YEAR -->
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <!-- MAIN SCRIPT -->
+  <script src="script.js"></script>
+
+  <script>
+let lastScrollY = window.scrollY;
+const header = document.querySelector("header");
+
+window.addEventListener("scroll", () => {
+    if (window.scrollY > lastScrollY) {
+        header.classList.add("header-hide");
+    } else {
+        header.classList.remove("header-hide");
+    }
+    lastScrollY = window.scrollY;
+});
+</script>
+
+</body>
+</html>
