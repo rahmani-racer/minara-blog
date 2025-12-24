@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <title>Forex Knowledge | Minara Blog</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Forex trading knowledge in Hindi/Hinglish – basics se advance tak, risk management ke saath.">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- STYLES -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- SCROLL PROGRESS -->
+  <div id="scrollProgress"></div>
+
+  <!-- HEADER -->
+  <header>
+  <div class="header-inner">
+    <h1 class="logo">Minara<span>Blog</span></h1>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="trading.html">Trading</a>
+      <a href="forex.html">Forex</a>
+      <a href="thought.html">Thoughts</a>
+      <a href="daily.html">Daily Info</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <button id="themeToggle">☀️</button>
+  </div>
+</header>
+
+
+  <main>
+
+    <!-- INTRO -->
+    <section class="section card">
+      <h2>Forex Knowledge</h2>
+      <p>
+        Forex market basics se advance concepts tak —
+        simple Hindi/Hinglish me, beginners ke liye clear explanation ke saath.
+      </p>
+    </section>
+
+    <!-- SEARCH -->
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search forex topics..."
+      aria-label="Search forex content"
+    >
+
+    <!-- FOREX CONTENT -->
+    <section class="section card">
+      <div class="quotes">
+
+        <p class="quote">
+          <strong>Forex Market (Foreign Exchange)</strong> duniya ka
+          sabse bada aur most liquid financial market hai,
+          jiska daily volume <strong>$7 trillion+</strong> hota hai.
+        </p>
+
+        <p class="quote">
+          Forex me trading <strong>currency pairs</strong> me hoti hai
+          jaise EUR/USD, GBP/USD, USD/JPY aur USD/INR.
+          Market <strong>24/5 open</strong> rehta hai.
+        </p>
+
+        <p class="quote">
+          Jab aap ek currency buy karte ho,
+          to dusri currency automatically sell hoti hai.
+          Price movement ko <strong>pips</strong> me measure kiya jaata hai.
+        </p>
+
+        <p class="quote">
+          Forex analysis do types ka hota hai:
+          <strong>Technical Analysis</strong> aur
+          <strong>Fundamental Analysis</strong>.
+        </p>
+
+        <p class="quote">
+          Technical analysis me indicators jaise
+          RSI, MACD, Moving Averages,
+          aur support–resistance levels use hote hain.
+        </p>
+
+        <p class="quote">
+          Fundamental analysis me economic factors jaise
+          interest rates, inflation, GDP aur NFP
+          market direction ko impact karte hain.
+        </p>
+
+        <p class="quote">
+          <strong>Leverage</strong> ek powerful tool hai,
+          lekin bina proper <strong>risk management</strong>
+          ke ye account destroy kar sakta hai.
+        </p>
+
+        <p class="quote">
+          Professional traders hamesha
+          <strong>stop-loss</strong> aur
+          proper <strong>risk-to-reward ratio</strong> follow karte hain.
+        </p>
+
+        <p class="quote">
+          Forex me success discipline, patience
+          aur consistent strategy se aati hai.
+          Ye gambling nahi, ek <strong>long-term skill</strong> hai.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- DISCLAIMER -->
+    <section class="section card">
+      <h3>Disclaimer</h3>
+      <p>
+        Forex aur trading markets me risk hota hai.
+        Ye website sirf educational purpose ke liye hai.
+        Koi bhi trade lene se pehle apni research zaroor karein.
+        Hum kisi profit ya loss ki guarantee nahi dete.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer-pro">
+    <p>
+      © <span id="year"></span> Minara Blog · All Rights Reserved
+    </p>
+
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="trading.html">Trading</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
+
+  <!-- YEAR -->
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <!-- MAIN SCRIPT -->
+  <script src="script.js"></script>
+
+  <script>
+let lastScrollY = window.scrollY;
+const header = document.querySelector("header");
+
+window.addEventListener("scroll", () => {
+    if (window.scrollY > lastScrollY) {
+        header.classList.add("header-hide");
+    } else {
+        header.classList.remove("header-hide");
+    }
+    lastScrollY = window.scrollY;
+});
+</script>
+
+</body>
+</html>
