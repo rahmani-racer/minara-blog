@@ -1,10 +1,11 @@
 /* =====================================================
    MINARA BLOG — MASTER STYLE.CSS
-   Final Stable Pro Build (Verified)
+   Phase A: Premium Core UI + Theme System
+   GitHub Pages Safe | Zero Backend
 ===================================================== */
 
 /* =========================
-   THEME SYSTEM
+   THEME VARIABLES
 ========================= */
 :root {
   --bg-main: #0b1320;
@@ -13,6 +14,7 @@
   --text-muted: #cbd5e1;
   --accent: #38bdf8;
   --border-soft: rgba(255,255,255,0.15);
+  --shadow-soft: 0 20px 40px rgba(0,0,0,0.35);
 }
 
 body.light {
@@ -22,10 +24,11 @@ body.light {
   --text-muted: #475569;
   --accent: #2563eb;
   --border-soft: rgba(0,0,0,0.1);
+  --shadow-soft: 0 18px 30px rgba(0,0,0,0.12);
 }
 
 /* =========================
-   BASE RESET
+   RESET & BASE
 ========================= */
 *,
 *::before,
@@ -39,13 +42,11 @@ html {
 
 body {
   margin: 0;
+  padding-top: 100px;
   font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
   background: var(--bg-main);
   color: var(--text-main);
   line-height: 1.6;
-
-  /* fixed header space */
-  padding-top: 100px;
 }
 
 /* =========================
@@ -56,9 +57,7 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  opacity: 0.85;
-}
+a:hover { opacity: 0.85; }
 
 img {
   max-width: 100%;
@@ -66,7 +65,7 @@ img {
 }
 
 /* =========================
-   HEADER (FIXED + STABLE)
+   HEADER (FIXED + SMART)
 ========================= */
 header {
   position: fixed;
@@ -74,24 +73,19 @@ header {
   left: 0;
   width: 100%;
   z-index: 1000;
-
+  padding: 18px 0;
   background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   transition: transform 0.35s ease-in-out;
-
-  padding: 18px 0;
 }
 
-/* hide on scroll */
 .header-hide {
   transform: translateY(-100%);
 }
 
-/* header inner container */
-header .header-inner {
+.header-inner {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -105,10 +99,7 @@ header .header-inner {
   font-weight: 700;
   letter-spacing: 0.5px;
 }
-
-.logo span {
-  color: var(--accent);
-}
+.logo span { color: var(--accent); }
 
 /* =========================
    NAVIGATION
@@ -116,15 +107,15 @@ header .header-inner {
 nav {
   margin-top: 10px;
   display: flex;
-  justify-content: center;
   gap: 22px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 nav a {
+  color: #ffffff;
   font-weight: 600;
   position: relative;
-  color: #ffffff;
 }
 
 nav a::after {
@@ -137,10 +128,7 @@ nav a::after {
   background: var(--accent);
   transition: width 0.25s ease;
 }
-
-nav a:hover::after {
-  width: 100%;
-}
+nav a:hover::after { width: 100%; }
 
 /* =========================
    THEME TOGGLE
@@ -149,23 +137,20 @@ nav a:hover::after {
   margin-top: 10px;
   background: transparent;
   border: 1px solid var(--border-soft);
-  color: #fff;
+  color: #ffffff;
   border-radius: 20px;
   padding: 4px 12px;
   cursor: pointer;
 }
 
 /* =========================
-   SECTIONS
+   SECTIONS & CARDS
 ========================= */
 .section {
   padding: 80px 20px;
   text-align: center;
 }
 
-/* =========================
-   CARDS
-========================= */
 .card {
   max-width: 900px;
   margin: 40px auto;
@@ -173,7 +158,7 @@ nav a:hover::after {
   background: var(--bg-card);
   border-radius: 16px;
   border: 1px solid var(--border-soft);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+  box-shadow: var(--shadow-soft);
 }
 
 /* =========================
@@ -181,22 +166,14 @@ nav a:hover::after {
 ========================= */
 #home {
   min-height: 100vh;
+  padding: 120px 20px 80px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 120px 20px 80px;
-
-  background: linear-gradient(
-    120deg,
-    #020617,
-    #0b1320,
-    #0e1a2b,
-    #111827
-  );
+  justify-content: center;
+  background: linear-gradient(120deg,#020617,#0b1320,#0e1a2b,#111827);
   background-size: 300% 300%;
   animation: heroGradient 18s ease infinite;
-
   color: #ffffff;
 }
 
@@ -222,13 +199,38 @@ nav a:hover::after {
 }
 
 /* =========================
+   SEARCH + HIGHLIGHT
+========================= */
+#searchInput {
+  width: 100%;
+  max-width: 420px;
+  padding: 12px 14px;
+  margin: 30px auto;
+  display: block;
+  border-radius: 10px;
+  border: 1px solid var(--accent);
+  background: var(--bg-card);
+  color: var(--text-main);
+  font-size: 16px;
+  text-align: center;
+}
+
+.highlight {
+  background: #fde68a;
+  color: #111827;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* =========================
    FOOTER
 ========================= */
 .footer-pro {
-  background: rgba(0,0,0,0.45);
-  padding: 32px 20px;
-  text-align: center;
   margin-top: 80px;
+  padding: 32px 20px;
+  background: rgba(0,0,0,0.45);
+  text-align: center;
 }
 
 .footer-pro p {
@@ -245,48 +247,7 @@ nav a:hover::after {
    MOBILE FIX
 ========================= */
 @media (max-width: 600px) {
-  body {
-    padding-top: 120px;
-  }
-
-  .profile {
-    width: 120px;
-    height: 120px;
-  }
-
-  .tagline {
-    font-size: 18px;
-  }
-}
-/* =========================
-   SEARCH
-========================= */
-#searchInput {
-  width: 100%;
-  max-width: 420px;
-  padding: 12px 14px;
-
-  display: block;
-  margin: 30px auto;
-
-  border-radius: 10px;
-  border: 1px solid var(--accent);
-  background: var(--bg-card);
-  color: var(--text-main);
-  font-size: 16px;
-  text-align: center;
-}
-.search-highlight {
-  background: #fde68a;
-  color: #111827;
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-.highlight {
-  background: #fde68a;
-  color: #111827;
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-weight: 600;
+  body { padding-top: 120px; }
+  .profile { width: 120px; height: 120px; }
+  .tagline { font-size: 18px; }
 }
