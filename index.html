@@ -63,6 +63,98 @@
   </p>
 </section>
 
+<!-- PREMIUM FEATURES / MARKET WIDGETS -->
+<section class="section card" id="premium-features">
+  <h2>Premium Tools & Market Widgets</h2>
+  <p>Useful client-side tools for forex traders — live-ish rates, session indicator, calculators and quick watchlist.</p>
+
+  <div class="premium-grid">
+    <div class="card small" id="ratesCard">
+      <h3>Rates Ticker</h3>
+      <div id="ratesTicker" class="rates-ticker">
+        <ul></ul>
+      </div>
+      <small>Updated every 60s • Data from exchangerate.host</small>
+    </div>
+
+    <div class="card small" id="sessionsCard">
+      <h3>Market Sessions</h3>
+      <div id="marketSessions" class="sessions">
+        <span data-session="tokyo" class="session">Tokyo</span>
+        <span data-session="london" class="session">London</span>
+        <span data-session="newyork" class="session">New York</span>
+      </div>
+      <small id="sessionLocalTime"></small>
+    </div>
+
+    <div class="card small" id="chartCard">
+      <h3>Mini Chart</h3>
+      <p>Select a pair and open an interactive TradingView chart (loads only when you click).</p>
+      <div class="chart-controls" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <select id="chartPairSelect">
+          <option value="EUR/USD">EUR/USD</option>
+          <option value="GBP/USD">GBP/USD</option>
+          <option value="USD/JPY">USD/JPY</option>
+          <option value="AUD/USD">AUD/USD</option>
+          <option value="USD/CAD">USD/CAD</option>
+          <option value="USD/INR">USD/INR</option>
+          <option value="EUR/GBP">EUR/GBP</option>
+          <option value="XAU/USD">XAU/USD (Gold)</option>
+        </select>
+        <input id="chartPairCustom" placeholder="Or enter pair like EUR/USD" style="width:160px">
+        <button id="openChart" class="btn">Open Chart</button>
+      </div>
+      <div id="chartContainer" style="margin-top:12px;"></div>
+    </div>
+
+    <div class="card tools" id="calcCard">
+      <h3>Pip & Position Size Calculator</h3>
+      <div class="calc-grid">
+        <label>Account Balance (<input id="accCurrency" value="USD" style="width:64px">): <input id="accountBalance" type="number" value="1000"></label>
+        <label>Risk %: <input id="riskPercent" type="number" value="1"></label>
+        <label>Stop Loss (pips): <input id="stopLoss" type="number" value="50"></label>
+        <label>Pair: <input id="pairCalc" value="EUR/USD" style="width:100px"></label>
+        <button id="calcBtn">Calculate</button>
+        <div id="calcResult" class="calc-result"></div>
+      </div>
+    </div>
+
+    <div class="card small" id="convertCard">
+      <h3>Currency Converter</h3>
+      <label>From: <input id="convFrom" value="USD" style="width:64px"></label>
+      <label>To: <input id="convTo" value="INR" style="width:64px"></label>
+      <label>Amount: <input id="convAmount" type="number" value="100"></label>
+      <button id="convBtn">Convert</button>
+      <div id="convResult" class="conv-result"></div>
+    </div>
+
+    <div class="card small" id="watchlistCard">
+      <h3>Watchlist</h3>
+      <div class="watchlist-input">
+        <input id="watchInput" placeholder="EUR/USD" style="width:120px">
+        <button id="watchAdd">Add</button>
+      </div>
+      <ul id="watchList"></ul>
+    </div>
+
+    <div class="card small" id="econCard">
+      <h3>Economic Calendar</h3>
+      <div class="econ-controls" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
+        <input id="econTime" placeholder="09:30 UTC" style="width:110px">
+        <input id="econTitle" placeholder="Event title" style="width:200px">
+        <select id="econImpact">
+          <option>Low</option>
+          <option>Medium</option>
+          <option selected>High</option>
+        </select>
+        <button id="econAdd">Add</button>
+        <button id="econClear">Clear All</button>
+      </div>
+      <ul id="econList"></ul>
+    </div>
+  </div>
+</section>
+
 <!-- CORE ARTICLES -->
 <section class="section card">
   <h2>Core Learning Articles</h2>

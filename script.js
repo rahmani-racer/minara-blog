@@ -163,4 +163,373 @@
     out.textContent = msg;
   };
 
+  /* ---------- PREMIUM FEATURES (Rates Ticker, Sessions, Calculators, Watchlist) ---------- */
+  const API_BASE = 'https://api.exchangerate.host';
+
+  /* Fallback demo rates (used if API fails) */
+  const DEMO_RATES = { EURUSD: '1.1200', GBPUSD: '1.3200', USDJPY: '142.30', AUDUSD: '0.6800', USDCAD: '1.3600', USDINR: '83.50' };
+
+  /* Rates ticker: fetch a few major pairs and update every 60s */
+  async function fetchRates() {
+    try {
+      const basePairs = ['EURUSD','GBPUSD','USDJPY','AUDUSD','USDCAD','USDINR'];
+      const watch = loadWatchlist().map(w => w.replace('/','').toUpperCase());
+      const ul = qs('#ratesTicker ul');
+      if (!ul) return;
+      ul.innerHTML = '';
+
+      const res = await fetch(`${API_BASE}/latest?base=USD`, { cache: 'no-store' });
+      if (!res.ok) throw new Error('Network response not ok');
+      const data = await res.json();
+      const rates = data.rates || {};
+
+      const mapping = {
+        EURUSD: (1 / (rates['EUR'] || 1)).toFixed(4),
+        GBPUSD: (1 / (rates['GBP'] || 1)).toFixed(4),
+        USDJPY: (rates['JPY'] || 1).toFixed(2),
+        AUDUSD: (1 / (rates['AUD'] || 1)).toFixed(4),
+        USDCAD: (rates['CAD'] || 1).toFixed(4),
+        USDINR: (rates['INR'] || 1).toFixed(2)
+      };
+
+      // start with watchlist items (unique)
+      const combined = Array.from(new Set([...(watch || []), ...basePairs]));
+      combined.forEach(p => {
+        const li = document.createElement('li');
+        const display = p === 'USDINR' ? 'USD/INR' : p.replace('USD','/USD');
+        const price = mapping[p] || DEMO_RATES[p] || '—';
+        li.textContent = `${display}: ${price}`;
+        if (watch.includes(p)) {
+          li.style.boxShadow = '0 8px 24px rgba(56,189,248,0.08)';
+          li.style.border = '1px solid rgba(56,189,248,0.12)';
+        }
+        ul.appendChild(li);
+      });
+
+    } catch (err) {
+      console.warn('Rates API failed, using demo rates', err);
+      const pairs = ['EURUSD','GBPUSD','USDJPY','AUDUSD','USDCAD','USDINR'];
+      const watch = loadWatchlist().map(w => w.replace('/','').toUpperCase());
+      const ul = qs('#ratesTicker ul');
+      if (!ul) return;
+      ul.innerHTML = '';
+      pairs.forEach(p => {
+        const li = document.createElement('li');
+        const display = p === 'USDINR' ? 'USD/INR' : p.replace('USD','/USD');
+        li.textContent = `${display}: ${DEMO_RATES[p] || '—'}`;
+        if (watch.includes(p)) { li.style.boxShadow = '0 8px 24px rgba(56,189,248,0.08)'; li.style.border = '1px solid rgba(56,189,248,0.12)'; }
+        ul.appendChild(li);
+      });
+    }
+  }
+
+  if (qs('#ratesTicker')) {
+    fetchRates();
+    setInterval(fetchRates, 60_000);
+  }
+
+  /* Market session indicator */
+  function updateSessions() {
+    const sessions = {
+      tokyo: { start: 0, end: 9 },   // 00:00-09:00 UTC approx
+      london: { start: 7, end: 16 }, // 07:00-16:00 UTC
+      newyork: { start: 12, end: 21 } // 12:00-21:00 UTC
+    };
+    const now = new Date();
+    const h = now.getUTCHours();
+
+    qsa('#marketSessions .session').forEach(el => {
+      const key = el.dataset.session;
+      const s = sessions[key];
+      if (!s) return;
+      if (s.start <= h && h < s.end) {
+        el.classList.add('open');
+      } else {
+        el.classList.remove('open');
+      }
+    });
+
+    if (qs('#sessionLocalTime')) qs('#sessionLocalTime').textContent = 'UTC: ' + now.toUTCString().split(' ')[4];
+  }
+  if (qs('#marketSessions')) {
+    updateSessions();
+    setInterval(updateSessions, 30_000);
+  }
+
+  /* Pip & Position Size Calculator */
+  function pipValuePerLot(pair) {
+    // approximate pip value for standard lot (100,000 units) in USD
+    // For pairs where USD is quote currency (EURUSD etc.) pip ~ 10 USD for standard lot.
+    // For simplicity: return approximate pip value in account currency USD.
+    if (!pair) return 10;
+    pair = pair.toUpperCase();
+    if (pair.includes('JPY')) return 1000; // JPY pairs have pip at 0.01 scale -> higher numeric
+    return 10; // default
+  }
+
+  if (qs('#calcBtn')) {
+    qs('#calcBtn').addEventListener('click', () => {
+      const acc = parseFloat(qs('#accountBalance').value) || 0;
+      const riskPct = parseFloat(qs('#riskPercent').value) || 0;
+      const sl = parseFloat(qs('#stopLoss').value) || 0;
+      const pair = qs('#pairCalc').value || 'EUR/USD';
+      const riskAmt = acc * (riskPct / 100);
+      const pipVal = pipValuePerLot(pair);
+
+      // position size in lots = riskAmt / (stopLoss * pipValue)
+      let lots = 0;
+      if (stopLossValid(sl) && pipVal > 0) {
+        lots = (riskAmt / (sl * pipVal));
+      }
+
+      const res = qs('#calcResult');
+      if (res) res.innerHTML = `<strong>Risk Amount:</strong> ${riskAmt.toFixed(2)} USD<br><strong>Suggested Size:</strong> ${lots.toFixed(4)} lots (standard)`;
+    });
+  }
+
+  function stopLossValid(v) { return v > 0; }
+
+  /* Currency Converter */
+  if (qs('#convBtn')) {
+    qs('#convBtn').addEventListener('click', async () => {
+      const from = qs('#convFrom').value || 'USD';
+      const to = qs('#convTo').value || 'INR';
+      const amt = parseFloat(qs('#convAmount').value) || 0;
+      const out = qs('#convResult');
+      if (!out) return;
+      out.textContent = 'Converting…';
+      try {
+        const r = await fetch(`${API_BASE}/convert?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&amount=${amt}`);
+        const j = await r.json();
+        if (j && typeof j.result !== 'undefined') {
+          out.innerHTML = `${amt} ${from} = <strong>${j.result.toFixed(2)}</strong> ${to}`;
+        } else {
+          out.textContent = 'Conversion failed';
+        }
+      } catch (err) {
+        console.error('Convert error', err);
+        out.textContent = 'Error fetching rates';
+      }
+    });
+  }
+
+  /* Watchlist (localStorage) */
+  function loadWatchlist() {
+    const raw = localStorage.getItem('watchlist');
+    try {
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+
+  function saveWatchlist(list) { localStorage.setItem('watchlist', JSON.stringify(list)); }
+
+  /* Helper: fetch price for a single pair (format like EUR/USD or EURUSD) */
+  async function fetchPairPrice(pair) {
+    try {
+      if (!pair) return null;
+      const p = pair.replace('/', '').toUpperCase();
+      // special-case XAUUSD price using exchangerate.host -> symbol GOLD may not be available, use a simple demo or attempt convert via XAU
+      if (p === 'XAUUSD') {
+        // use demo or attempt convert endpoint
+        try {
+          const r = await fetch(`${API_BASE}/convert?from=XAU&to=USD&amount=1`);
+          const j = await r.json();
+          if (j && typeof j.result !== 'undefined') return parseFloat(j.result).toFixed(2);
+        } catch (e) { /* ignore */ }
+        return DEMO_RATES['XAUUSD'] || '1945.00';
+      }
+
+      // ...existing mapping code...
+      if (p === 'EURUSD') return (1 / (r['EUR'] || 1)).toFixed(4);
+      if (p === 'GBPUSD') return (1 / (r['GBP'] || 1)).toFixed(4);
+      if (p === 'USDJPY') return (r['JPY'] || 1).toFixed(2);
+      if (p === 'AUDUSD') return (1 / (r['AUD'] || 1)).toFixed(4);
+      if (p === 'USDCAD') return (r['CAD'] || 1).toFixed(4);
+      if (p === 'USDINR') return (r['INR'] || 1).toFixed(2);
+      // fallback: try convert endpoint swapping base/quote
+      const a = p.slice(0,3); const b = p.slice(3,6);
+      const convRes = await fetch(`${API_BASE}/convert?from=${a}&to=${b}&amount=1`);
+      const convJson = await convRes.json();
+      if (convJson && typeof convJson.result !== 'undefined') return convJson.result.toFixed(4);
+      return DEMO_RATES[p] || null;
+    } catch (err) {
+      console.warn('fetchPairPrice error', err);
+      const key = pair.replace('/','').toUpperCase();
+      return DEMO_RATES[key] || null;
+    }
+  }
+
+  /* Replace renderWatchlist to add per-item controls */
+  function renderWatchlist() {
+    const ul = qs('#watchList');
+    if (!ul) return;
+    const list = loadWatchlist();
+    ul.innerHTML = '';
+    list.forEach(item => {
+      const li = document.createElement('li');
+      const label = document.createElement('span');
+      label.textContent = item;
+      label.style.flex = '1';
+
+      const priceSpan = document.createElement('span');
+      priceSpan.style.marginLeft = '8px';
+      priceSpan.style.fontWeight = '700';
+      priceSpan.textContent = '…';
+
+      const btnRefresh = document.createElement('button');
+      btnRefresh.textContent = 'Refresh';
+      btnRefresh.style.marginLeft = '8px';
+      btnRefresh.addEventListener('click', async () => {
+        btnRefresh.disabled = true;
+        const price = await fetchPairPrice(item);
+        priceSpan.textContent = price ? price : '—';
+        btnRefresh.disabled = false;
+      });
+
+      const btnChart = document.createElement('button');
+      btnChart.textContent = 'Chart';
+      btnChart.style.marginLeft = '6px';
+      btnChart.addEventListener('click', () => {
+        // load chart for this pair using existing chart loader logic
+        const custom = qs('#chartPairCustom');
+        const select = qs('#chartPairSelect');
+        if (custom) custom.value = '';
+        if (select) select.value = item;
+        const open = qs('#openChart');
+        if (open) open.click();
+        // also scroll to chart
+        const c = qs('#chartCard'); if (c) c.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      const btnRemove = document.createElement('button');
+      btnRemove.textContent = 'Remove';
+      btnRemove.style.marginLeft = '6px';
+      btnRemove.addEventListener('click', () => {
+        const newList = loadWatchlist().filter(x => x !== item);
+        saveWatchlist(newList);
+        renderWatchlist();
+      });
+
+      li.style.display = 'flex';
+      li.style.alignItems = 'center';
+      li.appendChild(label);
+      li.appendChild(priceSpan);
+      li.appendChild(btnRefresh);
+      li.appendChild(btnChart);
+      li.appendChild(btnRemove);
+      ul.appendChild(li);
+
+      // auto-fetch price on render
+      (async () => {
+        const price = await fetchPairPrice(item);
+        priceSpan.textContent = price ? price : '—';
+      })();
+    });
+  }
+
+  // replace previous call to renderWatchlist if present
+  if (qs('#watchAdd')) {
+    qs('#watchAdd').addEventListener('click', () => {
+      const v = (qs('#watchInput').value || '').trim().toUpperCase();
+      if (!v) return;
+      const list = loadWatchlist();
+      if (!list.includes(v)) {
+        list.push(v);
+        saveWatchlist(list);
+        renderWatchlist();
+      }
+      qs('#watchInput').value = '';
+    });
+    renderWatchlist();
+  }
+
+  /* Editable economic calendar using localStorage */
+  function loadEcon() {
+    try { return JSON.parse(localStorage.getItem('econList') || '[]'); } catch (e) { return [] }
+  }
+  function saveEcon(list) { localStorage.setItem('econList', JSON.stringify(list)); }
+  function renderEcon() {
+    const ul = qs('#econList');
+    if (!ul) return;
+    const list = loadEcon();
+    ul.innerHTML = '';
+    list.forEach((e,i) => {
+      const li = document.createElement('li');
+      li.textContent = `${e.time} — ${e.title} [${e.impact}]`;
+      const del = document.createElement('button'); del.textContent = 'Remove';
+      del.style.marginLeft = '8px'; del.addEventListener('click', () => {
+        const newList = loadEcon().filter((_,idx) => idx !== i);
+        saveEcon(newList); renderEcon();
+      });
+      li.appendChild(del);
+      ul.appendChild(li);
+    });
+  }
+
+  if (qs('#econAdd')) {
+    qs('#econAdd').addEventListener('click', () => {
+      const time = qs('#econTime').value.trim() || 'TBD';
+      const title = qs('#econTitle').value.trim() || 'Event';
+      const impact = qs('#econImpact').value || 'High';
+      const list = loadEcon();
+      list.unshift({ time, title, impact });
+      saveEcon(list);
+      renderEcon();
+      qs('#econTime').value = '';
+      qs('#econTitle').value = '';
+    });
+  }
+  if (qs('#econClear')) {
+    qs('#econClear').addEventListener('click', () => { saveEcon([]); renderEcon(); });
+  }
+  // initialize econ from localStorage or demo events
+  if (!localStorage.getItem('econList')) {
+    saveEcon(econEvents);
+  }
+  renderEcon();
+
+  /* Chart pair selector + lazy-load dynamic TradingView embed */
+  function normalizePairToTV(pair) {
+    // pair like EUR/USD or XAU/USD -> FX:EURUSD or OANDA:XAUUSD (use FX for most, use FX for XAU as well via 'OANDA' could vary)
+    pair = pair.replace(/\s+/g, '').toUpperCase();
+    if (pair === 'XAU/USD' || pair === 'XAUUSD') return 'OANDA:XAUUSD';
+    const [a,b] = pair.split('/');
+    if (!a || !b) return null;
+    return `FX:${a}${b}`;
+  }
+
+  if (qs('#openChart')) {
+    qs('#openChart').addEventListener('click', () => {
+      const select = qs('#chartPairSelect');
+      const custom = qs('#chartPairCustom');
+      const val = (custom && custom.value.trim()) ? custom.value.trim() : (select ? select.value : 'EUR/USD');
+      const symbol = normalizePairToTV(val) || 'FX:EURUSD';
+      const container = qs('#chartContainer');
+      if (!container) return;
+      if (container.dataset.loaded && container.dataset.symbol === symbol) return; // already loaded same symbol
+      container.innerHTML = '';
+
+      // create TradingView embed iframe (single symbol quick chart)
+      const iframe = document.createElement('iframe');
+      iframe.style.width = '100%';
+      iframe.style.height = '420px';
+      iframe.style.border = 'none';
+      iframe.loading = 'lazy';
+      // Use TradingView's single-quote widget via s.tradingview.com — lightweight
+      const tvSymbol = symbol.replace(':','%3A');
+      iframe.src = `https://s.tradingview.com/embed-widget/single-quote/?symbol=${tvSymbol}`;
+      container.appendChild(iframe);
+      container.dataset.loaded = '1';
+      container.dataset.symbol = symbol;
+    });
+  }
+
+  // ensure rates fetch still runs
+  if (qs('#ratesTicker')) {
+    fetchRates();
+    setInterval(fetchRates, 60_000);
+  }
+
+  /* End Premium features */
+
 })();
