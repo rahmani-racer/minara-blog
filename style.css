@@ -64,6 +64,15 @@ img {
   display: block;
 }
 
+/* Make images inside article cards clearly visible on both dark and light themes */
+.section.card img {
+  background: rgba(255,255,255,0.03);
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+
 /* =========================
    HEADER (FIXED + SMART)
 ========================= */
