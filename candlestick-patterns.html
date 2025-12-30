@@ -25,9 +25,22 @@
 <main>
 <section class="section card">
   <figure>
-    <object data="images/candles-pinbar.svg" type="image/svg+xml" class="article-img" aria-label="Pin Bar example">
-      <img src="images/candles-pinbar.svg" class="article-img" alt="Pin Bar example (fallback)">
-    </object>
+    <!-- Inline Pin Bar SVG (embedded to avoid external file 404) -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="700" height="220" viewBox="0 0 700 220" class="article-img" role="img" aria-label="Pin Bar example">
+      <rect width="700" height="220" fill="#0f1724"/>
+      <g transform="translate(40,20)">
+        <text x="0" y="16" font-family="Arial" font-size="14" fill="#9aa9b2">Pin Bar (Rejection)</text>
+        <g transform="translate(0,30)">
+          <line x1="40" y1="0" x2="40" y2="80" stroke="#fff" stroke-width="3"/>
+          <rect x="20" y="70" width="40" height="12" rx="2" fill="#ef4444"/>
+          <rect x="0" y="20" width="20" height="60" fill="#ef4444" opacity="0.6"/>
+          <rect x="80" y="40" width="20" height="40" fill="#10b981" opacity="0.6"/>
+          <line x1="120" y1="0" x2="120" y2="60" stroke="#fff" stroke-width="2" opacity="0.6"/>
+          <rect x="100" y="20" width="40" height="20" fill="#10b981" opacity="0.6"/>
+        </g>
+      </g>
+      <text x="40" y="200" font-family="Arial" font-size="12" fill="#9aa9b2">Example: long wick shows rejection of price – good context needed.</text>
+    </svg>
     <figcaption>Pin Bar example — long wick shows rejection (context required)</figcaption>
   </figure>
   <h1>Candlestick Patterns — Price Psychology & Practical Examples (English + Hinglish)</h1>
@@ -52,18 +65,42 @@
   <h3>Engulfing (Bullish/Bearish)</h3>
   <p>An engulfing pattern is when a candle fully engulfs the previous candle’s body. Bullish engulfing after a down leg shows buyers stepping in; bearish engulfing after an up leg signals sellers taking control. Pair this with support/resistance and volume for better reliability. See the example image below for a clear bullish engulfing.</p>
   <figure>
-    <object data="images/candles-engulfing.svg" type="image/svg+xml" class="article-img" aria-label="Engulfing example">
-      <img src="images/candles-engulfing.svg" class="article-img" alt="Engulfing example (fallback)">
-    </object>
+    <!-- Inline Engulfing SVG (embedded to avoid external file 404) -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="700" height="220" viewBox="0 0 700 220" class="article-img" role="img" aria-label="Engulfing example">
+      <rect width="700" height="220" fill="#071022"/>
+      <g transform="translate(40,20)">
+        <text x="0" y="16" font-family="Arial" font-size="14" fill="#9aa9b2">Engulfing Pattern</text>
+        <g transform="translate(0,30)">
+          <rect x="0" y="40" width="30" height="20" fill="#ef4444"/>
+          <line x1="15" y1="0" x2="15" y2="40" stroke="#fff" stroke-width="2" opacity="0.6"/>
+          <rect x="50" y="10" width="60" height="60" fill="#10b981"/>
+          <line x1="80" y1="0" x2="80" y2="80" stroke="#fff" stroke-width="3"/>
+          <rect x="130" y="30" width="30" height="40" fill="#ef4444" opacity="0.5"/>
+        </g>
+      </g>
+      <text x="40" y="200" font-family="Arial" font-size="12" fill="#9aa9b2">Example: bullish engulfing after down-leg indicates potential reversal.</text>
+    </svg>
     <figcaption>Bullish Engulfing — buyer momentum after a down leg</figcaption>
   </figure>
 
   <h3>Inside Bar</h3>
   <p>Inside bar means the current candle’s high and low lie within the previous candle’s range (mother bar). It shows consolidation and lower volatility — price is gathering energy. Breakout direction after inside bar is key; trade the breakout with a stop under/above the mother bar. Example image below illustrates an inside bar squeezed inside a larger bearish bar.</p>
   <figure>
-    <object data="images/candles-insidebar.svg" type="image/svg+xml" class="article-img" aria-label="Inside Bar example">
-      <img src="images/candles-insidebar.svg" class="article-img" alt="Inside Bar example (fallback)">
-    </object>
+    <!-- Inline Inside Bar SVG (embedded to avoid external file 404) -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="700" height="220" viewBox="0 0 700 220" class="article-img" role="img" aria-label="Inside Bar example">
+      <rect width="700" height="220" fill="#071022"/>
+      <g transform="translate(40,20)">
+        <text x="0" y="16" font-family="Arial" font-size="14" fill="#9aa9b2">Inside Bar Pattern</text>
+        <g transform="translate(0,30)">
+          <rect x="0" y="10" width="70" height="70" fill="#ef4444" opacity="0.6"/>
+          <line x1="35" y1="0" x2="35" y2="90" stroke="#fff" stroke-width="2" opacity="0.6"/>
+          <rect x="90" y="30" width="30" height="30" fill="#10b981"/>
+          <line x1="105" y1="20" x2="105" y2="80" stroke="#fff" stroke-width="2"/>
+          <rect x="140" y="40" width="20" height="50" fill="#ef4444" opacity="0.4"/>
+        </g>
+      </g>
+      <text x="40" y="200" font-family="Arial" font-size="12" fill="#9aa9b2">Example: inside bar signals consolidation and potential breakout direction.</text>
+    </svg>
     <figcaption>Inside Bar — consolidation inside mother bar; watch breakout direction</figcaption>
   </figure>
 
