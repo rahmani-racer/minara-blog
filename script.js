@@ -49,6 +49,29 @@
     }, { passive: true });
   }
 
+  /* ---------- Auto-hide header on scroll (slide up on scroll down, show on scroll up) ---------- */
+  const headerEl = qs('header');
+  if (headerEl) {
+    let lastScroll = window.pageYOffset || document.documentElement.scrollTop;
+    const delta = 8; // minimum px change to consider
+
+    window.addEventListener('scroll', () => {
+      const st = window.pageYOffset || document.documentElement.scrollTop;
+      // ignore small scrolls
+      if (Math.abs(st - lastScroll) <= delta) return;
+
+      // if scrolling down and passed initial header area, hide header
+      if (st > lastScroll && st > 120) {
+        headerEl.classList.add('header-hide');
+      } else {
+        // scrolling up -> show header
+        headerEl.classList.remove('header-hide');
+      }
+
+      lastScroll = st <= 0 ? 0 : st;
+    }, { passive: true });
+  }
+
   /* ---------- Lazy Load Iframes ---------- */
   const lazyIframes = qsa("iframe[data-src]");
   if (lazyIframes.length) {
