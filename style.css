@@ -77,6 +77,17 @@ img {
 .section.card figure {
   margin: 18px 0;
   text-align: center;
+  overflow: hidden; /* prevent svg/content from creating horizontal scroll on small screens */
+}
+
+/* Ensure inline SVGs used as article illustrations are fully responsive */
+.section.card svg.article-img,
+.section.card svg {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+  margin: 12px auto;
 }
 
 .section.card img.article-img {
@@ -282,4 +293,9 @@ nav a:hover::after { width: 100%; }
   body { padding-top: 120px; }
   .profile { width: 120px; height: 120px; }
   .tagline { font-size: 18px; }
+
+  /* reduce card padding so large inline SVGs have more space on very small screens */
+  .card { padding: 18px; margin: 20px 12px; }
+  .section.card svg.article-img,
+  .section.card svg { max-width: 100% !important; }
 }
