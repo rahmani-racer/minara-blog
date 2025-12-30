@@ -299,3 +299,31 @@ nav a:hover::after { width: 100%; }
   .section.card svg.article-img,
   .section.card svg { max-width: 100% !important; }
 }
+
+/* Article list layout for index page */
+.article-list {
+  list-style: none;
+  padding: 0;
+  margin: 30px auto;
+  max-width: 720px;
+}
+.article-item {
+  display: flex;
+  gap: 18px;
+  align-items: center; /* vertical center align icon and text */
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.article-item:last-child { border-bottom: none; }
+.article-thumb {
+  flex: 0 0 92px;
+  width: 92px;
+  height: 64px;
+  border-radius: 8px;
+  background: #071022;
+  display: inline-block;
+  padding: 6px;
+}
+.article-item .article-content { flex: 1; }
+.article-item .article-content strong { display: block; font-size: 16px; margin-bottom: 6px; }
+.article-item .article-content a { display: inline-block; margin-top: 6px; }
