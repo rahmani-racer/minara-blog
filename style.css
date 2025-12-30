@@ -303,8 +303,21 @@ nav a:hover::after { width: 100%; }
 .rates-ticker li { font-weight:700; color:var(--text-main); background: rgba(255,255,255,0.03); padding:6px 10px; border-radius:6px; }
 
 .sessions { display:flex; gap:10px; justify-content:center; align-items:center; }
-.session { padding:6px 10px; border-radius:6px; background: rgba(255,255,255,0.03); }
+.session { padding:6px 10px; border-radius:6px; background: rgba(255,255,255,0.03); cursor: pointer; transition: transform .12s ease; }
+.session:hover { transform: translateY(-2px); }
 .session.open { box-shadow: 0 6px 18px rgba(56,189,248,0.12); background: linear-gradient(90deg, rgba(56,189,248,0.12), rgba(56,189,248,0.06)); border: 1px solid rgba(56,189,248,0.2); }
+.session-tooltip {
+  position: absolute;
+  background: var(--bg-card);
+  color: var(--text-main);
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  border: 1px solid var(--border-soft);
+  z-index: 2000;
+  min-width: 200px;
+}
+.session-tooltip .open-btn { margin-top:8px; display:inline-block; padding:6px 10px; background:var(--accent); color:#072033; border-radius:6px; cursor:pointer; font-weight:700; }
 
 .calc-grid { display:grid; grid-template-columns: 1fr 1fr; gap:8px; align-items:center; }
 .calc-grid label { text-align:left; font-size:14px; }
@@ -319,3 +332,9 @@ nav a:hover::after { width: 100%; }
 .btn { padding:8px 12px; background:var(--accent); color:#072033; border-radius:8px; border:none; cursor:pointer; font-weight:700; }
 
 #econList { list-style:none; padding:0; margin:0; }
+
+/* Compact article list (smaller, single-line look) */
+.article-list { max-width: 920px; }
+.article-item { padding: 10px 0; gap: 12px; }
+.article-thumb { flex: 0 0 72px; width: 72px; height: 48px; padding: 4px; }
+.article-item .article-content strong { font-size: 15px; }

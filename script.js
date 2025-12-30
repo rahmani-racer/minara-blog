@@ -292,23 +292,47 @@
   /* Currency Converter */
   if (qs('#convBtn')) {
     qs('#convBtn').addEventListener('click', async () => {
-      const from = qs('#convFrom').value || 'USD';
-      const to = qs('#convTo').value || 'INR';
-      const amt = parseFloat(qs('#convAmount').value) || 0;
+      const from = (qs('#convFrom').value || 'USD').trim().toUpperCase();
+      const to = (qs('#convTo').value || 'INR').trim().toUpperCase();
+      const amtRaw = qs('#convAmount').value;
+      const amt = parseFloat(amtRaw);
       const out = qs('#convResult');
       if (!out) return;
+      if (!amt || isNaN(amt) || amt <= 0) {
+        out.textContent = 'Enter a valid amount greater than 0';
+        return;
+      }
+
       out.textContent = 'Converting…';
+
       try {
-        const r = await fetch(`${API_BASE}/convert?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&amount=${amt}`);
-        const j = await r.json();
-        if (j && typeof j.result !== 'undefined') {
-          out.innerHTML = `${amt} ${from} = <strong>${j.result.toFixed(2)}</strong> ${to}`;
-        } else {
-          out.textContent = 'Conversion failed';
+        // 1) Primary: convert endpoint for exact amount
+        const convRes = await fetch(`${API_BASE}/convert?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&amount=${amt}`, { cache: 'no-store' });
+        if (convRes.ok) {
+          const convJson = await convRes.json();
+          if (convJson && typeof convJson.result !== 'undefined') {
+            out.innerHTML = `${amt} ${from} = <strong>${Number(convJson.result).toFixed(6)}</strong> ${to}`;
+            return;
+          }
         }
+
+        // 2) Fallback: latest rates with base=from and multiply
+        const latestRes = await fetch(`${API_BASE}/latest?base=${encodeURIComponent(from)}&symbols=${encodeURIComponent(to)}`, { cache: 'no-store' });
+        if (latestRes.ok) {
+          const latestJson = await latestRes.json();
+          const rate = latestJson.rates && latestJson.rates[to];
+          if (rate) {
+            const result = amt * rate;
+            out.innerHTML = `${amt} ${from} = <strong>${result.toFixed(6)}</strong> ${to}`;
+            return;
+          }
+        }
+
+        // If both API attempts failed, show a clear message (no demo fallback)
+        out.textContent = 'Conversion currently unavailable. Please check your network or try again later.';
       } catch (err) {
         console.error('Convert error', err);
-        out.textContent = 'Error fetching rates';
+        out.textContent = 'Error fetching rates (network).';
       }
     });
   }
@@ -531,5 +555,47 @@
   }
 
   /* End Premium features */
+
+  /* Session tooltip + click handlers */
+  const sessionInfo = {
+    tokyo: { title: 'Tokyo Session', desc: 'Asia session active approx 00:00 — 09:00 UTC', example: 'Try USD/JPY or AUD/USD' },
+    london: { title: 'London Session', desc: 'Europe session approx 07:00 — 16:00 UTC', example: 'Try EUR/USD or GBP/USD' },
+    newyork: { title: 'New York Session', desc: 'US session approx 12:00 — 21:00 UTC', example: 'Try USD/JPY or USD/CAD' }
+  };
+
+  function showSessionTooltip(key, target) {
+    const box = qs('#sessionTooltip');
+    if (!box) return;
+    const info = sessionInfo[key] || { title: key, desc: '', example: '' };
+    box.innerHTML = `<strong>${info.title}</strong><div style="margin-top:6px">${info.desc}</div><div style="margin-top:8px;">${info.example}</div><div><button class="open-btn" data-pair="EUR/USD">Open EUR/USD Chart</button></div>`;
+    box.style.display = 'block';
+
+    // position near target
+    const rect = target.getBoundingClientRect();
+    box.style.position = 'absolute';
+    box.style.left = (rect.left + window.scrollX) + 'px';
+    box.style.top = (rect.bottom + window.scrollY + 8) + 'px';
+
+    // button inside tooltip
+    box.querySelector('.open-btn').addEventListener('click', (e) => {
+      const pair = e.target.dataset.pair || 'EUR/USD';
+      qs('#chartPairCustom').value = '';
+      qs('#chartPairSelect').value = pair;
+      qs('#openChart').click();
+    });
+
+    // hide on outside click
+    setTimeout(() => {
+      const onDoc = (ev) => {
+        if (!box.contains(ev.target) && !target.contains(ev.target)) { box.style.display = 'none'; document.removeEventListener('click', onDoc); }
+      };
+      document.addEventListener('click', onDoc);
+    }, 10);
+  }
+
+  qsa('#marketSessions .session').forEach(el => {
+    el.addEventListener('click', (e) => showSessionTooltip(el.dataset.session, el));
+    el.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') showSessionTooltip(el.dataset.session, el); });
+  });
 
 })();
