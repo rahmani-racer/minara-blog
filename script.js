@@ -360,7 +360,7 @@
           const j = await r.json();
           if (j && typeof j.result !== 'undefined') return parseFloat(j.result).toFixed(2);
         } catch (e) { /* ignore */ }
-        return DEMO_RATES['XAUUSD'] || '1945.00';
+        return DEMO_RATES['XAUUSD'] || '4373.00';
       }
 
       // ...existing mapping code...
@@ -599,3 +599,4 @@
   });
 
 })();
+
