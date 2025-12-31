@@ -338,3 +338,105 @@ nav a:hover::after { width: 100%; }
 .article-item { padding: 10px 0; gap: 12px; }
 .article-thumb { flex: 0 0 72px; width: 72px; height: 48px; padding: 4px; }
 .article-item .article-content strong { font-size: 15px; }
+
+/* =====================================================
+   MOBILE VIEW FIX ONLY
+   (Desktop untouched – safe patch)
+===================================================== */
+
+@media (max-width: 768px) {
+
+  /* Global safety: no horizontal scroll */
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Header spacing fix */
+  body {
+    padding-top: 85px;
+  }
+
+  /* Section padding balanced */
+  .section {
+    padding: 50px 14px;
+  }
+
+  /* Cards full width on mobile */
+  .card {
+    width: 100%;
+    max-width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  /* Hero section alignment */
+  #home {
+    padding: 110px 14px 60px;
+    text-align: center;
+  }
+
+  .profile {
+    width: 120px;
+    height: 120px;
+  }
+
+  .tagline {
+    font-size: 17px;
+  }
+
+  /* PREMIUM GRID → single column */
+  .premium-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .card.tools {
+    grid-column: span 1 !important;
+  }
+
+  /* Calculator layout fix */
+  .calc-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  /* Watchlist input wrap */
+  .watchlist-input {
+    flex-direction: column;
+  }
+
+  /* Sessions wrap properly */
+  .sessions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Article list safe width */
+  .article-list,
+  .article-item {
+    max-width: 100%;
+  }
+
+  /* Images & SVG overflow fix */
+  img,
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Extra small devices (phones) */
+@media (max-width: 480px) {
+
+  body {
+    font-size: 15px;
+  }
+
+  .logo {
+    font-size: 24px;
+  }
+
+  nav {
+    gap: 12px;
+  }
+}
