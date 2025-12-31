@@ -440,3 +440,27 @@ nav a:hover::after { width: 100%; }
     gap: 12px;
   }
 }
+
+/* =====================================================
+   MOBILE FIX — RATES TICKER VISIBILITY
+===================================================== */
+
+@media (max-width: 768px) {
+
+  /* Allow rates ticker to expand on mobile */
+  .rates-ticker {
+    overflow: visible;      /* IMPORTANT */
+    max-height: none;
+  }
+
+  .rates-ticker ul {
+    flex-direction: column; /* one pair per line */
+    align-items: flex-start;
+  }
+
+  .rates-ticker li {
+    width: 100%;
+    font-size: 14px;
+    text-align: left;
+  }
+}
