@@ -464,3 +464,37 @@ nav a:hover::after { width: 100%; }
     text-align: left;
   }
 }
+
+/* =====================================================
+   MOBILE FIX — TRADINGVIEW MINI CHART
+===================================================== */
+
+@media (max-width: 768px) {
+
+  /* Chart card must expand */
+  .mini-chart,
+  .chart-box,
+  .chart-container,
+  #chartContainer {
+    width: 100% !important;
+    min-height: 320px !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* TradingView iframe visibility fix */
+  iframe,
+  .tradingview-widget-container iframe {
+    width: 100% !important;
+    min-height: 320px !important;
+    height: 320px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Ensure parent card does not clip */
+  .card {
+    overflow: visible !important;
+  }
+}
