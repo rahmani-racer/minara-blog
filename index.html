@@ -7,28 +7,73 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4557736256886221"
      crossorigin="anonymous"></script>
 
-  <!-- SEO -->
-  <meta name="description" content="Minara Blog – Forex, Trading Basics, Trading Psychology aur Risk Management ke liye ek clean, honest aur discipline-based knowledge platform.">
+  <!-- Primary SEO / E-E-A-T -->
+  <meta name="description" content="Minara Blog – Honest, discipline-based Forex & trading education in Hindi. Learn trading basics, psychology, risk management, and practical tools.">
   <meta name="keywords" content="forex trading hindi, trading basics, trading psychology, risk management, forex for beginners">
   <meta name="author" content="Minara Blog">
   <meta name="robots" content="index, follow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="canonical" href="https://minarablog.in/">
+  <meta property="og:title" content="Minara Blog | Trading, Forex & Market Discipline">
+  <meta property="og:description" content="Honest, discipline-based Forex & trading education in Hindi — practical guides, calculators, session tools and long-term mindset training.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://minarablog.in/">
+  <meta property="og:site_name" content="Minara Blog">
+  <meta property="og:image" content="https://minarablog.in/profile.jpg">
+  <meta name="theme-color" content="#0b1320">
+
+  <!-- Performance preconnects -->
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="preconnect" href="https://api.exchangerate.host" crossorigin>
+  <link rel="preconnect" href="https://s.tradingview.com" crossorigin>
 
   <!-- STYLES -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- Structured data (Organization, WebSite, WebPage) to support E-E-A-T -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": "Minara Blog",
+        "url": "https://minarablog.in/",
+        "logo": "https://minarablog.in/profile.jpg",
+        "sameAs": []
+      },
+      {
+        "@type": "WebSite",
+        "name": "Minara Blog",
+        "url": "https://minarablog.in/",
+        "publisher": { "@type": "Organization", "name": "Minara Blog" }
+      },
+      {
+        "@type": "WebPage",
+        "name": "Minara Blog Home",
+        "url": "https://minarablog.in/",
+        "inLanguage": "en-IN",
+        "isPartOf": { "@type": "WebSite", "name": "Minara Blog" },
+        "author": { "@type": "Person", "name": "Minara Blog" }
+      }
+    ]
+  }
+  </script>
 </head>
 
 <body>
 
+<a class="skip-link" href="#main">Skip to content</a>
+
 <!-- SCROLL PROGRESS -->
-<div id="scrollProgress"></div>
+<div id="scrollProgress" aria-hidden="true"></div>
 
 <!-- HEADER -->
-<header>
+<header role="banner">
   <div class="header-inner">
     <h1 class="logo">Minara<span>Blog</span></h1>
 
-    <nav>
+    <nav role="navigation" aria-label="Primary">
       <a href="index.html">Home</a>
       <a href="trading.html">Trading</a>
       <a href="forex.html">Forex</a>
@@ -37,30 +82,162 @@
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </nav>
-
-    <button id="themeToggle">☀️</button>
+    <div class="header-controls">
+      <button id="menuToggle" aria-label="Open tools menu" aria-expanded="false">☰</button>
+      <button id="themeToggle" aria-pressed="false" aria-label="Toggle theme">☀️</button>
+    </div>
   </div>
 </header>
 
+<!-- Off-canvas Tools Panel -->
+<aside id="toolsPanel" class="tools-panel" aria-hidden="true">
+  <div class="tools-inner">
+    <button id="toolsClose" aria-label="Close tools">✕</button>
+    <h3>Quick Tools</h3>
+    <p class="muted">Fast calculators & utilities — informational only.</p>
+
+    <div class="tool" id="toolPip">
+      <h4>Pip Calculator</h4>
+      <label>Pair: <input id="tp_pair" value="EUR/USD"></label>
+      <label>Lots: <input id="tp_lots" type="number" value="0.01" step="0.01"></label>
+      <div><button id="tp_calc" class="btn small">Calculate Pip Value</button></div>
+      <div id="tp_result" class="muted"></div>
+    </div>
+
+    <div class="tool" id="toolPosition">
+      <h4>Position Size</h4>
+      <label>Balance: <input id="tp_balance" type="number" value="1000"></label>
+      <label>Risk %: <input id="tp_risk" type="number" value="1"></label>
+      <label>Stop (pips): <input id="tp_stop" type="number" value="50"></label>
+      <div><button id="tp_pos_calc" class="btn small">Calculate Size</button></div>
+      <div id="tp_pos_result" class="muted"></div>
+    </div>
+
+    <div style="height:18px"></div>
+    <small class="muted">All tools are client-side and informational. No signals.</small>
+  </div>
+</aside>
+
 <main>
 
+<!-- Main content landmark for Skip Link target -->
+<div id="main" role="main">
+
 <!-- HERO -->
-<section id="home" class="section">
-  <img src="profile.jpg" alt="Minara Blog" class="profile">
+<section id="home" class="section hero-dashboard">
+  <div class="hero-grid">
+    <div class="hero-left">
+      <img src="profile.jpg" alt="Minara Blog author portrait" class="profile" width="140" height="140" loading="eager" decoding="async">
+      <h1 class="hero-title">World-class Forex & Trading Education</h1>
+      <p class="hero-sub">Risk-first, psychology-driven learning — Beginner → Professional paths.</p>
+      <div class="hero-cta">
+        <a href="#premium-features" class="btn">Open Tools & Widgets</a>
+        <button id="openLive" class="btn outline">Open Live GOLD Chart</button>
+      </div>
+    </div>
 
-  <h2>
-    <span id="autoText">Trading Knowledge</span>
-  </h2>
+    <div class="hero-right">
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-value" id="statReaders">—</div>
+          <div class="stat-label">Monthly Readers</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">12</div>
+          <div class="stat-label">Core Guides</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">3</div>
+          <div class="stat-label">Learning Paths</div>
+        </div>
+      </div>
 
-  <p class="tagline">
-    Learn. Trade. Grow. Real knowledge — no hype.
-  </p>
+      <div class="usd-inr-widget card">
+        <div class="usd-line"><strong>USD → INR:</strong> <span id="usdInrRate">—</span></div>
+        <div class="inr-line"><strong>INR → USD:</strong> <span id="inrUsdRate">—</span></div>
+        <small class="muted">Rates update every 60s (informational)</small>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <p>
-    Beginners aur serious learners ke liye
-    forex, trading aur risk management ka
-    clear aur honest knowledge platform.
-  </p>
+<!-- POPULAR / TRENDING -->
+<section class="section card" id="trending">
+  <h2>Popular & Trending</h2>
+  <p class="muted">Authority-picked learning — core articles readers rely on.</p>
+  <div class="trending-grid">
+    <article class="trend" data-priority="1">
+      <a href="forex-article.html"><strong>Forex Trading – Complete Beginner Guide</strong><span>Comprehensive foundation for currency markets</span></a>
+    </article>
+    <article class="trend" data-priority="2">
+      <a href="risk-management.html"><strong>Risk Management – Survival First</strong><span>Practical position sizing and risk rules</span></a>
+    </article>
+    <article class="trend" data-priority="3">
+      <a href="trading-psychology.html"><strong>Trading Psychology – Mindset Matters</strong><span>Discipline and consistency techniques</span></a>
+    </article>
+  </div>
+</section>
+
+<!-- LEARNING PATHS -->
+<section class="section card" id="learning-paths">
+  <h2>Learning Paths</h2>
+  <p class="muted">Curated tracks to move from Beginner → Professional.</p>
+  <div class="paths-grid">
+    <div class="path" data-progress="28">
+      <h4>Beginner Forex Path</h4>
+      <p class="muted">Core market structure, pairs, and basics.</p>
+      <div class="progress"><div class="bar"></div><span class="pct">28%</span></div>
+    </div>
+    <div class="path" data-progress="12">
+      <h4>Intermediate Trading Path</h4>
+      <p class="muted">Execution, setups, and trade management.</p>
+      <div class="progress"><div class="bar"></div><span class="pct">12%</span></div>
+    </div>
+    <div class="path" data-progress="6">
+      <h4>Advanced Risk & Psychology</h4>
+      <p class="muted">Mindset, risk frameworks, and edge preservation.</p>
+      <div class="progress"><div class="bar"></div><span class="pct">6%</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLAR GUIDES -->
+<section class="section card" id="pillars">
+  <h2>Pillar Authority Guides</h2>
+  <div class="pillars-grid">
+    <a class="pillar" href="forex-article.html">Forex Trading Guide</a>
+    <a class="pillar" href="risk-management.html">Risk Management Guide</a>
+    <a class="pillar" href="trading-psychology.html">Trading Psychology Guide</a>
+  </div>
+</section>
+
+<!-- LIVE MARKET INTELLIGENCE (TradingView) -->
+<section class="section card" id="live-market">
+  <h2>Live Market Intelligence — GOLD (XAU/USD)</h2>
+  <p class="muted">Interactive candlestick chart — lazy loaded for performance.</p>
+  <div id="tv_chart_container" class="tv-chart" aria-live="polite">
+    <div id="tv_placeholder" class="tv-placeholder">
+      <button id="loadTv" class="btn">Load Live GOLD Chart</button>
+    </div>
+  </div>
+</section>
+
+<!-- DAILY MARKET WISDOM -->
+<section class="section card" id="daily-wisdom">
+  <h2>Daily Market Wisdom</h2>
+  <p id="dailyThought" class="quote muted">Discipline is more important than strategy.</p>
+</section>
+
+<!-- FOUNDER AUTHORITY -->
+<section class="section card" id="founder">
+  <div class="founder-grid">
+    <img src="profile.jpg" alt="Rahmani, Founder" class="founder-img" width="160" height="160">
+    <div>
+      <h3>Rahmani</h3>
+      <p class="muted">Founder & CEO — Forex & Trading Education Platform</p>
+      <p>Focused on long-term learning, risk-first approach and building traders who survive and thrive.</p>
+    </div>
+  </div>
 </section>
 
 <!-- PREMIUM FEATURES / MARKET WIDGETS -->
@@ -341,6 +518,7 @@
   </ul>
 </section>
 
+</div>
 </main>
 
 <!-- FOOTER -->
@@ -352,13 +530,14 @@
     <a href="contact.html">Contact</a>
     <a href="forex.html">Forex</a>
   </div>
+  <p style="font-size:13px;color:var(--text-muted);max-width:720px;margin:8px auto 0;">Author: Minara Blog — evidence-based trading education. No signals, no profit guarantees. Focus on risk management and long-term learning.</p>
 </footer>
 
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
-<script src="script.js"></script>
+<script src="script.js" defer></script>
 
 <script>
 let lastScrollY = window.scrollY;
@@ -373,15 +552,15 @@ window.addEventListener("scroll", () => {
   lastScrollY = window.scrollY;
 });
 </script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4557736256886221"
-     crossorigin="anonymous"></script>
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-format="autorelaxed"
-     data-ad-client="ca-pub-4557736256886221"
-     data-ad-slot="3309985118"></ins>
+<div class="ads-slot">
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-format="autorelaxed"
+    data-ad-client="ca-pub-4557736256886221"
+    data-ad-slot="3309985118"></ins>
+</div>
 <script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
+  (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 <script src="home.js" defer></script>
 </body>

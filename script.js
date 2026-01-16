@@ -16,7 +16,10 @@
 
   if (savedTheme === "light") {
     document.body.classList.add("light");
-    if (themeToggle) themeToggle.textContent = "☀️";
+    if (themeToggle) {
+      themeToggle.textContent = "☀️";
+      themeToggle.setAttribute('aria-pressed', 'true');
+    }
   }
 
   if (themeToggle) {
@@ -25,6 +28,7 @@
       const isLight = document.body.classList.contains("light");
       localStorage.setItem("theme", isLight ? "light" : "dark");
       themeToggle.textContent = isLight ? "☀️" : "🌙";
+      themeToggle.setAttribute('aria-pressed', isLight ? 'true' : 'false');
     });
   }
 
@@ -38,6 +42,97 @@
       autoText.textContent = texts[i];
     }, 2600);
   }
+
+  /* ---------- Header menu & Tools panel ---------- */
+  const menuToggle = qs('#menuToggle');
+  const toolsPanel = qs('#toolsPanel');
+  const toolsClose = qs('#toolsClose');
+  if (menuToggle && toolsPanel) {
+    menuToggle.addEventListener('click', () => {
+      const open = toolsPanel.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toolsPanel.setAttribute('aria-hidden', open ? 'false' : 'true');
+    });
+  }
+  if (toolsClose && toolsPanel) {
+    toolsClose.addEventListener('click', () => { toolsPanel.classList.remove('open'); toolsPanel.setAttribute('aria-hidden','true'); menuToggle.setAttribute('aria-expanded','false'); });
+  }
+
+  // Tools: quick pip calc (informational)
+  qs('#tp_calc')?.addEventListener('click', () => {
+    const pair = (qs('#tp_pair').value || 'EUR/USD').toUpperCase();
+    const lots = parseFloat(qs('#tp_lots').value) || 0;
+    const pip = pair.includes('JPY') ? 0.01 : 0.0001;
+    const valuePerPip = lots * 100000 * pip; // approximate
+    qs('#tp_result').textContent = `${valuePerPip.toFixed(4)} per pip (approx)`;
+  });
+  qs('#tp_pos_calc')?.addEventListener('click', () => {
+    const bal = parseFloat(qs('#tp_balance').value) || 0;
+    const risk = parseFloat(qs('#tp_risk').value) || 0;
+    const stop = parseFloat(qs('#tp_stop').value) || 1;
+    const riskAmt = bal * (risk / 100);
+    const pipVal = 10; // approx per lot in USD
+    const lots = (riskAmt / (stop * pipVal));
+    qs('#tp_pos_result').textContent = `Risk amount ${riskAmt.toFixed(2)} → Suggested size ${lots.toFixed(4)} lots (approx)`;
+  });
+
+  /* ---------- USD ↔ INR live rates (auto-update) ---------- */
+  const usdInrEl = qs('#usdInrRate');
+  const inrUsdEl = qs('#inrUsdRate');
+  async function fetchUsdInr() {
+    try {
+      const res = await fetch('https://api.exchangerate.host/latest?base=USD&symbols=INR', { cache: 'no-store' });
+      if (!res.ok) throw new Error('USDINR fetch failed');
+      const j = await res.json();
+      const rate = j.rates && j.rates.INR;
+      if (rate) {
+        if (usdInrEl) usdInrEl.textContent = rate.toFixed(2);
+        if (inrUsdEl) inrUsdEl.textContent = (1 / rate).toFixed(6);
+      }
+    } catch (e) {
+      console.warn('USD/INR update failed', e);
+    }
+  }
+  if (usdInrEl || inrUsdEl) {
+    fetchUsdInr();
+    setInterval(fetchUsdInr, 60_000);
+  }
+
+  /* ---------- Live TradingView embed (lazy load) ---------- */
+  const loadTvBtn = qs('#loadTv');
+  const tvContainer = qs('#tv_chart_container');
+  function loadTradingView(symbol = 'OANDA:XAUUSD', interval = '60') {
+    if (!tvContainer) return;
+    if (tvContainer.dataset.loaded) return;
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://s.tradingview.com/widgetembed/?frameElementId=tradingview_${Date.now()}&symbol=${encodeURIComponent(symbol)}&interval=${interval}&type=candle&theme=dark&toolbarbg=ffffff&studies=[]`;
+    iframe.style.width = '100%';
+    iframe.style.minHeight = '480px';
+    iframe.style.border = 'none';
+    iframe.loading = 'lazy';
+    tvContainer.innerHTML = '';
+    tvContainer.appendChild(iframe);
+    tvContainer.dataset.loaded = '1';
+  }
+  loadTvBtn?.addEventListener('click', () => loadTradingView('OANDA:XAUUSD', '60'));
+
+  /* Lazy load when chart section enters viewport */
+  if (tvContainer) {
+    const obs = new IntersectionObserver((entries, o) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { loadTradingView('OANDA:XAUUSD','60'); o.unobserve(e.target); }
+      });
+    }, { rootMargin: '300px 0px' });
+    obs.observe(tvContainer);
+  }
+
+  /* ---------- Learning path progress animation */
+  qsa('.path').forEach(p => {
+    const pct = parseInt(p.dataset.progress || '0',10);
+    const bar = p.querySelector('.bar');
+    const pctLabel = p.querySelector('.pct');
+    if (bar) { setTimeout(() => { bar.style.width = pct + '%'; if (pctLabel) pctLabel.textContent = pct + '%'; }, 250); }
+  });
 
   /* ---------- Scroll Progress ---------- */
   const progressBar = qs("#scrollProgress");
@@ -507,6 +602,10 @@
     qs('#econClear').addEventListener('click', () => { saveEcon([]); renderEcon(); });
   }
   // initialize econ from localStorage or demo events
+  const econEvents = [
+    { time: '09:30 UTC', title: 'US NFP (demo)', impact: 'High' },
+    { time: '12:30 UTC', title: 'CPI Release (demo)', impact: 'High' }
+  ];
   if (!localStorage.getItem('econList')) {
     saveEcon(econEvents);
   }
@@ -599,4 +698,3 @@
   });
 
 })();
-
