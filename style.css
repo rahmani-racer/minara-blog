@@ -497,9 +497,10 @@ a:focus, button:focus, input:focus { outline:3px solid rgba(56,189,248,0.22); ou
 
 /* Compact article list (smaller, single-line look) */
 .article-list { max-width: 920px; }
-.article-item { padding: 10px 0; gap: 12px; }
+.article-item { display: flex; align-items: center; padding: 10px 0; gap: 12px; }
 .article-thumb { flex: 0 0 72px; width: 72px; height: 48px; padding: 4px; }
-.article-item .article-content strong { font-size: 15px; }
+.article-item .article-content { flex: 1; display: flex; align-items: center; justify-content: space-between; gap:12px; }
+.article-item .article-content strong { font-size: 15px; display:block; }
 
 /* =====================================================
    MOBILE VIEW FIX ONLY

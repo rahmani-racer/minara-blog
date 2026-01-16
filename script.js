@@ -534,6 +534,76 @@
     }
   }
 
+  // Build homepage article lists from sitemap.xml so new pages appear automatically
+  async function buildArticleLists() {
+    try {
+      const listContainers = document.querySelectorAll('.article-list');
+      if (!listContainers.length) return;
+
+      const resp = await fetch('/sitemap.xml', { cache: 'no-store' });
+      if (!resp.ok) return;
+      const txt = await resp.text();
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(txt, 'application/xml');
+      const locs = [...xml.querySelectorAll('loc')].map(n => n.textContent.trim());
+      if (!locs.length) return;
+
+      const files = locs.map(u => {
+        try { return new URL(u).pathname.split('/').pop(); } catch (e) { return u.split('/').pop(); }
+      }).filter(f => f && f.endsWith('.html') && f !== 'template-article.html' && !/^(ads|ads\.txt)$/i.test(f));
+
+      // prefer recent first: sitemap is often ordered; we'll take last modified ordering if present
+      // For simplicity show the last 12 files excluding index/about/contact
+      const exclude = new Set(['index.html','about.html','contact.html','ads.txt','robots.txt','sitemap.xml']);
+      const candidates = files.filter(f => !exclude.has(f)).slice(0, 50);
+
+      // For each candidate, try to fetch its <title> for nicer labels (fall back to filename)
+      const createLabel = async (fname) => {
+        try {
+          const url = fname;
+          const r = await fetch(url, { cache: 'no-store' });
+          if (r.ok) {
+            const t = await r.text();
+            const m = t.match(/<title>([^<]+)<\/title>/i);
+            if (m && m[1]) return m[1].trim();
+          }
+        } catch (e) { /* ignore */ }
+        return fname.replace(/[-_\.html]+/g,' ').replace(/\s+/g,' ').trim();
+      };
+
+      // build items (limit to first container's capacity)
+      const items = [];
+      for (let i = 0; i < candidates.length && items.length < 12; i++) {
+        const f = candidates[i];
+        if (!f) continue;
+        const label = await createLabel(f);
+        items.push({ file: f, label });
+      }
+
+      // populate each .article-list with the first N items (keeping shallow copy)
+      listContainers.forEach((ul) => {
+        ul.innerHTML = '';
+        items.forEach(it => {
+          const li = document.createElement('li'); li.className = 'article-item';
+          const thumb = document.createElement('div'); thumb.className = 'article-thumb';
+          // small svg placeholder (keeps layout stable)
+          thumb.innerHTML = `<svg width="72" height="48" viewBox="0 0 92 64" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;border-radius:6px;"><rect width="92" height="64" rx="6" fill="#071022"/></svg>`;
+          const content = document.createElement('div'); content.className = 'article-content';
+          const strong = document.createElement('strong'); strong.textContent = it.label;
+          const a = document.createElement('a'); a.href = it.file; a.textContent = 'Read →';
+          content.appendChild(strong);
+          content.appendChild(a);
+          li.appendChild(thumb);
+          li.appendChild(content);
+          ul.appendChild(li);
+        });
+      });
+
+    } catch (e) {
+      console.warn('buildArticleLists failed', e);
+    }
+  }
+
   /* Replace renderWatchlist to add per-item controls */
   function renderWatchlist() {
     const ul = qs('#watchList');
@@ -976,6 +1046,7 @@
   // Initialize all article UX features safely
   function initArticleFeatures() {
     try { injectReadingTime(); } catch (e) { console.warn('reading time failed', e); }
+    try { buildArticleLists(); } catch (e) { console.warn('build article lists failed', e); }
     try { generateTOC(); } catch (e) { console.warn('toc failed', e); }
     try { initFAQ(); } catch (e) { console.warn('faq init failed', e); }
     try { initGlossary(); } catch (e) { console.warn('glossary failed', e); }
