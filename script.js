@@ -592,16 +592,41 @@
       }
 
       // populate each .article-list with the first N items (keeping shallow copy)
+      // Map specific pages to curated thumbnails
+      const THUMB_MAP = {
+        'trading.html': 'forex-hero.svg',
+        'forex.html': 'forex-hero.svg',
+        'daily.html': 'session-times-IST.svg',
+        'thought.html': 'overtrading.svg',
+        'trading-basics.html': 'trading-costs.svg',
+        'price-action.html': 'candlestick-examples.svg',
+        'technical-analysis.html': 'chart-patterns.svg',
+        'risk-management.html': 'risk-adjusted-performance.svg'
+      };
+
+      function thumbForFile(fname) {
+        const key = (fname || '').toLowerCase();
+        if (THUMB_MAP[key]) return 'images/' + THUMB_MAP[key];
+        const slug = key.replace(/\.html$/,'');
+        return 'images/' + slug + '.svg';
+      }
+
+      async function ensureThumb(path) {
+        try {
+          const r = await fetch(path, { cache: 'no-store' });
+          if (r.ok) return path;
+        } catch (e) { /* ignore */ }
+        return 'images/placeholder-400.svg';
+      }
+
       listContainers.forEach((ul) => {
         ul.innerHTML = '';
         items.forEach(it => {
           const li = document.createElement('li'); li.className = 'article-item';
           const thumb = document.createElement('div'); thumb.className = 'article-thumb';
 
-          // derive thumbnail path from filename: images/<slug>.svg
-          const slug = (it.file || '').replace(/\.html$/,'');
           const img = document.createElement('img');
-          img.src = `images/${slug}.svg`;
+          img.src = 'images/placeholder-400.svg';
           img.alt = it.label || slug;
           img.loading = 'lazy';
           img.decoding = 'async';
@@ -620,6 +645,12 @@
           li.appendChild(thumb);
           li.appendChild(content);
           ul.appendChild(li);
+
+          // Asynchronously switch to a real thumbnail if available
+          (async () => {
+            const candidate = thumbForFile(it.file);
+            img.src = await ensureThumb(candidate);
+          })();
         });
       });
 
