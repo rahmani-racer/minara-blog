@@ -894,9 +894,11 @@
   function generateTOC() {
     const content = qs('main') || qs('.section.card');
     if (!content) return;
+    if (content.querySelector('.toc')) return; // avoid duplicate TOCs
     const headings = [...content.querySelectorAll('h2,h3')];
     if (!headings.length) return;
     const toc = document.createElement('nav'); toc.className = 'toc';
+    toc.setAttribute('aria-label','Table of contents');
     const h4 = document.createElement('h4');
     h4.textContent = 'Contents';
     h4.addEventListener('click', () => {
@@ -921,19 +923,30 @@
     });
     toc.appendChild(h4);
     toc.appendChild(ul);
-    // try to place toc in a reasonable spot: insert before first article paragraph
-    const first = content.querySelector('h2') || content.querySelector('p');
-    if (first && first.parentNode) {
-      const wrapper = document.createElement('div'); wrapper.style.display = 'flex'; wrapper.style.gap = '18px';
-      const mainCol = document.createElement('div'); mainCol.style.flex = '1';
-      // move content nodes after insertion into mainCol
-      // we'll insert toc as a sidebar element
-      const sidebar = document.createElement('aside'); sidebar.className = 'related-sidebar';
-      const sideCard = document.createElement('div'); sideCard.className = 'related-card';
-      sideCard.appendChild(toc);
-      sidebar.appendChild(sideCard);
-      // insert sidebar before content
-      content.parentNode.insertBefore(sidebar, content);
+    // create a stable two-column layout so the TOC sits in the right rail
+    const layout = content.querySelector('.article-layout') || document.createElement('div');
+    const mainCol = content.querySelector('.article-main') || document.createElement('div');
+    const sidebar = content.querySelector('.toc-sidebar') || document.createElement('aside');
+    layout.classList.add('article-layout');
+    mainCol.classList.add('article-main');
+    sidebar.classList.add('toc-sidebar');
+
+    // first-time setup: move all children of content into the main column
+    if (!mainCol.childElementCount) {
+      while (content.firstChild) {
+        mainCol.appendChild(content.firstChild);
+      }
+    }
+
+    // clean sidebar and attach TOC
+    sidebar.innerHTML = '';
+    sidebar.appendChild(toc);
+
+    // assemble layout if not already in DOM
+    if (!layout.contains(mainCol)) layout.appendChild(mainCol);
+    if (!layout.contains(sidebar)) layout.appendChild(sidebar);
+    if (!layout.parentNode || layout.parentNode !== content) {
+      content.appendChild(layout);
     }
   }
 

@@ -21,9 +21,11 @@
 
     <section class="intro">
       <h3>Problem-based introduction</h3>
-      <p>Leverage dekh kar beginners excited ho jate hain — "10x, 50x" — lekin margin ka galat istemal account blow-up tak le ja sakta hai. Is article mein simple Hinglish me leverage, margin aur practical GOLD (XAU/USD) examples se samjhayenge ki safe use kaise karein.</p>
+      <p>Leverage dekh kar beginners excited ho jate hain — "10x, 50x" — lekin margin ka galat use account blow-up tak le ja sakta hai. Is article mein simple Hinglish me leverage, margin aur practical GOLD (XAU/USD) examples se samjhayenge ki safe use kaise karein.</p>
     </section>
 
+    <section>
+      <h3>Hidden trading costs (spell-checked)</h3>
       <ul>
         <li>Spread + commission = visible cost; slippage = hidden cost.</li>
         <li>Swap/financing: overnight costs can erode returns; check GOLD swap on your broker.</li>
@@ -42,6 +44,7 @@
         <li>Test small deposits/withdrawals before scaling.</li>
         <li>Avoid bonuses tied to turnover; they incentivize overtrading.</li>
       </ul>
+    </section>
     <section>
       <h3>Step-by-step explanation</h3>
       <ol>
@@ -68,8 +71,20 @@
 
     <section>
       <h3>Image-based examples (mandatory)</h3>
-      <img src="images/leverage-margin-example.svg" srcset="images/leverage-margin-example.svg 400w, images/leverage-margin-example.svg 800w, images/leverage-margin-example.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="Leverage and margin illustration" class="article-img" width="800" height="420" loading="lazy" decoding="async">
-      <p>Annotated example showing equity, margin used, and effect of price move.</p>
+      <picture>
+        <source srcset="images/leverage-margin-example.svg" type="image/svg+xml">
+        <img src="images/leverage-margin-example.svg"
+             srcset="images/leverage-margin-example.svg 400w, images/leverage-margin-example.svg 800w, images/leverage-margin-example.svg 1200w"
+             sizes="(max-width:600px) 100vw, 600px"
+             alt="Leverage and margin illustration"
+             class="article-img"
+             width="800"
+             height="420"
+             loading="lazy"
+             decoding="async"
+             onerror="this.onerror=null;this.src='images/placeholder-800.svg';">
+      </picture>
+      <p>Annotated example showing equity, margin used, and effect of price move. Fallback image loads automatically if the SVG fails.</p>
     </section>
 
     <section>
@@ -172,19 +187,19 @@
             <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">1:20 (ASIC-regulated)</td>
             <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">0.05 lot (Rs. 500 risk)</td>
             <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Rs. 625 (12,500÷20)</td>
-            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">98.7% ✅</td>
+            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">98.7% (OK)</td>
           </tr>
           <tr>
             <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">1:100 (standard)</td>
             <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">0.05 lot (same risk)</td>
             <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Rs. 125 (12,500÷100)</td>
-            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">99.7% ✅</td>
+            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">99.7% (OK)</td>
           </tr>
           <tr style="background:rgba(255,50,50,0.08);">
             <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">1:500 (offshore)</td>
             <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">0.05 lot (same risk)</td>
             <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Rs. 25 (12,500÷500)</td>
-            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">99.9% (tempting but ⚠️)</td>
+            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">99.9% (tempting but high risk)</td>
           </tr>
         </tbody>
       </table>
@@ -282,13 +297,13 @@
         <li>Leverage becomes invisible—you're trading RISK, not leverage</li>
       </ul>
       
-      <p><strong>Golden Rule:</strong> Jab tak margin stress kabhi feel nahi kiya (i.e., free margin always > 500%), tab tak size mat badhao. Leverage progression ≠ profit progression. Discipline progression = real edge.</p>
+      <p><strong>Golden Rule:</strong> Jab tak margin stress kabhi feel nahi kiya (i.e., free margin always > 500%), tab tak size mat badhao. Leverage progression is not equal to profit progression. Discipline progression = real edge.</p>
     </section>
 
     <section>
       <h3>Risk Warning</h3>
-      <p>Leverage increases both potential profit and potential loss. Use stop-loss and risk management.</p>
-      <p>Never treat available leverage as target size. Survival-first: small size, clear stops, journal every fill.</p>
+      <p>Leverage increases both potential profit and potential loss. Always define risk per trade, set a hard stop-loss before entry, and pre-calc margin usage.</p>
+      <p>Never treat available leverage as target size. Survival-first: small size, clear stops, journal every fill, and reduce size after any margin warning.</p>
     </section>
 
     <div class="ads-slot" style="min-height:120px; margin:18px 0;"></div>
