@@ -25,37 +25,195 @@
     </section>
 
     <section>
-      <h3>Step-by-step explanation</h3>
-      <ol>
-        <li><strong>Liquidity:</strong> Availability of counterpart orders at various price levels.</li>
-        <li><strong>Market depth:</strong> Order book size at each price level affects fill quality.</li>
-        <li><strong>Slippage:</strong> Difference between expected price and executed price; increases in low liquidity or volatile times.</li>
-      </ol>
+      <h3>Liquidity kya hai aur kyun matter karta?</h3>
+      <p>
+        Liquidity ka matlab hai market me buy aur sell orders ka availability. High liquidity = tight spreads, fast fills, minimal slippage. Low liquidity = wide spreads, slow fills, high slippage. GOLD (XAU/USD) generally high liquidity asset hai, but liquidity session ke hisaab se badalta rehta hai. London aur New York overlap (1:30 PM - 5:30 PM IST) me peak liquidity hoti, Asian session (subah 5-11 AM IST) me comparatively kam.
+      </p>
+      <p>
+        Practical impact: Agar tum 1 lot GOLD (100 oz) trade karte ho London session me, spread 2-3 pips hoga aur fill instant milega. Same size Asian session rollover (subah 6 AM) me trade karo, spread 5-8 pips tak badh sakta aur fill me delay ho sakta. Yeh liquidity ka direct effect hai. Beginners often ignore liquidity, phir execution problems face karte aur broker ko blame karte—but reality yeh hai ki timing aur market depth matter karte hain.
+      </p>
+      <p>
+        <strong>Market depth example:</strong> Suppose GOLD bid price 2640.50 hai aur ask 2640.70 (2-pip spread). Depth check karo: bid side pe 2640.50 pe 5 lots available, 2640.40 pe 10 lots, 2640.30 pe 15 lots. Agar tum 8 lots ka market sell order dete ho, first 5 lots 2640.50 pe fill honge, baaki 3 lots 2640.40 pe (ya niche)—yeh slippage hai. High liquidity me depth zyada hoti, slippage kam hota.
+      </p>
     </section>
 
     <section>
-      <h3>Real trading logic (GOLD example)</h3>
-      <p>During news, XAU/USD spreads widen and slippage can be larger. Use limit orders, smaller sizes, or avoid trading during such windows to reduce slippage risk.</p>
+      <h3>Slippage kya hai? (Formula aur Example)</h3>
+      <p>
+        Slippage = <strong>Executed Price - Expected Price</strong>. Jab tum market order dete ho, expected price current bid/ask hai, but execution actual fill price pe hota. Difference ko slippage kehte. Yeh positive ya negative ho sakta: agar sell order 2640.50 expect kiya but fill hua 2640.45 pe, toh 5-pip negative slippage (loss). Agar fill 2640.52 pe hua, toh 2-pip positive slippage (gain, rare).
+      </p>
+      <p>
+        <strong>GOLD slippage example (News Event):</strong><br>
+        Scenario: NFP (Non-Farm Payroll) release hone wala hai 6:00 PM IST. Tum short trade plan kar rahe ho, market order set kiya 2645 expect kar ke.<br>
+        - Normal conditions: Slippage 1-2 pips (fill 2644.98 ya 2645.01).<br>
+        - News spike: Data release hote hi GOLD 20 pips jump karta upwards. Tumhara sell order fill hota 2648 pe—30-pip slippage ❌. Stop-loss bhi slippage se hit ho sakta (planned 2650, actual 2653).<br>
+        Cost: 30 pips slippage on 0.1 lot = $30 extra loss (GOLD me 1 pip ≈ $1 for 0.1 lot). Yeh high-impact news ke dauran common hai.
+      </p>
+      <p>
+        <strong>Formula breakdown:</strong><br>
+        - Planned sell: 2645.00<br>
+        - Actual fill: 2648.00<br>
+        - Slippage = 2648 - 2645 = 3 points (30 pips) negative.<br>
+        - Impact on 0.1 lot: 30 pips × $1 = $30 loss (0.3 lot = $90 loss).
+      </p>
+      <p>
+        Slippage sirf entry pe nahi, exit (stop-loss, take-profit) pe bhi hota hai. Agar tumhara stop 2650 set hai but fill 2653 pe hota (volatile spike me), toh 30-pip extra loss. Yeh risk management ko directly affect karta—planned 1% risk actual 1.3% ban sakta.
+      </p>
+    </section>
+
+    <section>
+      <h3>Liquidity Variation: Session-wise GOLD Comparison</h3>
+      <table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse:collapse; margin:12px 0; font-size:0.95em;">
+        <thead>
+          <tr style="background:rgba(255,255,255,0.05);">
+            <th>Session</th>
+            <th>IST Timing</th>
+            <th>Liquidity Level</th>
+            <th>Typical GOLD Spread</th>
+            <th>Slippage Risk</th>
+            <th>Best For</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Asian (Tokyo)</td>
+            <td>5:00 AM - 1:30 PM</td>
+            <td>Medium-Low</td>
+            <td>4-8 pips</td>
+            <td>Medium (wider spreads)</td>
+            <td>Swing setups, range trading</td>
+          </tr>
+          <tr>
+            <td>London Open</td>
+            <td>1:30 PM - 5:30 PM</td>
+            <td>High</td>
+            <td>2-3 pips</td>
+            <td>Low (best fills)</td>
+            <td>Breakouts, scalping, high volume</td>
+          </tr>
+          <tr>
+            <td>London-NY Overlap</td>
+            <td>5:30 PM - 9:30 PM</td>
+            <td>Very High</td>
+            <td>1.5-2.5 pips</td>
+            <td>Very Low (peak liquidity)</td>
+            <td>All strategies, best execution</td>
+          </tr>
+          <tr>
+            <td>New York Close</td>
+            <td>9:30 PM - 1:00 AM</td>
+            <td>Medium</td>
+            <td>3-5 pips</td>
+            <td>Medium</td>
+            <td>Position exits, swing entries</td>
+          </tr>
+          <tr>
+            <td>Asian Rollover</td>
+            <td>1:00 AM - 5:00 AM</td>
+            <td>Low</td>
+            <td>6-12 pips</td>
+            <td>High (avoid large orders)</td>
+            <td>Avoid active trading</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Practical takeaway: Agar tum scalper ya day trader ho, London-NY overlap (5:30-9:30 PM IST) best window hai—tight spreads, high depth, minimal slippage. Asian session (subah) me large positions avoid karo, especially market orders—limit orders prefer karo. Swing traders ko session timing se zyada fark nahi padta (longer holding period), but entry/exit timing still matters.
+      </p>
+    </section>
+
+    <section>
+      <h3>Slippage Reduction: 6 Practical Strategies</h3>
+      <p>
+        Slippage eliminate nahi ho sakta (market reality hai), but reduce zaroor kar sakte. Yeh 6 strategies follow karo:
+      </p>
+      <p>
+        <strong>1. Limit Orders Use Karo (Market Orders Avoid)</strong><br>
+        Market orders immediate fill dete but slippage high hota. Limit orders specific price pe fill hote—agar price wahan nahi aaya, toh fill nahi hota (miss ho sakta), but slippage zero. GOLD example: Agar tum 2640 pe long lena chahte, limit buy order 2640 pe lagao. Price 2640 touch karega toh fill, nahi toh skip—but slippage nahi milega.
+      </p>
+      <p>
+        <strong>2. High Liquidity Sessions Me Trade Karo</strong><br>
+        London-NY overlap (5:30-9:30 PM IST) best liquidity window hai. Spreads tight, depth high, slippage minimal. Asian rollover (1-5 AM) me avoid karo active trading—wide spreads aur thin depth.
+      </p>
+      <p>
+        <strong>3. News Events Ke Dauran Avoid Karo (Ya Wait Karo)</strong><br>
+        NFP, FOMC, CPI jaise high-impact news ke time GOLD 30-50 pips seconds me move kar sakta. Slippage 10-30 pips tak ho sakta. Strategy: News se 15 min pehle aur 15 min baad avoid karo. Agar trade karna hi hai, toh limit orders use karo aur tight stops avoid (wide stops rakho ya volatility settle hone do).
+      </p>
+      <p>
+        <strong>4. Position Size Reduce Karo</strong><br>
+        Large orders market depth consume karte aur slippage increase hota. Agar tum 1 lot GOLD trade karte usually, news events ya thin sessions me 0.5 lot ya 0.3 lot pe reduce karo. Example: Asian session me 1 lot sell order 5-10 pips slip ho sakta, but 0.3 lot 2-3 pips slip hoga.
+      </p>
+      <p>
+        <strong>5. Broker Execution Quality Check Karo</strong><br>
+        ECN brokers generally better fills dete (direct market access) compared to market makers (B-book model). Historical slippage data check karo broker ke reviews me. Agar consistently high slippage reports hain, broker switch karo. Demo account pe test karo: 10 market orders place karo different times, average slippage measure karo.
+      </p>
+      <p>
+        <strong>6. Stop-Loss Ko Trailing Ya Limit Exit Use Karo</strong><br>
+        Stop-loss bhi slippage victim hota—especially volatile moves me. Alternative: Trailing stop use karo (dynamic adjustment) ya manual limit exits plan karo (target price ke paas limit sell/buy order). Drawback: Limit exit me miss ho sakta agar price exactly wahan nahi touch karta, but slippage control me rehta.
+      </p>
+    </section>
+
+    <section>
+      <h3>Broker Model aur Slippage Connection</h3>
+      <p>
+        Slippage broker ke execution model se bhi related hai. 3 main models:
+      </p>
+      <p>
+        <strong>A-Book (ECN/STP):</strong> Orders directly interbank market ya liquidity providers ko pass hoti. Slippage market-driven hota, broker artificially manipulate nahi karta. Generally low slippage (1-3 pips typical), but market volatility me increase ho sakta. Best for serious traders.
+      </p>
+      <p>
+        <strong>B-Book (Market Maker):</strong> Broker tumhara counterparty banta, orders internal pool me match karta. Slippage broker control kar sakta (theoretically), but reputed brokers fair execution dete. Risk: Conflict of interest—agar tumhara loss broker ka profit hai, toh slippage manipulation risk. Check reviews aur regulation.
+      </p>
+      <p>
+        <strong>Hybrid Model:</strong> Small orders B-book, large orders A-book. Slippage mixed hai—small trades me consistent, large trades me market-dependent. Popular among retail brokers.
+      </p>
+      <p>
+        Practical: ECN brokers prefer karo agar slippage critical hai (scalpers, day traders). Swing traders B-book se bhi manage kar sakte (holding period long hai, 2-3 pips slippage less impactful). Always check broker's "execution quality" reports ya third-party audits (MyFXBook, FPA reviews).
+      </p>
+    </section>
+
+    <section>
+      <h3>Slippage Tolerance: Strategy-wise Guide</h3>
+      <p>
+        Different strategies ko alag slippage tolerance hoti:
+      </p>
+      <ul>
+        <li><strong>Scalpers (5-10 pip targets):</strong> 2-3 pips slippage = 20-30% profit erosion. Zero tolerance. ECN broker + limit orders mandatory. London-NY overlap only.</li>
+        <li><strong>Day Traders (20-50 pip targets):</strong> 3-5 pips acceptable. Limit orders prefer, market orders London session me okay. News events avoid.</li>
+        <li><strong>Swing Traders (100+ pip targets):</strong> 5-10 pips acceptable (minor % of target). Market orders use kar sakte, session timing less critical. Stop-loss slippage buffer rakho (planned stop se 10 pips wide set karo).</li>
+        <li><strong>Position Traders (weeks/months hold):</strong> Slippage negligible impact (10-20 pips vs 500+ pip moves). Execution timing flexible.</li>
+      </ul>
+      <p>
+        Apne strategy ke hisaab se slippage tolerance define karo aur broker/execution model choose karo. Scalpers ko premium ECN brokers chahiye (raw spreads + commission model), swing traders standard STP brokers se manage kar sakte.
+      </p>
     </section>
 
     <section>
       <h3>Image-based examples (mandatory)</h3>
-      <img src="images/liquidity-slippage.svg" srcset="images/liquidity-slippage.svg 400w, images/liquidity-slippage.svg 800w, images/liquidity-slippage.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="Liquidity and slippage illustration" class="article-img" loading="lazy">
+      <img src="images/liquidity-slippage.svg" srcset="images/liquidity-slippage.svg 400w, images/liquidity-slippage.svg 800w, images/liquidity-slippage.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="Liquidity and slippage illustration" class="article-img" width="800" height="420" loading="lazy" decoding="async">
     </section>
 
     <section>
       <h3>Common Mistakes</h3>
       <ul>
-        <li>Trading large size in thin markets without checking depth.</li>
-        <li>Using market orders in volatile news events expecting small slippage.</li>
+        <li><strong>Market orders news events me:</strong> NFP ya FOMC ke time market orders dete ho expecting normal fills—30-50 pip slippage ho jata, planned risk-reward destroyed.</li>
+        <li><strong>Large size thin sessions me:</strong> Asian rollover (subah 2-4 AM) me 1 lot GOLD trade karte ho—depth kam hoti, 10-15 pip slip common. Position size adjust nahi karte.</li>
+        <li><strong>Broker ko blindly blame karna:</strong> Slippage hota toh "broker scam" kehte ho, but market conditions check nahi karte (news event tha? Session timing thin thi?).</li>
+        <li><strong>Stop-loss slippage ignore karna:</strong> Entry slippage account karte ho but stop-loss slippage forget karte—volatile move me stop 20-30 pips slip ho sakta, risk management fail.</li>
+        <li><strong>Limit order disadvantages ignore:</strong> Limit orders use karte but miss trades karte repeatedly—kyunki price exactly limit level touch nahi karta. Balance nahi banate limit vs market.</li>
+        <li><strong>No slippage tracking:</strong> Historical slippage data record nahi karte (journal me). Pattern nahi dekhte ki kaunse sessions/events me zyada slip hota. Repeated mistakes karte.</li>
       </ul>
     </section>
 
     <section>
       <h3>Pro Tips</h3>
       <ul>
-        <li>Measure typical slippage for your broker during target hours and factor it into trade planning.</li>
-        <li>Prefer limit entries for structured setups to control fills.</li>
+        <li><strong>Slippage journal maintain karo:</strong> Har trade me planned vs actual entry/exit price note karo. Monthly average slippage calculate karo. Agar 5+ pips consistent hai, broker ya timing badlo.</li>
+        <li><strong>Limit orders ko "chase" karo strategically:</strong> Agar limit order miss ho gaya (price 2640 limit set thi, price 2640.50 se bounce), immediately chase mat karo. Wait for next retest ya skip—FOMO avoid.</li>
+        <li><strong>Broker comparison test:</strong> 2-3 demo accounts kholke same trade simultaneously place karo different brokers pe. Actual fill prices compare karo—best execution wale broker ko live me use karo.</li>
+        <li><strong>Session-specific rules banao:</strong> "London session = market orders okay, Asian session = limit only, News events = avoid." Document karo trading plan me.</li>
+        <li><strong>Stop-loss buffer strategy:</strong> Agar planned stop 2650 hai, actual stop 2645 set karo (5-pip buffer)—volatile slippage se protect karta. Position size accordingly adjust (wider stop = smaller lot).</li>
+        <li><strong>Pre-trade slippage estimate:</strong> Trade lene se pehle estimate karo: "Normal session = 2 pips, news = 10 pips." Risk-reward me factor karo. Agar RR 1:2 planned hai but 5-pip slippage expected, actual RR 1:1.7 ban jayega—acceptable hai ya nahi?</li>
       </ul>
     </section>
 
@@ -69,12 +227,29 @@
     <section>
       <h3>SEO FAQs</h3>
       <dl>
-        <dt>1. Slippage kaise reduce karein?</dt>
-        <dd>Use limit orders, smaller sizes, and avoid low-liquidity windows.</dd>
-        <dt>2. Liquidity kaise check karein?</dt>
-        <dd>Check spreads, depth (if available), and compare during target sessions.</dd>
-        <dt>3. Kya slippage broker ka fault hota hai?</dt>
-        <dd>Sometimes execution model affects slippage, but market conditions are primary driver.</dd>
+        <dt>1. Slippage kya hota hai forex me?</dt>
+        <dd>Slippage expected price aur actual execution price ka difference hai. Market orders me common hai, especially volatile times (news events) ya low liquidity sessions (Asian rollover). Example: 2640 pe order expect kiya, 2643 pe fill hua = 3-point (30-pip) slippage.</dd>
+        
+        <dt>2. GOLD trading me slippage kaise kam karein?</dt>
+        <dd>6 strategies: (1) Limit orders prefer karo, (2) London-NY overlap (5:30-9:30 PM IST) me trade, (3) News events avoid, (4) Position size reduce in thin sessions, (5) ECN broker use karo, (6) Trailing stops ya limit exits.</dd>
+        
+        <dt>3. Kaunse session me GOLD ki liquidity best hai?</dt>
+        <dd>London-NY overlap (5:30-9:30 PM IST) peak liquidity hai—spreads 1.5-2.5 pips, slippage minimal. Asian rollover (1-5 AM) worst—spreads 6-12 pips, high slippage risk.</dd>
+        
+        <dt>4. Market order ya limit order kaunsa better?</dt>
+        <dd>Market order = guaranteed fill but slippage risk. Limit order = zero slippage but miss ho sakta. Scalpers/day traders limit prefer, swing traders market use kar sakte (longer targets me slippage % impact kam).</dd>
+        
+        <dt>5. Slippage broker ki galti hai ya market ki?</dt>
+        <dd>Mostly market-driven (volatility, liquidity). But broker execution model matters: ECN brokers fair fills dete, B-book brokers me manipulation risk (rare in regulated brokers). Reviews aur slippage data check karo.</dd>
+        
+        <dt>6. News events me slippage kitna hota?</dt>
+        <dd>NFP, FOMC jaise high-impact news me GOLD 30-50 pips seconds me move karta. Slippage 10-30 pips tak ho sakta—entry aur stop-loss dono me. Avoid karo ya wide stops use karo.</dd>
+        
+        <dt>7. Stop-loss me bhi slippage hota hai?</dt>
+        <dd>Haan. Volatile spikes me stop-loss planned price se 10-30 pips slip ho sakta. Solution: Stop-loss me buffer rakho (planned 2650, set 2645) ya limit exits use karo (risk: target miss ho sakta).</dd>
+        
+        <dt>8. Slippage impact kaise measure karein?</dt>
+        <dd>Journal me har trade ki planned vs actual entry/exit note karo. Monthly average slippage calculate: total slippage pips ÷ number of trades. Agar 5+ pips average hai, broker/timing optimize karo.</dd>
       </dl>
     </section>
 

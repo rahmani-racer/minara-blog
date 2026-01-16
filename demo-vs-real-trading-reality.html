@@ -25,22 +25,155 @@
     </section>
 
     <section>
-      <h3>Step-by-step explanation</h3>
-      <ol>
-        <li><strong>Execution differences:</strong> Demo often gives ideal fills; live may have slippage.</li>
-        <li><strong>Emotional differences:</strong> Real money triggers different behaviour — start with small sizes.</li>
-        <li><strong>Operational differences:</strong> Connectivity, platform quirks, and broker execution models matter.</li>
-      </ol>
-    </section>
+      <h3>Key Differences: Demo vs Live</h3>
+      <table style="width:100%; border-collapse:collapse; margin:12px 0;">
+        <tr style="background-color:rgba(255,255,255,0.05);">
+          <th style="padding:8px; text-align:left; border:1px solid rgba(255,255,255,0.1);">Aspect</th>
+          <th style="padding:8px; text-align:left; border:1px solid rgba(255,255,255,0.1);">Demo Account</th>
+          <th style="padding:8px; text-align:left; border:1px solid rgba(255,255,255,0.1);">Live Account</th>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Execution</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Instant fills; simulated liquidity</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Slippage 0.2–2 pips; requotes during news</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Emotions</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Zero fear/greed; easy to hold SL</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Fear causes early exits; greed moves SL</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Spread</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Often tighter/fixed spreads</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Variable spreads; widen 3x–5x at news</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Platform</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Server fast; no delays</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Server lag possible; internet drops critical</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Psychology</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Overconfidence builds; no real loss pain</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Loss aversion triggers rule breaks; revenge trades</td>
+        </tr>
+      </table>
 
-    <section>
-      <h3>Real trading logic (GOLD example)</h3>
-      <p>Practice a fixed routine: demo trade 50 setups, journal each trade, then move to small live size (0.1–0.5% risk) and compare outcomes. GOLD trades during news may behave differently in live execution — test on low sizes first.</p>
-    </section>
+      <h3>Emotional Shift: Demo → Live</h3>
+      <p><strong>Demo winner mindset:</strong> 50% winrate, 1:2 R:R feels easy; hold winners, cut losers mechanically. No hesitation pressing "Buy" button.</p>
+      <p><strong>First live trade reality:</strong> Heart rate spikes seeing -$5 unrealized loss (even if strategy valid). Early exit at +$3 instead of planned +$10 target. Fear paralyzes next entry despite perfect setup.</p>
+      <p><strong>Why?</strong> Real money = survival instinct activation. Brain treats $20 risk like physical threat. Demo = video game mode; no cortisol spike.</p>
+      <p><strong>Solution:</strong> Start live with 0.01 lot (nano) where $1 risk feels trivial. Build psychological tolerance slowly — micro → mini → standard over 6–12 months.</p>
+
+      <h3>Execution Reality Check (GOLD Example)</h3>
+      <p><strong>Demo scenario:</strong> GOLD 2020.00, SL 2015.00, TP 2030.00. Entry filled at 2020.00 exactly; TP hit at 2030.00. Clean 10R profit.</p>
+      <p><strong>Live scenario (same setup):</strong></p>
+      <ul>
+        <li>Entry order 2020.00; actual fill 2020.30 (0.3 slippage = $3 on 0.1 lot).</li>
+        <li>Price spikes to 2014.50 (within SL zone 2015.00); stop triggered at 2014.80 due to spread widening. Loss realized.</li>
+        <li>Price reverses to 2030+ without you. Demo would have held; live stopped out by liquidity hunt.</li>
+      </ul>
+      <p><strong>Lesson:</strong> Place SL 5–10 pips beyond obvious levels (round numbers, swing lows). Demo doesn't teach this — live does, painfully.</p>
+
+      <h3>Slippage Math: Hidden Cost</h3>
+      <p><strong>Measurement:</strong> Journal 50 live trades; note expected fill vs actual fill. Calculate avg slippage.</p>
+      <p><strong>Example:</strong> Avg slippage 0.4 pip/trade on GOLD; 0.1 lot = $0.40/trade. 100 trades/month = $40 slippage cost (never on demo). Annual $480 leakage.</p>
+      <p><strong>Mitigation:</strong></p>
+      <ol>
+        <li>Use limit orders instead of market orders (set buy limit 2020.00; wait for fill).</li>
+        <li>Avoid trading 2 min before/after major news (NFP, FOMC); spreads explode, slippage 5–10 pips.</li>
+        <li>Trade London/NY overlap (18:30–22:30 IST) for tightest spreads on GOLD.</li>
+        <li>Test 2–3 brokers demo-to-live; choose lowest avg slippage (measure 50 trades each).</li>
+      </ol>
+
+      <h3>Psychological Traps in Live Trading</h3>
+      <ul>
+        <li><strong>Revenge trading:</strong> Demo loss = reset account, no pain. Live $20 loss → "I'll recover with double size" → $40 loss → spiral. Kill switch rule: 2 consecutive losses = stop trading for day.</li>
+        <li><strong>Overconfidence bias:</strong> 10-win streak on demo = "I'm ready for 1.0 lot!" Live reality: First loss at 1.0 lot = -$100; panic selling, abandon strategy.</li>
+        <li><strong>Analysis paralysis:</strong> Live money → overthinking setups that were clear on demo. "What if..." loops. Solution: screenshot demo setups; if live chart matches exactly, execute without hesitation (pre-commit rule).</li>
+        <li><strong>Profit-taking too early:</strong> Demo: hold for 30-pip TP easily. Live: exit at +10 pips "to lock profit" (fear of reversal). Kills R:R. Solution: partial profit (50% at 1R, 50% at 2R).</li>
+      </ul>
+
+      <h3>Transition Framework (12-Week Plan)</h3>
+      <p><strong>Week 1-4: Demo mastery phase</strong></p>
+      <ol>
+        <li>Trade 100 setups on demo; same pair (EUR/USD or GOLD), same session (London open).</li>
+        <li>Journal every trade: setup screenshot, entry reason, exit reason, R achieved, emotional state.</li>
+        <li>Target: 50%+ winrate, avg R:R 1:1.5+, max 3 consecutive losses without rule break.</li>
+      </ol>
+      <p><strong>Week 5-6: Simulation stress test</strong></p>
+      <ol>
+        <li>Fund demo with exact amount you'll start live ($200-$500).</li>
+        <li>Trade with "real" risk: 1-2% per trade (no $100K virtual balance cushion).</li>
+        <li>If you blow demo account, restart Week 1. If profitable, proceed.</li>
+      </ol>
+      <p><strong>Week 7-8: Micro live (emotional acclimatization)</strong></p>
+      <ol>
+        <li>Fund live $100-$200; trade 0.01 lot (nano) — $0.10/pip for forex, $0.01/0.10 move for GOLD.</li>
+        <li>Risk 1% = $1-$2/trade. Goal: NOT profit, but execute strategy without emotional deviation.</li>
+        <li>Compare live vs demo execution: measure slippage, spread during your session, platform lag.</li>
+      </ol>
+      <p><strong>Week 9-12: Scale test</strong></p>
+      <ol>
+        <li>If Week 7-8 profitable (or breakeven with good execution), increase to 0.05-0.1 lot (micro).</li>
+        <li>Risk 1-2% = $5-$10/trade on $500 account. Track: Do emotions change at $10 risk vs $2?</li>
+        <li>Monthly review: Winrate, avg R:R, max drawdown, emotional mistakes logged. If consistent, scale to 0.2-0.5 lot in Month 4.</li>
+      </ol>
+
+      <h3>Live Trading Checklist (Pre-Trade Ritual)</h3>
+      <ol>
+        <li>✅ Setup matches demo playbook exactly (screenshot comparison)?</li>
+        <li>✅ Risk calculated: lot size = (account × 1%) / (SL pips × pip value)?</li>
+        <li>✅ Stop-loss placed 5-10 pips beyond obvious level (not tight on support)?</li>
+        <li>✅ Take-profit at 1.5R minimum (not arbitrary round number)?</li>
+        <li>✅ Spread < 1.0 pip for majors, < 0.5 for GOLD (check current spread)?</li>
+        <li>✅ No high-impact news in next 30 min (NFP, FOMC, CPI)?</li>
+        <li>✅ Internet stable, VPS backup if critical?</li>
+        <li>✅ Emotional state: calm, no revenge mode, no overconfidence?</li>
+        <li>✅ Journal ready: will log trade immediately after entry?</li>
+      </ol>
+
+      <h3>Red Flags: When to Pause Live Trading</h3>
+      <ul>
+        <li><strong>3 consecutive losses:</strong> Stop for day; review trades next morning. Prevent tilt spiral.</li>
+        <li><strong>Breaking own rules:</strong> Moved SL away from plan, doubled size after loss, chased price. Immediate pause; 2-day demo reset.</li>
+        <li><strong>Slippage > 1 pip avg:</strong> Broker execution poor or internet unstable. Switch broker or fix connectivity before continuing.</li>
+        <li><strong>Emotional volatility:</strong> Can't sleep thinking about trades, checking phone every 5 min, mood swings based on P&L. Reduce size by 50% or return to demo for 2 weeks.</li>
+        <li><strong>Drawdown > 10%:</strong> $500 account → -$50. Stop live; backtest strategy again; check if market regime changed (trending → ranging). Resume only after fix identified.</li>
+      </ul>
+
+      <h3>Demo Practice Drills (Ongoing Skill Maintenance)</h3>
+      <p>Even after live profitable, maintain demo account for:</p>
+      <ul>
+        <li><strong>New strategy testing:</strong> Don't test unproven setups on live. Demo 50 trades first.</li>
+        <li><strong>New instruments:</strong> Switching from EUR/USD to GOLD? Demo 30 trades to understand volatility, spread behavior, session characteristics.</li>
+        <li><strong>Stress drills:</strong> Practice holding trades through simulated drawdowns. "What if my winner pulls back 50% before hitting TP?" — demo builds tolerance.</li>
+        <li><strong>Speed training:</strong> Scalping requires fast execution. Demo repetitions build muscle memory for order entry, SL/TP placement in < 5 sec.</li>
+      </ul>
+
+      <h3>Common Demo-to-Live Failures (Case Studies)</h3>
+      <p><strong>Case 1: Overleveraged newbie</strong></p>
+      <ul>
+        <li>Demo: $100K balance, 1.0 lot trades, 70% winrate, feels invincible.</li>
+        <li>Live: $500 account, keeps 1.0 lot (200:1 leverage used). First loss = -$100 (20% account). Panic, revenge trade 2.0 lot. Account blown in 3 trades.</li>
+        <li><strong>Lesson:</strong> Match demo balance to planned live balance. Trade same lot sizes on demo as intended live.</li>
+      </ul>
+      <p><strong>Case 2: Analysis paralysis trader</strong></p>
+      <ul>
+        <li>Demo: Decisive, follows plan, 55% winrate, 1:2 R:R.</li>
+        <li>Live: Sees perfect setup, hesitates 5 min, enters at worse price. Misses TP by 2 pips, holds hoping for more, reverses to SL. Winrate drops to 30%.</li>
+        <li><strong>Lesson:</strong> Pre-commit rule: If demo playbook triggered, execute live within 30 sec. No second-guessing.</li>
+      </ul>
+      <p><strong>Case 3: Early exit syndrome</strong></p>
+      <ul>
+        <li>Demo: Holds winners to full TP; 1:2 R:R consistent.</li>
+        <li>Live: Exits at +5 pips (0.5R) on 20-pip target setups. "Bird in hand better..." mentality. Winrate 60% but R:R 1:0.5 = net loss after costs.</li>
+        <li><strong>Lesson:</strong> Partial profits: 50% at 1R (locks something), 50% rides to 2R (maintains R:R). Or use trailing stop: after +10 pips, trail SL to breakeven; let runner work.</li>
+      </ul>
 
     <section>
       <h3>Image-based examples (mandatory)</h3>
-      <img src="images/demo-vs-live.svg" srcset="images/demo-vs-live.svg 400w, images/demo-vs-live.svg 800w, images/demo-vs-live.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="Demo vs live trading comparison" class="article-img" loading="lazy">
+      <img src="images/demo-vs-live.svg" srcset="images/demo-vs-live.svg 400w, images/demo-vs-live.svg 800w, images/demo-vs-live.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="Demo vs live trading comparison" class="article-img" width="800" height="420" loading="lazy" decoding="async">
     </section>
 
     <section>
@@ -48,6 +181,10 @@
       <ul>
         <li>Assuming demo performance equals live performance.</li>
         <li>Instantly increasing position size after a few wins on demo.</li>
+        <li>Skipping emotional acclimatization phase (nano/micro lot practice).</li>
+        <li>Not measuring slippage/spread differences between demo and live.</li>
+        <li>Trading live during high-impact news without testing demo execution first.</li>
+        <li>Ignoring kill switch rules (trading through tilt after consecutive losses).</li>
       </ul>
     </section>
 
@@ -56,6 +193,10 @@
       <ul>
         <li>Use a fixed step plan: demo → small real → scale gradually with documented edge.</li>
         <li>Keep a stopwatch: measure execution time from signal to order fill on live vs demo.</li>
+        <li><strong>Parallel trading:</strong> Run same strategy on demo + live micro for 1 month; compare emotional execution vs mechanical demo. Identifies psychological weak points.</li>
+        <li><strong>Record screen:</strong> Use OBS to record first 20 live trades; review hesitation patterns, rule breaks. Visual feedback powerful for behavior correction.</li>
+        <li><strong>Accountability partner:</strong> Share trade log with mentor/peer; external review catches emotional biases you miss.</li>
+        <li><strong>Risk ladder system:</strong> Start 0.5% risk; after 30 profitable trades, increase to 1%; after 50 more, 1.5%. Gradual confidence building.</li>
       </ul>
     </section>
 
@@ -70,11 +211,19 @@
       <h3>SEO FAQs</h3>
       <dl>
         <dt>1. Demo vs real: main differences?</dt>
-        <dd>Execution quality, emotional responses, and platform reliability.</dd>
+        <dd>Execution quality (slippage 0.2–2 pips live vs instant demo fills), emotional responses (fear/greed in live), variable spreads (widen 3x–5x during news), platform reliability (internet drops critical live).</dd>
         <dt>2. Kab live shift karna chahiye?</dt>
-        <dd>Only after consistent demo results and a plan for small-size live testing.</dd>
+        <dd>After 100+ demo trades with 50%+ winrate, 1:1.5+ avg R:R, consistent journaling habit, and zero emotional rule breaks. Start live with 0.01-0.05 lot (nano/micro) for emotional acclimatization.</dd>
         <dt>3. How to reduce slippage?</dt>
-        <dd>Use limit orders, avoid news, and choose brokers with good execution quality for GOLD.</dd>
+        <dd>Use limit orders instead of market orders; avoid trading 2 min before/after major news (NFP, FOMC); trade London/NY overlap (18:30–22:30 IST) for tight spreads on GOLD; test 2–3 brokers, choose lowest avg slippage.</dd>
+        <dt>4. Demo pe profitable, live pe loss kyu?</dt>
+        <dd>Emotional execution differs: early exits kill R:R, hesitation causes missed entries, revenge trading after losses. Solution: start nano lot where $1 risk feels trivial; build psychological tolerance over 3–6 months.</dd>
+        <dt>5. Kitne time demo practice karein before live?</dt>
+        <dd>Minimum 3 months with 100+ trades, ideally 6 months for solid habit formation. Quality > quantity: 50 well-journaled trades better than 500 random clicks.</dd>
+        <dt>6. Live account size minimum kitna hona chahiye?</dt>
+        <dd>$100-$200 minimum for nano/micro lots (0.01-0.05); $500+ realistic for proper risk management (1-2% risk = $5-$10/trade with comfortable buffer). Avoid starting < $100; insufficient for meaningful practice.</dd>
+        <dt>7. Demo aur live broker same hona chahiye?</dt>
+        <dd>Yes. Execution model, spread behavior, platform differs broker-to-broker. Demo with Broker A, live with Broker B = unfamiliar execution. Stick with same broker for seamless transition.</dd>
       </dl>
     </section>
 

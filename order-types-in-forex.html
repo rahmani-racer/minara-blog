@@ -25,23 +25,138 @@
     </section>
 
     <section>
-      <h3>Step-by-step explanation</h3>
-      <ol>
-        <li><strong>Market order:</strong> Immediate execution at available price.</li>
-        <li><strong>Limit order:</strong> Execute only at specified better price.</li>
-        <li><strong>Stop order:</strong> Trigger market order when price reaches stop level (used for stop-loss).</li>
-        <li><strong>Stop-limit:</strong> Trigger limit order on stop — avoids slippage but may not fill.</li>
-      </ol>
-    </section>
+      <h3>Order Types Explained</h3>
+      
+      <h4>1. Market Order (Instant Execution)</h4>
+      <p><strong>Definition:</strong> Buy/sell immediately at current market price. Broker fills order at best available bid/ask.</p>
+      <p><strong>Use case:</strong> When speed > price precision. Emergency exits, breakout entries where you need instant execution.</p>
+      <p><strong>GOLD example:</strong> Price breaks 2025.00 resistance; you hit "Buy Market" → fills at 2025.20 (0.2 slippage). You're in immediately.</p>
+      <p><strong>Pros:</strong> Guaranteed execution (order always fills). Fast — critical for stop-loss exits.</p>
+      <p><strong>Cons:</strong> Slippage during volatility (NFP, FOMC). Wide spreads = bad fills. No control over exact entry price.</p>
+      <p><strong>Best for:</strong> Stop-loss orders (SL must execute!), breakout scalps, emergency flat positions.</p>
 
-    <section>
-      <h3>Real trading logic (GOLD example)</h3>
-      <p>Example: Use a limit buy near support for XAU/USD to get better fills; use stop-loss as market order if you prefer guaranteed exit, or stop-limit if you want to avoid bad fills during thin markets.</p>
-    </section>
+      <h4>2. Limit Order (Wait for Better Price)</h4>
+      <p><strong>Definition:</strong> Order executes only at specified price or better. Buy limit = buy at/below target; Sell limit = sell at/above target.</p>
+      <p><strong>Use case:</strong> Planned entries at support/resistance, profit-taking at targets.</p>
+      <p><strong>GOLD example:</strong> Price at 2030.00, support at 2020.00. Set Buy Limit 2020.00 → order waits. If price touches 2020.00, fills at 2020.00 or better (2019.80 possible). If price never reaches 2020.00, order expires unfilled.</p>
+      <p><strong>Pros:</strong> No slippage (you get price you want or better). Good for low-liquidity conditions. "Set and forget" — no need to watch screen.</p>
+      <p><strong>Cons:</strong> May not fill if price doesn't reach limit. Miss trade if price reverses before touching limit (e.g., stops at 2020.50, reverses up).</p>
+      <p><strong>Best for:</strong> Range trading (buy at support, sell at resistance), swing entries, profit targets (take-profit orders).</p>
+
+      <h4>3. Stop Order (Trigger Market Order)</h4>
+      <p><strong>Definition:</strong> Becomes market order when price reaches stop level. Buy stop = buy above current (breakout); Sell stop = sell below current (breakdown/stop-loss).</p>
+      <p><strong>Use case:</strong> Stop-loss protection, breakout entries above resistance.</p>
+      <p><strong>GOLD example (stop-loss):</strong> Long at 2020.00; set Sell Stop 2015.00. If price drops to 2015.00, stop triggers → market sell order executed → fills at ~2015.00 (or 2014.80 with slippage). Loss capped.</p>
+      <p><strong>GOLD example (breakout):</strong> Resistance 2030.00; price at 2025.00. Set Buy Stop 2030.50 (above resistance). If price breaks 2030.50, triggers market buy → you enter breakout momentum.</p>
+      <p><strong>Pros:</strong> Guaranteed execution (once triggered). Essential for stop-loss — protects capital. Simple to use.</p>
+      <p><strong>Cons:</strong> Slippage possible after trigger (especially news/gaps). May trigger prematurely on wicks (price touches 2015.00, immediately reverses; you stopped out at low).</p>
+      <p><strong>Best for:</strong> Stop-loss orders (must execute to protect account), breakout entries, trailing stops.</p>
+
+      <h4>4. Stop-Limit Order (Trigger Limit Order)</h4>
+      <p><strong>Definition:</strong> When price reaches stop level, triggers limit order (not market). Two prices: stop (trigger) + limit (max execution price).</p>
+      <p><strong>Use case:</strong> Control slippage on stop-loss, but accept risk of no fill.</p>
+      <p><strong>GOLD example:</strong> Long at 2020.00; set Sell Stop-Limit: Stop 2015.00, Limit 2014.50. If price hits 2015.00, limit order placed at 2014.50. If market sells down to 2014.50, fills. If price gaps through 2014.50 (jumps 2015 → 2013), order unfilled — you're stuck in losing position.</p>
+      <p><strong>Pros:</strong> No slippage beyond limit. Control worst-case exit price.</p>
+      <p><strong>Cons:</strong> May not fill during fast moves/gaps. Risk: stop triggered but no exit = unlimited loss potential. Complex for beginners.</p>
+      <p><strong>Best for:</strong> Advanced traders avoiding slippage in illiquid markets. NOT recommended for critical stop-losses (use market stop).</p>
+
+      <h4>5. OCO (One-Cancels-Other) Order</h4>
+      <p><strong>Definition:</strong> Two orders linked; if one fills, other cancels automatically. Common: stop-loss + take-profit bracket.</p>
+      <p><strong>GOLD example:</strong> Long entry 2020.00. Set OCO: Sell Limit TP 2030.00 + Sell Stop SL 2015.00. If TP hits 2030.00 first, SL cancels. If SL hits 2015.00, TP cancels. Only one exits.</p>
+      <p><strong>Best for:</strong> Swing trades where you set trade and walk away. Automated risk management.</p>
+
+      <h4>6. Trailing Stop Order</h4>
+      <p><strong>Definition:</strong> Stop-loss that moves with price in profit direction; locks gains while giving trade room.</p>
+      <p><strong>GOLD example:</strong> Long 2020.00; set 10-pip trailing stop. Price → 2025.00; trailing stop auto-adjusts to 2015.00 (10 pips below high). Price → 2030.00; stop → 2020.00. If price reverses to 2020.00, exits — profit locked.</p>
+      <p><strong>Best for:</strong> Trend-following, capturing big moves without early exit.</p>
+
+      <h3>Order Type Selection Matrix</h3>
+      <table style="width:100%; border-collapse:collapse; margin:12px 0;">
+        <tr style="background-color:rgba(255,255,255,0.05);">
+          <th style="padding:8px; text-align:left; border:1px solid rgba(255,255,255,0.1);">Scenario</th>
+          <th style="padding:8px; text-align:left; border:1px solid rgba(255,255,255,0.1);">Best Order Type</th>
+          <th style="padding:8px; text-align:left; border:1px solid rgba(255,255,255,0.1);">Why</th>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Emergency stop-loss</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Market Stop</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Guaranteed exit; slippage acceptable vs unlimited loss</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Swing entry at support</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Buy Limit</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Wait for pullback; no slippage; set and forget</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Breakout entry</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Buy Stop (market) or Market Order</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Speed critical; accept slippage to catch momentum</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Range scalp profit target</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Sell Limit TP</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Auto exit at resistance; no babysitting</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Trend-following runner</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Trailing Stop</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Lock profits; let winner run; auto-adjust</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Swing trade set-forget</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">OCO (Limit TP + Stop SL)</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Bracket trade; one fills, other cancels</td>
+        </tr>
+        <tr>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Illiquid exotic pair SL</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Stop-Limit (advanced only)</td>
+          <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Avoid 10-pip slippage; risk: may not fill</td>
+        </tr>
+      </table>
+
+      <h3>Practical Playbook: GOLD Scalp (London Open)</h3>
+      <p><strong>Setup:</strong> GOLD consolidates 2020–2025 range overnight. London open (1:30 PM IST) breakout expected.</p>
+      <p><strong>Order execution plan:</strong></p>
+      <ol>
+        <li><strong>Pre-open:</strong> Set Buy Stop 2025.50 (above range high). If breakout, auto-enter.</li>
+        <li><strong>Simultaneously:</strong> Attach OCO: Sell Limit TP 2035.00 (10-pip target) + Sell Stop SL 2020.00 (5-pip SL).</li>
+        <li><strong>Execution:</strong> Price breaks 2025.50 → Buy Stop triggers market buy at 2025.60 (0.1 slippage). OCO activated.</li>
+        <li><strong>Outcome A:</strong> Price hits 2035.00 TP → Sell Limit fills at 2035.00; SL auto-cancels. +9.4 pips net.</li>
+        <li><strong>Outcome B:</strong> False breakout; price drops to 2020.00 → Sell Stop triggers market at 2019.90 (0.1 slippage). TP auto-cancels. -5.7 pips loss.</li>
+      </ol>
+      <p><strong>Risk:Reward:</strong> 5.7 pip risk : 9.4 pip reward = 1:1.65. Acceptable scalp R:R.</p>
+
+      <h3>Advanced: Partial Profit Orders</h3>
+      <p><strong>Strategy:</strong> Scale out winners at multiple targets; let runner work.</p>
+      <p><strong>Example:</strong> Long 0.2 lot GOLD at 2020.00; SL 2015.00 (5 pips = $10 risk on 0.2 lot).</p>
+      <ol>
+        <li><strong>TP1:</strong> Sell Limit 0.1 lot at 2025.00 (5 pips = $5 profit). Locks 1:1, position now 0.1 lot.</li>
+        <li><strong>TP2:</strong> Sell Limit 0.05 lot at 2030.00 (10 pips = $5 more). Cumulative +$10.</li>
+        <li><strong>TP3:</strong> Trail 0.05 lot with 10-pip trailing stop; let it run to 2040+ if momentum continues.</li>
+        <li><strong>SL adjustment:</strong> After TP1 hits, move SL to breakeven 2020.00 on remaining 0.1 lot. Now risk-free.</li>
+      </ol>
+      <p><strong>Psychology:</strong> Partial profits reduce fear of "giving back gains"; runner captures big moves without early exit regret.</p>
+
+      <h3>Broker-Specific Order Quirks</h3>
+      <ul>
+        <li><strong>MT4/MT5:</strong> Stop-limit called "Stop Limit" order. OCO requires EA/script (not native). Trailing stop native but doesn't work if platform closed (VPS needed).</li>
+        <li><strong>cTrader:</strong> Native OCO ("Bracket Orders"). Trailing stop server-side (works even if app closed). More intuitive UI.</li>
+        <li><strong>Market makers:</strong> May "stop hunt" — trigger your SL then reverse. Solution: place SL 5–10 pips beyond obvious levels (not tight on support).</li>
+        <li><strong>ECN brokers:</strong> Limit orders join order book; may get filled at better price (price improvement). Stop orders trigger during spreads; slippage varies.</li>
+      </ul>
+
+      <h3>Common Order Mistakes</h3>
+      <ul>
+        <li><strong>Stop-limit for critical SL:</strong> NFP news → price gaps through limit → stop unfilled → 100-pip loss instead of 10. Use market stop for SL always.</li>
+        <li><strong>Market orders during news:</strong> Spread widens 0.3 → 3.0 pips; slippage 5 pips. Wait 2 min after news for spread normalization.</li>
+        <li><strong>Limit too far from price:</strong> Buy Limit 2000.00 when price 2025.00; forgets order → weeks later price dumps to 2000, unexpected fill at market bottom.</li>
+        <li><strong>Forgetting pending orders:</strong> Multiple Buy Stops at various levels; all trigger during volatility → overleveraged. Use OCO or cancel old orders.</li>
+        <li><strong>Tight trailing stops:</strong> 5-pip trail on GOLD (ATR 50 pips) → stopped out by noise every time. Minimum 15–20 pip trail for GOLD intraday.</li>
+      </ul>
 
     <section>
       <h3>Image-based examples (mandatory)</h3>
-      <img src="images/order-types.svg" srcset="images/order-types.svg 400w, images/order-types.svg 800w, images/order-types.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="Order types illustration" class="article-img" loading="lazy">
+      <img src="images/order-types.svg" srcset="images/order-types.svg 400w, images/order-types.svg 800w, images/order-types.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="Order types illustration" class="article-img" width="800" height="420" loading="lazy" decoding="async">
     </section>
 
     <section>
@@ -49,6 +164,9 @@
       <ul>
         <li>Using stop-limit during highly volatile news where fills are needed.</li>
         <li>Placing market orders with large size during low liquidity leading to slippage.</li>
+        <li>Setting limit orders too far from current price and forgetting them — unexpected fills weeks later.</li>
+        <li>Not canceling old pending orders; multiple triggers during volatility → overleveraged.</li>
+        <li>Tight trailing stops (5 pips on GOLD with 50-pip ATR) — stopped by noise constantly.</li>
       </ul>
     </section>
 
@@ -57,6 +175,10 @@
       <ul>
         <li>Use limit entries for planned entries; use market stop-loss for guaranteed exit in emergencies.</li>
         <li>Test order behaviour on your broker's demo to see how stop and limit orders are executed.</li>
+        <li><strong>OCO discipline:</strong> Always bracket swing trades with TP + SL OCO; prevents emotional meddling mid-trade.</li>
+        <li><strong>Partial profit script:</strong> Pre-program 50% close at 1R, 50% trail for 2R+ — removes emotion from exit decisions.</li>
+        <li><strong>Stop placement rule:</strong> SL 5–10 pips beyond obvious levels (support/resistance/round numbers) to avoid stop hunts.</li>
+        <li><strong>Order audit weekly:</strong> Review pending orders every Friday; cancel outdated setups to avoid ghost fills.</li>
       </ul>
     </section>
 
@@ -71,11 +193,21 @@
       <h3>SEO FAQs</h3>
       <dl>
         <dt>1. Market order kya hota hai?</dt>
-        <dd>Immediate execution at current available price.</dd>
+        <dd>Immediate execution at current available price. Best for stop-loss (guaranteed exit) or breakout entries where speed > precision. Cons: slippage during news/volatility.</dd>
         <dt>2. Stop-limit vs stop-market ka difference?</dt>
-        <dd>Stop-limit triggers a limit order; stop-market triggers a market order at stop.</dd>
+        <dd>Stop-market triggers market order (guaranteed fill, possible slippage). Stop-limit triggers limit order (controls slippage but may not fill if price gaps). Use stop-market for critical SL.</dd>
         <dt>3. Kaunsa order newbies ke liye safe hai?</dt>
-        <dd>Use a mix—limit for entries, market stop for emergency exits depending on execution needs.</dd>
+        <dd>Market stop for SL (always execute), Limit for planned entries (better fills), OCO for swing trades (auto TP+SL). Avoid stop-limit until advanced.</dd>
+        <dt>4. Limit order kab use karein?</dt>
+        <dd>When you want specific price or better: swing entries at support/resistance, profit targets, low-slippage fills. Set and forget — waits for price to come to you.</dd>
+        <dt>5. Trailing stop kaise kaam karta hai?</dt>
+        <dd>Auto-adjusts SL as price moves in profit direction. Example: 10-pip trail on GOLD long; price rises 2020→2030, SL auto-moves 2015→2025. Locks profit, lets winner run.</dd>
+        <dt>6. OCO order ka benefit kya hai?</dt>
+        <dd>Bracket trade with TP + SL; one fills, other cancels automatically. No babysitting needed. Perfect for swing trades — set and forget until one side triggers.</dd>
+        <dt>7. News trading mein kaunsa order best?</dt>
+        <dd>Avoid market orders 2 min before/after news (spread widens 5x). Use limit orders pre-placed at key levels, or wait 5 min post-news for spread normalization then market order.</dd>
+        <dt>8. Buy Stop aur Buy Limit ka difference?</dt>
+        <dd>Buy Stop = buy above current price (breakout entry). Buy Limit = buy below current price (pullback entry). Stop triggers when price rises; Limit waits for price to fall.</dd>
       </dl>
     </section>
 

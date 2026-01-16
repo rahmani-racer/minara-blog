@@ -1,7 +1,9 @@
 # Wrap unwrapped AdSense ins blocks in .ads-slot to reserve space and reduce CLS
 # Usage: powershell -ExecutionPolicy Bypass -File .\scripts\wrap_ads_slots.ps1
 
-$pattern = [regex] '(?s)<ins\s+class=["']adsbygoogle["'][\s\S]*?<\/script>\s*'
+$pattern = [regex]::new(@'
+(?s)<ins\s+class=["\']adsbygoogle["\'][\s\S]*?<\/script>\s*
+'@)
 $files = Get-ChildItem -Path . -Include *.html -File -Recurse
 foreach ($file in $files) {
     try {
@@ -22,8 +24,8 @@ foreach ($file in $files) {
         $prefixStart = [Math]::Max(0, $m.Index - 200)
         $prefixLen = $m.Index - $prefixStart
         $prefix = $content.Substring($prefixStart, $prefixLen)
-        if ($prefix -notmatch '<div[^>]*class=["']?[^"']*ads-slot[^"']*["']?') {
-            $replacement = "<div class=\"ads-slot\" style=\"min-height:120px;margin:18px 0;\">$($m.Value)</div>"
+        if ($prefix -notmatch 'ads-slot') {
+            $replacement = '<div class="ads-slot" style="min-height:120px;margin:18px 0;">' + $m.Value + '</div>'
             $content = $content.Substring(0, $m.Index) + $replacement + $content.Substring($m.Index + $m.Length)
             $changed = $true
         }
