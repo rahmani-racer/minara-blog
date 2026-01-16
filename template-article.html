@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{TITLE}} | Minara Blog</title>
+  <meta name="description" content="{{META_DESC}}">
+  <link rel="canonical" href="{{CANONICAL}}">
+  <meta property="og:title" content="{{TITLE}}">
+  <meta property="og:description" content="{{META_DESC}}">
+  <link rel="preconnect" href="https://api.exchangerate.host" crossorigin>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header role="banner">
+  <div class="header-inner">
+    <h1 class="logo">Minara<span>Blog</span></h1>
+    <nav role="navigation" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="trading.html">Trading</a>
+      <a href="forex.html">Forex</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="article">
+    <header class="article-head">
+      <h2>{{TITLE}}</h2>
+      <p class="byline">Last Updated: {{LAST_UPDATED}} — Minara Blog</p>
+    </header>
+
+    <section class="intro">
+      <h3>Problem-based introduction</h3>
+      <p>{{INTRO}}</p>
+    </section>
+
+    <section>
+      <h3>Step-by-step explanation</h3>
+      {{STEP_BY_STEP}}
+    </section>
+
+    <section>
+      <h3>Real trading logic</h3>
+      {{REAL_LOGIC}}
+    </section>
+
+    <section>
+      <h3>Image-based examples (mandatory)</h3>
+      <img src="images/{{IMAGE}}" srcset="images/placeholder-400.svg 400w, images/placeholder-800.svg 800w, images/placeholder-1200.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="{{IMAGE_ALT}}" class="article-img" loading="lazy">
+      <p>{{IMAGE_DESC}}</p>
+    </section>
+
+    <section>
+      <h3>Common Mistakes</h3>
+      {{COMMON_MISTAKES}}
+    </section>
+
+    <section>
+      <h3>Pro Tips</h3>
+      {{PRO_TIPS}}
+    </section>
+
+    <section>
+      <h3>Risk Warning</h3>
+      <p>{{RISK_WARNING}}</p>
+    </section>
+
+    <div class="ads-slot" aria-hidden="true" style="min-height:120px; margin:18px 0;"></div>
+
+    <section>
+      <h3>SEO FAQs</h3>
+      {{FAQS}}
+    </section>
+
+    <section>
+      <h3>Author</h3>
+      <div class="author-box">{{AUTHOR_BOX}}</div>
+    </section>
+
+    <div class="ads-slot" aria-hidden="true" style="min-height:120px; margin:18px 0;"></div>
+
+    <footer class="article-footer">
+      <p>Related: {{RELATED_LINKS}}</p>
+    </footer>
+  </article>
+</main>
+
+<script src="script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <rect width="100%" height="100%" fill="#08122a"/>
+  <g fill="#ffd166" font-family="Arial, Helvetica, sans-serif">
+    <text x="60" y="120" font-size="44" font-weight="700">How The Forex Market Works</text>
+    <text x="60" y="160" font-size="18">Liquidity, participants and flow</text>
+  </g>
+  <circle cx="300" cy="360" r="28" fill="#4cc9f0"/>
+  <circle cx="600" cy="320" r="28" fill="#ffd166"/>
+  <circle cx="900" cy="360" r="28" fill="#4cc9f0"/>
+</svg>

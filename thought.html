@@ -18,22 +18,22 @@
   <meta name="description" content="Trading mindset, discipline aur motivation ke liye thoughts & quotes in Hindi / Hinglish.">
   <meta name="robots" content="index, follow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- STYLES -->
+  <link rel="canonical" href="https://minarablog.in/thought.html">
+  <meta property="og:title" content="Thoughts & Quotes | Minara Blog">
+  <meta property="og:description" content="Trading mindset, discipline aur motivation ke liye thoughts & quotes in Hindi / Hinglish.">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- SCROLL PROGRESS -->
-  <div id="scrollProgress"></div>
-
-  <!-- HEADER -->
- <header>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="scrollProgress" aria-hidden="true"></div>
+  <header role="banner">
   <div class="header-inner">
     <h1 class="logo">Minara<span>Blog</span></h1>
 
-    <nav>
+    <nav role="navigation" aria-label="Primary">
       <a href="index.html">Home</a>
       <a href="trading.html">Trading</a>
       <a href="forex.html">Forex</a>
@@ -43,7 +43,10 @@
       <a href="contact.html">Contact</a>
     </nav>
 
-    <button id="themeToggle">☀️</button>
+    <div class="header-controls">
+      <button id="menuToggle" aria-label="Open tools menu" aria-expanded="false">☰</button>
+      <button id="themeToggle" aria-pressed="false" aria-label="Toggle theme">☀️</button>
+    </div>
   </div>
 </header>
 
@@ -229,7 +232,7 @@
   </script>
 
   <!-- MAIN SCRIPT -->
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 
   <script>
 let lastScrollY = window.scrollY;
