@@ -5,20 +5,25 @@
   <title>Money Management – Trading Survival | Minara Blog</title>
   <meta name="description" content="Money management in trading – 1–2% rule, drawdown aur survival mindset.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="canonical" href="https://minarablog.in/money-management.html">
+  <meta property="og:title" content="Money Management – Trading Survival | Minara Blog">
+  <link rel="preconnect" href="https://api.exchangerate.host" crossorigin>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div id="scrollProgress"></div>
-
-<header>
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="scrollProgress" aria-hidden="true"></div>
+<header role="banner">
   <div class="header-inner">
     <h1 class="logo">Minara<span>Blog</span></h1>
-    <nav>
+    <nav role="navigation" aria-label="Primary">
       <a href="index.html">Home</a>
       <a href="trading.html">Trading</a>
     </nav>
-    <button id="themeToggle">☀️</button>
+    <div class="header-controls">
+      <button id="menuToggle" aria-label="Open tools menu" aria-expanded="false">☰</button>
+      <button id="themeToggle" aria-pressed="false" aria-label="Toggle theme">☀️</button>
+    </div>
   </div>
 </header>
 
@@ -46,6 +51,6 @@
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
 </script>
-<script src="script.js"></script>
+<script src="script.js" defer></script>
 </body>
 </html>

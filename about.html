@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>About Us | Minara Blog</title>
-
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-T7CQ1H1SD9"></script>
 <script>
@@ -15,25 +14,29 @@
 </script>
 
   <!-- SEO -->
-  <meta name="description" content="Minara Blog ke baare me – trading, forex aur discipline-based learning ka Hindi/Hinglish platform.">
+  <meta name="description" content="About Minara Blog — discipline-first Forex & trading education in Hindi. Founder-led, evidence-based lessons.">
   <meta name="robots" content="index, follow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- STYLES -->
+  <link rel="canonical" href="https://minarablog.in/about.html">
+  <meta property="og:title" content="About Minara Blog">
+  <meta property="og:description" content="About Minara Blog — discipline-first Forex & trading education in Hindi.">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+  <a class="skip-link" href="#main">Skip to content</a>
+
   <!-- SCROLL PROGRESS -->
-  <div id="scrollProgress"></div>
+  <div id="scrollProgress" aria-hidden="true"></div>
 
   <!-- HEADER -->
-  <header>
+  <header role="banner">
   <div class="header-inner">
     <h1 class="logo">Minara<span>Blog</span></h1>
 
-    <nav>
+    <nav role="navigation" aria-label="Primary">
       <a href="index.html">Home</a>
       <a href="trading.html">Trading</a>
       <a href="forex.html">Forex</a>
@@ -43,7 +46,10 @@
       <a href="contact.html">Contact</a>
     </nav>
 
-    <button id="themeToggle">☀️</button>
+    <div class="header-controls">
+      <button id="menuToggle" aria-label="Open tools menu" aria-expanded="false">☰</button>
+      <button id="themeToggle" aria-pressed="false" aria-label="Toggle theme">☀️</button>
+    </div>
   </div>
 </header>
 
