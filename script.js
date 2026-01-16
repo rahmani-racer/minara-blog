@@ -604,19 +604,11 @@
         'risk-management.html': 'risk-adjusted-performance.svg'
       };
 
-      function thumbForFile(fname) {
+      function getThumbPath(fname) {
         const key = (fname || '').toLowerCase();
         if (THUMB_MAP[key]) return 'images/' + THUMB_MAP[key];
         const slug = key.replace(/\.html$/,'');
         return 'images/' + slug + '.svg';
-      }
-
-      async function ensureThumb(path) {
-        try {
-          const r = await fetch(path, { cache: 'no-store' });
-          if (r.ok) return path;
-        } catch (e) { /* ignore */ }
-        return 'images/placeholder-400.svg';
       }
 
       listContainers.forEach((ul) => {
@@ -626,16 +618,22 @@
           const thumb = document.createElement('div'); thumb.className = 'article-thumb';
 
           const img = document.createElement('img');
-          img.src = 'images/placeholder-400.svg';
+          const thumbPath = getThumbPath(it.file);
+          img.src = thumbPath;
           img.alt = it.label || it.file || 'Article thumbnail';
-          img.width = 72; img.height = 48;
+          img.width = 72; 
+          img.height = 48;
           img.loading = 'lazy';
           img.decoding = 'async';
           img.style.width = '100%';
           img.style.height = '100%';
           img.style.display = 'block';
           img.style.borderRadius = '6px';
-          img.onerror = function () { this.onerror = null; this.src = 'images/placeholder-400.svg'; };
+          img.style.objectFit = 'cover';
+          img.onerror = function () { 
+            this.onerror = null; 
+            this.src = 'images/placeholder-400.svg'; 
+          };
           thumb.appendChild(img);
 
           const content = document.createElement('div'); content.className = 'article-content';
@@ -646,12 +644,6 @@
           li.appendChild(thumb);
           li.appendChild(content);
           ul.appendChild(li);
-
-          // Asynchronously switch to a real thumbnail if available
-          (async () => {
-            const candidate = thumbForFile(it.file);
-            img.src = await ensureThumb(candidate);
-          })();
         });
       });
 
