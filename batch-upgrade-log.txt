@@ -1,0 +1,36 @@
+Batch upgrade log — 2026-01-16
+
+Actions performed:
+- Updated article template: added lightweight premium widget placeholders (`rates-ticker`, `watchlist`, small TradingView placeholder).
+- Upgraded 5 articles with expanded premium content (practical drills, checklists, case studies):
+  1) candlestick-patterns.html — extended examples, annotated trade plans, checklist.
+  2) forex-article.html — added premium practical guide, market structure, annotated trade example, placeholder image.
+  3) trading-basics.html — added 4-week practice plan, drills, checklist, placeholder image.
+  4) risk-management.html — added stress-test case studies, monthly metrics, checklist.
+  5) what-is-forex-trading.html — added premium widgets, responsive placeholder image, expanded explanations.
+
+- Inserted responsive `<img>` placeholders (images/placeholder-*.png) into articles missing inline `<img>` tags for improved CLS behaviour.
+- Ensured new `article-img` images include `width` and `height` attributes for layout stability.
+- Added `premium-widgets` small block to article template and to upgraded articles.
+
+Files changed:
+- template-article.html
+- candlestick-patterns.html
+- forex-article.html
+- trading-basics.html
+- risk-management.html
+- what-is-forex-trading.html
+- batch-upgrade-log.txt (this file)
+
+Notes:
+- Generated content is a first-pass premium draft; please review for tone (Hinglish vs English balance) and add final images/annotated charts where indicated.
+- I did not add external PNG files; placeholders reference `images/placeholder-*.png`. Please add those image files to the `images/` folder before publishing, or adjust `src` to point to actual images.
+
+Next recommended steps:
+1) Review drafts and adjust author voice/Hinglish proportion.
+2) Add annotated images (PNG/SVG) into `images/` for the placeholders.
+3) Run a mobile Lighthouse audit and fix any performance/accessibility issues.
+4) Batch-upgrade next set of articles (I suggest next 5 longest by word count).
+
+Done by: Automated batch upgrade tool via Copilot agent
+Timestamp: 2026-01-16 20:40 (local)

@@ -6,9 +6,203 @@
   <title>Bollinger Bands Explained — Volatility and Mean Reversion | Minara Blog</title>
   <meta name="description" content="Simple Hinglish guide to Bollinger Bands: how they measure volatility, mean-reversion setups, and practical GOLD (XAU/USD) examples.">
   <link rel="canonical" href="https://minarablog.in/bollinger-bands-explained.html">
+
+    <section>
+      <h3>Breakout vs Mean Reversion — When to Use What</h3>
+      <ul>
+        <li><strong>Mean reversion:</strong> Best in range-bound markets; look for touches at bands with reversal candles at HTF levels. Target mid-band or opposite band; size modest.</li>
+        <li><strong>Breakout:</strong> Best after squeeze. Wait for band expansion + strong close outside band + follow-through next candle. Enter with stop inside squeeze low/high; target 1.5–3R.</li>
+        <li><strong>Avoid:</strong> Choppy conditions post-news where bands expand/contract erratically; skip until volatility normalizes.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>How to Spot a Squeeze (Step-by-Step)</h3>
+      <ol>
+        <li>20-period Bands on 1H/4H. Visual check: bands noticeably narrow relative to prior range.</li>
+        <li>Optional: use BandWidth indicator — when below recent 20-day percentile lows = squeeze.</li>
+        <li>Draw box around squeeze highs/lows; that is your trigger zone.</li>
+        <li>Wait for close outside the box with band expansion and momentum (e.g., strong body candle).</li>
+      </ol>
+      <p><strong>Tip:</strong> Squeeze + higher-timeframe trend alignment = higher odds breakout.</p>
+    </section>
+
+    <section>
+      <h3>Entry & Exit Playbook</h3>
+      <ul>
+        <li><strong>Mean reversion long:</strong> Price tags lower band at HTF support + bullish pin/engulfing; enter; stop 5-15 pips beyond wick; target mid-band first, then trail remainder to upper band.</li>
+        <li><strong>Mean reversion short:</strong> Upper band at resistance + bearish rejection; stop above wick; target mid-band.</li>
+        <li><strong>Breakout long:</strong> Squeeze box high breaks with close outside band; enter on close/quick retest; stop inside squeeze; target 2-3R or prior structure.</li>
+        <li><strong>Breakout short:</strong> Opposite logic; ensure no major news in next 30 mins.</li>
+      </ul>
+      <p><strong>Partial profits:</strong> 1R pe 50% book, rest trail via mid-band/20 EMA for reversion trades; breakout trades trail using previous candle low/high.</p>
+    </section>
+
+    <section>
+      <h3>Timeframes & Instruments</h3>
+      <ul>
+        <li><strong>15m/1H:</strong> Intraday scalps; expect noise. Use stricter filters (HTF trend + session).</li>
+        <li><strong>4H/Daily:</strong> Cleaner signals for swings; stops larger but signals stronger.</li>
+        <li><strong>GOLD vs FX majors:</strong> GOLD more volatile; band touches frequent. Size down vs EUR/USD.</li>
+        <li><strong>Indices (e.g., NASDAQ):</strong> Bands effective for intraday mean-reversion on range days; avoid high-vol news events.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Combining Indicators for Confirmation</h3>
+      <ul>
+        <li><strong>RSI:</strong> Mean-reversion ke liye RSI divergence near band improves probability.</li>
+        <li><strong>Volume/Delta (if available):</strong> Breakout ke time volume spike confirm karta hai strength.</li>
+        <li><strong>Market structure:</strong> HH/HL = uptrend → prioritize lower band buys; LH/LL = downtrend → prioritize upper band sells.</li>
+      </ul>
+      <p><strong>Rule:</strong> Indicators confirm, they don’t lead. Price structure remains primary.</p>
+    </section>
+
+    <section>
+      <h3>Case Study: London Squeeze Breakout on GOLD</h3>
+      <p>
+        London open, bands tight on 15m around 1960-1963. Box drawn. 15m bull candle closes above upper band at 1965 with strong body and higher volume. Entry at close 1965. Stop 1959 (inside box). Target 1977 (2R). Price rallies to 1980 during NY data; 2R hit, runner trailed to 1978 exit. Lesson: Squeeze + session + volume = solid breakout.
+      </p>
+    </section>
+
+    <section>
+      <h3>Case Study: Mean Reversion Failure</h3>
+      <p>
+        Daily downtrend, price hits upper band on 1H at minor resistance only (no HTF level). Trader shorts expecting revert, but FOMC minutes release pushes higher; stop hit. Lesson: HTF trend + news filter missing → avoid.</p>
+    </section>
+
+    <section>
+      <h3>Journal Template (Bands)</h3>
+      <ul>
+        <li>Trade type: breakout / mean reversion</li>
+        <li>HTF trend: up/down/range</li>
+        <li>Session: Asia / London / NY</li>
+        <li>Band condition: squeeze / normal / expanded</li>
+        <li>Entry reason: candle pattern + location</li>
+        <li>Stop distance & risk %</li>
+        <li>Exit: mid-band/opp band/structure</li>
+        <li>Result (R multiple) & slippage</li>
+        <li>Keep/modify/drop?</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Advanced Concept: Bollinger + Keltner Squeeze</h3>
+      <p>
+        Some traders use BB inside Keltner Channels; when BB moves inside KC, it signals extreme contraction. Breakouts after BB exit KC often strong. Use as optional filter only.</p>
+    </section>
+
+    <section>
+      <h3>Parameter Choices (20, 2) vs Alternatives</h3>
+      <p>
+        Default setting 20 SMA with 2 standard deviations most common. Kab change kare?</p>
+      <ul>
+        <li><strong>Short-term scalps:</strong> 14, 2 or 10, 1.5 for faster bands; more signals, more noise.</li>
+        <li><strong>Swing trading:</strong> 20 or 21 with 2.5 for wider bands; fewer signals, cleaner extremes.</li>
+        <li><strong>Volatile instruments (GOLD, crypto):</strong> Consider 20, 2.5 to reduce false band tags.</li>
+      </ul>
+      <p><strong>Rule:</strong> Pick one setting, test 50+ trades. Constantly changing parameters = curve-fitting.</p>
+    </section>
+
+    <section>
+      <h3>Volatility Regimes & Adaptation</h3>
+      <ul>
+        <li><strong>Low vol regime:</strong> Bands compress; focus on breakout setups. Reduce stop size; wait for expansion candle.</li>
+        <li><strong>High vol regime:</strong> Bands wide; mean reversion can work if HTF level aligns, but size down due to large stops.</li>
+        <li><strong>Event-driven vol:</strong> News-driven spikes; skip initial move, trade only post-stabilization.</li>
+      </ul>
+      <p><strong>Checklist:</strong> ATR rising/falling? BandWidth high/low? Session? Answer before choosing setup type.</p>
+    </section>
+
+    <section>
+      <h3>Pre-Trade Checklist (Bollinger Bands)</h3>
+      <ol>
+        <li>HTF trend direction noted (Daily/4H).</li>
+        <li>Band state: squeeze / normal / expanded?</li>
+        <li>Setup type: breakout or mean reversion?</li>
+        <li>Session liquidity supportive? (London/NY better for follow-through).</li>
+        <li>News within 30 mins? If yes, skip.</li>
+        <li>Stop outside structure + band? Risk ≤ 0.5%?</li>
+        <li>Partial profit plan defined?</li>
+        <li>Screenshot + journal template ready?</li>
+      </ol>
+    </section>
+
+    <section>
+      <h3>FAQs (Expanded)</h3>
+      <dl>
+        <dt>Upper band touch = automatic short?</dt>
+        <dd>No. Need context: HTF trend, resistance, candle rejection. Otherwise trend can continue hugging band.</dd>
+        <dt>Can price walk the band?</dt>
+        <dd>Yes. Strong trends stay outside/at bands. That’s momentum; avoid counter-trend unless HTF level + signal.</dd>
+        <dt>Best timeframe?</dt>
+        <dd>1H/4H for clarity. 5m/15m too noisy unless strict filters.</dd>
+        <dt>Do Bollinger Bands predict reversal?</dt>
+        <dd>No. They show relative extremes vs recent mean. Reversal probability increases only with confluence.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Practice Plan (10-Day Sprint)</h3>
+      <ol>
+        <li>Day 1-2: Mark 10 squeeze breakouts historical; note entry/stop/target.</li>
+        <li>Day 3-4: Mark 10 mean reversion trades with HTF confluence.</li>
+        <li>Day 5-6: Replay 5 trading days on 15m; execute rules, log slippage.</li>
+        <li>Day 7-8: Create scorecard (win%, avg R, drawdown) for each setup type.</li>
+        <li>Day 9-10: Pick best-performing setup; commit to 20 forward demo trades.</li>
+      </ol>
+      <p><strong>Goal:</strong> Remove low-edge patterns; keep one or two high-probability rules.</p>
+    </section>
+
+    <section>
+      <h3>Quick Reference Cheat Sheet</h3>
+      <ul>
+        <li><strong>Default settings:</strong> 20,2 on 1H/4H; test before changing.</li>
+        <li><strong>Breakout recipe:</strong> Squeeze box + close outside band + follow-through next candle + HTF trend alignment + no imminent news.</li>
+        <li><strong>Mean reversion recipe:</strong> Band touch + HTF level + rejection candle + target mid-band first.</li>
+        <li><strong>Risk:</strong> 0.25–0.5% intraday, 1% swing; stops beyond structure + band.</li>
+        <li><strong>Skip:</strong> Spreads >2x normal, high-impact news window, emotional state poor.</li>
+        <li><strong>Journal:</strong> Save chart before/after; tag setup type (MR/BO), note slippage and spread.</li>
+        <li><strong>Review:</strong> Weekly 10-trade review karo; drop patterns that lose net after costs.</li>
+    </section>
+
+    <section>
+      <h3>Risk Controls (Practical)</h3>
+      <ul>
+        <li>Max 2 band trades per session; avoid revenge trading.</li>
+        <li>News filter: stop trading 15 mins before/after high-impact releases.</li>
+        <li>Spread cap: if spread >2x normal, skip entries.</li>
+        <li>Stop placement: beyond band + structure, not exactly on band.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Risk & Position Sizing with Bands</h3>
+      <ul>
+        <li><strong>Risk cap:</strong> Intraday 0.25%–0.5%; swing 1% max.</li>
+        <li><strong>Volatility filter:</strong> Bands wide? Use smaller size; stops further from band require size cut.</li>
+        <li><strong>Spread/slippage:</strong> GOLD news time spreads explode; avoid band trades around major news.</li>
+        <li><strong>Two-stage entry:</strong> Half size on signal, half on retest; reduces whipsaw pain.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Higher Timeframe Context Matters</h3>
+      <p>HTF trend ke against mean reversion zyada risky. Daily/4H direction respect karo:</p>
+      <ul>
+        <li>Daily uptrend → prefer lower-band buys; avoid upper-band shorts unless strong resistance aligns.</li>
+        <li>Daily downtrend → prefer upper-band sells; avoid lower-band buys unless major support present.</li>
+        <li>Range HTF → both sides possible, but size small and targets mid-band.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Common Mistakes</h3>
   <link rel="preconnect" href="https://api.exchangerate.host" crossorigin>
   <link rel="stylesheet" href="style.css">
 </head>
+        <li>Entering during high-impact news (NFP/FOMC) when volatility distorts bands.</li>
+        <li>Using same stop distance on all pairs; GOLD vs EUR/USD volatility different.</li>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <header role="banner"><div class="header-inner"><h1 class="logo">Minara<span>Blog</span></h1></div></header>
@@ -17,6 +211,8 @@
     <header class="article-head"><h2>Bollinger Bands Explained</h2>
     <p class="byline">Last Updated: 16 Jan 2026 — Minara Blog</p></header>
 
+        <li>Daily ATR compare karo: agar ATR collapse hai, breakout attempt likely; prepare for expansion.</li>
+        <li>Backtest: log 50 trades (25 breakout, 25 mean-reversion); remove low-ev setups.</li>
     <section class="intro">
       <h3>Problem-based introduction</h3>
       <p>
@@ -42,7 +238,7 @@
 
     <section>
       <h3>Image-based examples (mandatory)</h3>
-      <img src="images/bollinger-bands.svg" srcset="images/bollinger-bands.svg 400w, images/bollinger-bands.svg 800w, images/bollinger-bands.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="Bollinger Bands examples" class="article-img" loading="lazy">
+      <img src="images/bollinger-bands.svg" srcset="images/bollinger-bands.svg 400w, images/bollinger-bands.svg 800w, images/bollinger-bands.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="Bollinger Bands examples" class="article-img" width="800" height="420" loading="lazy" decoding="async">
       <p>Annotated GOLD chart showing squeeze breakout and a mean-reversion setup.</p>
     </section>
 

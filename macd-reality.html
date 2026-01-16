@@ -27,23 +27,91 @@
       <li>Look for histogram expansion on breakout for confirmation.</li>
     </ol></section>
 
-    <section><h3>Real trading logic (GOLD example)</h3>
+    <section><h3>What is MACD and Its Components</h3>
+    <p>MACD (Moving Average Convergence Divergence) = momentum oscillator based on two exponential moving averages. Three components:</p>
+    <ol>
+      <li><strong>MACD Line:</strong> 12-period EMA minus 26-period EMA. Measures momentum by comparing fast vs slow trend.</li>
+      <li><strong>Signal Line:</strong> 9-period EMA of MACD line. When MACD crosses above signal = bullish. Below signal = bearish.</li>
+      <li><strong>Histogram:</strong> MACD minus signal line. Shows distance between MACD and signal. Expanding = momentum increasing. Shrinking = momentum decreasing.</li>
+    </ol>
+    <p><strong>Simple truth:</strong> MACD is a lagging indicator. By the time it signals, 30-40% of the move is done. Don't use MACD for precise entries; use it for momentum confirmation and divergence warnings.</p>
+    </section>
+
+    <section><h3>MACD Crossover vs Real Trades: Why Crossovers Fail</h3>
+    <p><strong>Crossover Rule (Basic):</strong> When MACD crosses above signal line = bullish. When MACD crosses below signal = bearish. Sounds simple, but in practice:</p>
+    <ol>
+      <li><strong>In choppy/ranging markets:</strong> MACD whipsaws. You buy on crossover, it reverses next candle, you stop out. Solution: Add volatility filter. If ATR < 40 pips, skip MACD crosses.</li>
+      <li><strong>In strong trends:</strong> Crossover is late. By the time MACD shows bullish crossover, price already moved 100+ pips. You enter after the move, risk overshooting. Solution: Use divergence instead (see next section).</li>
+      <li><strong>False breakouts:</strong> MACD can signal bullish divergence, but price still drops if daily trend is bearish. Solution: Always check higher timeframe trend first (daily, weekly) before entering.</li>
+    </ol>
+    <p><strong>Better approach:</strong> Use MACD as a filter (is momentum bullish/bearish?), not as a trade trigger. Real entries come from price action (support bounce, resistance break, volume surge).</p>
+    </section>
+
+    <section><h3>MACD Divergence: The Real Edge (GOLD Examples)</h3>
+    <p><strong>Bullish Divergence:</strong> Price makes lower low (downtrend), but MACD makes higher low (momentum less negative). Signal: Downtrend weakening, reversal up likely. Example: GOLD drops from 2100 to 2080. MACD was -15 at 2100, now +5 at 2080. Histogram expanding up = momentum turning bullish. Price then rallies to 2110. Divergence worked.</p>
+    <p><strong>Bearish Divergence:</strong> Price makes higher high (uptrend), but MACD makes lower high (momentum less positive). Signal: Uptrend weakening, reversal down likely. Example: EURUSD rallies from 1.1000 to 1.1050. MACD was +20 at 1.1000, now +8 at 1.1050 (lower high). Signal line flattening = momentum weakening. Price drops to 1.1010. Divergence worked.</p>
+    <p><strong>Key principle:</strong> Divergences are not trade triggers by themselves. They're warnings that momentum is weakening. Wait for price action to confirm (bounce off support, break below moving average). Divergence + price action + volume = high-probability setup.</p>
+    </section>
+
+    <section><h3>Histogram Expansion: Confirmation Tool</h3>
+    <p>Histogram (MACD minus signal line) shows rate of momentum change:</p>
+    <ul>
+      <li><strong>Expanding histogram:</strong> Momentum accelerating. If bullish candle + expanding histogram + price above MA = strong breakout. Size up.</li>
+      <li><strong>Shrinking histogram:</strong> Momentum decelerating. Even if MACD above zero, if histogram shrinking = trend losing steam. Reduce size or exit.</li>
+      <li><strong>Histogram reversal:</strong> If histogram was positive (above zero) and crosses to negative (below zero), trend failing. Exit longs.</li>
+    </ul>
+    <p><strong>Example:</strong> GOLD rallies with MACD bullish and histogram expanding = buyers strong. But if histogram starts shrinking (though MACD still above zero) = rally losing fuel. Exit before reversal. Histogram caught the weakening faster than MACD crossover would.</p>
+    </section>
+
+    <section><h3>MACD Thresholds and Timeframe Adjustments</h3>
+    <p>Default MACD (12/26/9) works for 4H and daily. Adjustments:</p>
+    <table style="width:100%; border-collapse: collapse; margin: 12px 0; font-size:14px;">
+      <tr style="background:#1a1a1a; border-bottom:1px solid #333;">
+        <th style="padding:8px; border:1px solid #333;">Timeframe</th>
+        <th style="padding:8px; border:1px solid #333;">MACD Settings</th>
+        <th style="padding:8px; border:1px solid #333;">Use Case</th>
+      </tr>
+      <tr style="border-bottom:1px solid #333;">
+        <td style="padding:8px; border:1px solid #333;">1H Scalp</td>
+        <td style="padding:8px; border:1px solid #333;">5/13/5 (faster)</td>
+        <td style="padding:8px; border:1px solid #333;">Quick divergence spotting</td>
+      </tr>
+      <tr style="border-bottom:1px solid #333;">
+        <td style="padding:8px; border:1px solid #333;">4H Swing</td>
+        <td style="padding:8px; border:1px solid #333;">12/26/9 (default)</td>
+        <td style="padding:8px; border:1px solid #333;">Standard divergence, histogram</td>
+      </tr>
+      <tr style="border-bottom:1px solid #333;">
+        <td style="padding:8px; border:1px solid #333;">Daily Trend</td>
+        <td style="padding:8px; border:1px solid #333;">12/26/9 or 18/39/9</td>
+        <td style="padding:8px; border:1px solid #333;">Macro trend confirmation</td>
+      </tr>
+    </table>
+    </section>
     <p>On XAU/USD, MACD bearish divergence on H4 while daily trend still bullish suggests caution—prefer to wait for price confirmation or reduced position size.</p></section>
 
     <section><h3>Image-based examples (mandatory)</h3>
-    <img src="images/macd-example.svg" srcset="images/macd-example.svg 400w, images/macd-example.svg 800w, images/macd-example.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="MACD example" class="article-img" loading="lazy">
+    <img src="images/macd-example.svg" srcset="images/macd-example.svg 400w, images/macd-example.svg 800w, images/macd-example.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="MACD example" class="article-img" width="800" height="420" loading="lazy" decoding="async">
     <p>Annotated chart showing divergence and proper confirmation.</p></section>
 
     <section><h3>Common Mistakes</h3>
     <ul>
-      <li>Trading every MACD crossover without context.</li>
-      <li>Mistaking short-term noise for real momentum change.</li>
+      <li><strong>Trading every MACD crossover without context.</strong> You buy on MACD bullish crossover but daily trend is bearish. Counter-trend trade, you stop out. Always check daily bias first.</li>
+      <li><strong>Mistaking short-term noise for real momentum change.</strong> MACD can cross signal line 5+ times in a choppy market, each time giving false signal. Filter: Only trade crosses when price is trending (use volatility + MA filter).</li>
+      <li><strong>Ignoring the histogram while watching MACD line.</strong> MACD line above zero but histogram shrinking = momentum weakening. You're still long expecting continuation, but momentum already turning. Exit before reversal. Histogram is the early warning.</li>
+      <li><strong>Using MACD on 1-minute chart expecting reliable signals.</strong> Too much noise. MACD needs at least 4H timeframe for reliable signals. Use 4H or higher for trading.</li>
+      <li><strong>Not confirming divergence with price action.</strong> Bullish divergence on MACD but price doesn't bounce = divergence failed. Always wait for price confirmation (candle close above resistance, volume surge, etc.).</li>
+      <li><strong>Averaging down into losers based on "MACD oversold."</strong> MACD oversold doesn't mean reversal guaranteed. Trend can continue down for weeks while MACD stays oversold. Don't average based on oscillators alone.</li>
     </ul></section>
 
     <section><h3>Pro Tips</h3>
     <ul>
-      <li>Use MACD divergence on higher timeframes as a filter for lower-timeframe entries.</li>
-      <li>Combine MACD with price structure for better edge.</li>
+      <li><strong>Use MACD divergence on higher timeframes as a filter for lower-timeframe entries.</strong> Daily MACD divergence at resistance = caution on 4H longs. Daily MACD bullish at support = bias for 4H long bounces.</li>
+      <li><strong>Combine MACD with price structure for better edge.</strong> Bullish divergence at daily support + price bounces off support on 4H = high-probability long. Divergence alone = 50-60% win. Divergence + structure = 65-75% win.</li>
+      <li><strong>Watch histogram expansion/contraction for momentum strength.</strong> Expanding histogram = acceleration. Use it to size up winners. Contracting histogram = deceleration, take profits or reduce size.</li>
+      <li><strong>Use MACD zero line as a trend filter.</strong> MACD above zero = bullish bias. Below zero = bearish bias. Don't fade the trend when MACD is extended on one side.</li>
+      <li><strong>Backtest MACD divergence on your pair + timeframe.</strong> Run 30 divergence trades on EURUSD 4H. Count wins/losses. If <55% win, add price action filter. Repeat. Customize per instrument.</li>
+      <li><strong>Remember: MACD is lag + warning, not trigger.</strong> By crossover, move is done. Use MACD for momentum confirmation and divergence as early warning. Real entry: price action bounce/breakout.</li>
     </ul></section>
 
     <section><h3>Risk Warning</h3>
@@ -54,9 +122,25 @@
     <section><h3>SEO FAQs</h3>
     <dl>
       <dt>1. MACD ka best timeframe kya hai?</dt>
-      <dd>Depends on strategy—MACD on daily or H4 for trend checks, lower for entries. Test per strategy.</dd>
+      <dd>4H or daily for swing trades. MACD needs at least 50+ candles for reliable calculation. 1H can work if instrument is volatile. Don't use 5M or 1M—too much noise, MACD unreliable on such short timeframes.</dd>
       <dt>2. MACD divergence kitni reliable hai?</dt>
-      <dd>Divergence is useful as a warning but not a trade signal alone—wait for price confirmation.</dd>
+      <dd>Divergence is useful as early warning (momentum weakening) but not a trade signal alone. Combine with price action confirmation (bounce off support, break of resistance). Divergence + structure = 65-75% win rate. Divergence alone = 50-60%.</dd>
+      <dt>3. MACD crossover kab kaam karta hai?</dt>
+      <dd>Crossovers work best in trending markets (ATR > 50 pips, price trending, not choppy). In range-bound markets, crossovers whipsaw (many false signals). Add volatility + trend filter: Only trade MACD cross if ATR high + price above/below MA.</dd>
+      <dt>4. Histogram expanding vs shrinking: Kaunsa important hai?</dt>
+      <dd>Histogram is crucial. Expanding = momentum accelerating (add to winners). Shrinking = momentum weakening (reduce size, take profits). Even if MACD line is bullish, shrinking histogram = trend losing steam. Exit before MACD reversal.</dd>
+      <dt>5. MACD settings kab change karein?</dt>
+      <dd>Default (12/26/9) works for 4H+. For 1H: use 5/13/5 (faster). For daily: 12/26/9 is fine. For weekly: 18/39/9 (slower). Adjust based on noise level—if MACD whipsaws too much, increase periods.</dd>
+      <dt>6. MACD zero line kya importance hai?</dt>
+      <dd>Zero line separates bullish (above) from bearish (below). Use it as a trend filter. MACD above zero = bullish bias, don't short. Below zero = bearish bias, don't long. Fighting the zero-line direction = low probability.</dd>
+      <dt>7. Overbought/oversold MACD kya matlab?</dt>
+      <dd>MACD has no fixed overbought/oversold (unlike RSI). But extreme MACD (far above/below zero) can signal overextension. Combine with divergence: Extreme MACD + bearish divergence = reversal setup. Extreme MACD alone = no action (trend can continue).</dd>
+      <dt>8. MACD crossover entry: Stop kaha pe laga?</dt>
+      <dd>If buying on bullish MACD crossover, stop below recent swing low (not at the crossover). If swing low is 50 pips away, crossover is risky (stop is too wide). Instead, wait for price to pull back + bounce, then size accordingly. Better risk-reward.</dd>
+      <dt>9. MACD daily vs 4H: Dono dekhun?</dt>
+      <dd>Yes. Daily MACD = bias (bullish/bearish above/below zero). 4H MACD = entry signal (divergence, crossover). Example: Daily MACD bullish + 4H divergence at support = high-probability long. Daily bearish + 4H divergence = skip or reduce size.</dd>
+      <dt>10. MACD backtest kaise karun?</dt>
+      <dd>Simple test: Take 30 MACD divergence setups on your pair/timeframe. Record entry, stop, target, result. If win rate < 55%, add price action filter (require support/resistance bounce). Re-test. Iterate until consistent (55%+ win rate).</dd>
     </dl></section>
 
     <section><h3>Author</h3><div class="author-box"><p><strong>Rahul Mehra</strong> — Teaches oscillator-based filters and practical confirmation. Related: <a href="macd-reality.html">MACD Reality</a>.</p></div></section>

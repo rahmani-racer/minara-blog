@@ -27,23 +27,67 @@
       <li><strong>Psychology mismatch:</strong> Strategy rules must match trader's capacity to follow them under stress.</li>
     </ol></section>
 
+    <section><h3>The Three Core Reasons Strategies Fail</h3>
+    <p><strong>1. Overfitting — Optimizing to Past Noise</strong></p>
+    <p>Trader backtests a EURUSD breakout strategy on 2023 data. They tweak RSI threshold from 70 to 68 to 66—each time improving win rate from 55% to 63%. They optimize MA period from 50 to 47 to 44—now 68% win rate. They go live, 2024 data: 45% win rate. What happened? They optimized parameters to 2023 noise, not real edge.</p>
+    <p><strong>Why it fails:</strong> More parameters = more overfitting. Past data is finite, noise-full. Optimal parameters for 2023 ≠ optimal for 2024. When you optimize 5+ parameters, you're likely fitting noise (overfitting).</p>
+    <p><strong>Fix:</strong> (1) Use <strong>out-of-sample testing</strong> (backtest on 2023, validate on 2024). (2) Limit parameters to 2-3 max. (3) Use <strong>walk-forward analysis</strong> (optimize 6 months, test next 3 months, repeat). (4) Check parameter robustness: If win rate drops 20% when you change MA from 50 to 45, parameter is unstable. Abandon it.</p>
+    
+    <p><strong>2. Ignoring Costs — Spread, Slippage, Commission</strong></p>
+    <p>Trader's backtest shows 60% win rate, average win 50 pips, average loss 40 pips. Expected value: (0.6 × 50) - (0.4 × 40) = 30 - 16 = 14 pips/trade. Seems profitable. But in reality: EURUSD spread = 1-2 pips, slippage on entry = 3 pips, slippage on exit = 3 pips. Real net profit: 50 - 8 (costs) = 42 pips/win, 40 + 8 = 48 pips/loss. New EV: (0.6 × 42) - (0.4 × 48) = 25.2 - 19.2 = 6 pips/trade. Still profitable but 80% lower than backtest suggested. Trader expected bigger profits, gets frustrated, quits.</p>
+    <p><strong>Fix:</strong> Include realistic costs in backtest. GOLD spread = 1-3 pips, slippage = 2-5 pips (depending on execution). Subtract from each win. If strategy still profitable after costs, it's real edge.</p>
+    
+    <p><strong>3. Psychology Mismatch — Rules Don't Match Your Stress Tolerance</strong></p>
+    <p>Trader backtests a breakout strategy: Entry rules clear, exit rules clear, 55% win rate. Backtest looks good. But live, when price drops 50 pips after entry and strategy says "hold," trader panics and closes trade at -50 loss. Strategy would have exited at -40 (stop). Trader's emotional override = -10 extra pips per trade × 20 trades/month = -200 pips/month loss. Strategy was profitable; trader's psychology broke it.</p>
+    <p><strong>Fix:</strong> (1) <strong>Paper trade first (30-50 trades)</strong>. See if you can follow rules without emotion. (2) <strong>Simplify rules</strong> if they feel complex under stress. (3) <strong>Use automated systems</strong> if possible (removes emotion). (4) <strong>Small position size</strong> at start (less stress = easier to follow rules).</p>
+    </section>
+
+    <section><h3>How To Backtest Correctly (Avoiding Failures)</h3>
+    <p><strong>Step 1: Set Rule Parameters (Don't Optimize Yet)</strong></p>
+    <p>Entry: "Price breaks above 20-candle high on 4H." Exit: "Stop 20 pips below entry, target 50 pips above." RSI > 50 confirmation. These are your rules, not optimized.</p>
+    
+    <p><strong>Step 2: Backtest on ONE Pair, ONE Timeframe for 50-100 Trades</strong></p>
+    <p>Use 6-12 months of historical data. Count wins/losses. If <50% win rate, rethink rules (maybe breakout is too risky without additional filter). If >55% win rate, proceed.</p>
+    
+    <p><strong>Step 3: Add Realistic Costs</strong></p>
+    <p>Subtract spread + slippage from each win. If strategy still 52%+ win rate after costs, it has real edge.</p>
+    
+    <p><strong>Step 4: Test Parameter Robustness</strong></p>
+    <p>Change one parameter slightly (MA from 20 to 22, RSI threshold from 50 to 48). Retest. If win rate drops >10%, parameter is unstable. Abandon it or use wider range.</p>
+    
+    <p><strong>Step 5: Out-of-Sample Test</strong></p>
+    <p>Backtest on 2023 data, then validate (no optimization) on 2024 data. If 2024 win rate drops <10% vs 2023, strategy is robust. If drops >15%, overfitting suspected.</p>
+    
+    <p><strong>Step 6: Paper Trade 30-50 Trades</strong></p>
+    <p>Simulate live without real money. Can you follow rules? If you deviate, it's a psychology issue, not strategy issue. Adjust rules or position size to reduce stress.</p>
+    
+    <p><strong>Step 7: Go Live Small</strong></p>
+    <p>Risk 0.5% per trade (not 2%). Track live metrics: Win rate, average win/loss. If <50% win rate, shut down immediately (backtest was wrong or market changed). If 50-55%, optimize costs or rules. If 55%+, increase size gradually.</p>
+    </section>
+
+    <section><h3>Common Strategy Failure Patterns (GOLD Examples)</h3>
+    <p><strong>Pattern 1: Breakout strategies fail after large moves.</strong> Strategy profitable breakout trading on quiet weeks. During volatile weeks (Fed news), breakouts whipsaw. Fix: Add ATR filter. Skip trades when ATR > normal (avoid event risk).</p>
+    <p><strong>Pattern 2: Support/resistance strategies fail in choppy markets.</strong> Strategy profitable in trending markets. In ranges, price bounces between S/R multiple times, triggering multiple losses. Fix: Add trend filter (ADX > 25 for trending, skip if ADX < 20 choppy).</p>
+    <p><strong>Pattern 3: Indicator-based strategies fail when parameters shift.</strong> MACD crossover strategy works Jan-Mar (fast market), fails Apr-Jun (choppy). Parameters haven't changed, market has. Fix: Add market condition detection (volatility, ATR). Disable strategy in low-volatility periods.</p>
+    </section>
+
     <section><h3>Real trading logic (GOLD example)</h3>
     <p>Backtest a GOLD breakout strategy including realistic spreads, slippage, and execution delays. If live performance differs, examine parameter robustness and reduce over-optimization.</p></section>
 
     <section><h3>Image-based examples (mandatory)</h3>
-    <img src="images/why-strategies-fail.svg" srcset="images/why-strategies-fail.svg 400w, images/why-strategies-fail.svg 800w, images/why-strategies-fail.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="Why strategies fail" class="article-img" loading="lazy">
+    <img src="images/why-strategies-fail.svg" srcset="images/why-strategies-fail.svg 400w, images/why-strategies-fail.svg 800w, images/why-strategies-fail.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="Why strategies fail" class="article-img" width="800" height="420" loading="lazy" decoding="async">
     <p>Annotated backtest vs live P&L comparison and checklist for fixes.</p></section>
 
     <section><h3>Common Mistakes</h3>
     <ul>
-      <li>Cherry-picking best parameters without out-of-sample testing.</li>
-      <li>Not including realistic transaction costs in simulation.</li>
+      <li><strong>Cherry-picking best parameters without out-of-sample testing.</strong> You test 100 parameter combinations, pick the best (75% win). Go live, 40% win. The best backtest was overfitted. Always validate on out-of-sample data.</li>
+      <li><strong>Not including realistic transaction costs in simulation.</strong> Strategy looks 60% win profitable. Add real spreads/slippage, now 51% win. Barely profitable after costs, not worth the risk. Always include costs upfront.</li>
     </ul></section>
 
     <section><h3>Pro Tips</h3>
     <ul>
-      <li>Use out-of-sample testing, walk-forward analysis, and include costs.</li>
-      <li>Start small live and compare metrics; iterate only when you have consistent evidence.</li>
+      <li><strong>Use out-of-sample testing, walk-forward analysis, and include costs.</strong> Backtest on 2023, validate on 2024 (no re-optimization). If performance drops <10%, strategy is robust. If drops >20%, overfitting likely.</li>
+      <li><strong>Start small live and compare metrics; iterate only when you have consistent evidence.</strong> Paper trade 30 trades first. Go live 0.5% risk/trade for 30 trades. Track win %, average win, average loss. Only then iterate or increase size.</li>
     </ul></section>
 
     <section><h3>Risk Warning</h3>
@@ -54,9 +98,25 @@
     <section><h3>SEO FAQs</h3>
     <dl>
       <dt>1. Strategy overfitting kaise check karein?</dt>
-      <dd>Use out-of-sample data, cross-validation, and avoid excessive parameter tuning.</dd>
-      <dt>2. Kya Monte Carlo useful hai?</dt>
-      <dd>Yes—use it to test distribution of outcomes under variable trade sequences.</dd>
+      <dd>Simple: (1) Backtest on 2023, validate (no re-optimization) on 2024. If win rate drops <10%, robust. If drops >15%, overfitting. (2) Test on different pairs/timeframes. If strategy works EURUSD 4H but fails GOLD 4H, overfitted to EURUSD.</dd>
+      <dt>2. Kya Monte Carlo testing useful hai?</dt>
+      <dd>Yes. Monte Carlo shuffles trade sequence randomly, tests if profit depends on luck or edge. Run 1000 random sequences. If 95%+ are profitable, edge is real. If 60-70% profitable, edge is fragile (sequence-dependent, risky).</dd>
+      <dt>3. Live performance vs backtest mein gap kyun hota hai?</dt>
+      <dd><strong>Reasons:</strong> (1) Overfitting. (2) Costs not included (spread, slippage). (3) Execution differences (slippage bigger than expected). (4) Market regime changed. (5) Psychology override. Fix: Backtest with realistic costs + out-of-sample validation + paper trade before live.</dd>
+      <dt>4. Backtest kitne saal ka data use karein?</dt>
+      <dd>Minimum 1-2 years (250+ trading days) for robustness. More data = better validation. But too old data (10+ years) may not reflect current market conditions. Sweet spot: 2-5 years of recent data.</dd>
+      <dt>5. Walk-forward analysis kya hai simple terms mein?</dt>
+      <dd>Split data: (1) Optimize on Jan-Jun. (2) Test (no changes) on Jul-Sep. (3) Repeat: Optimize Oct-Dec, test Jan-Mar next year. This simulates real trading (optimize, trade, learn, repeat) and prevents overfitting.</dd>
+      <dt>6. Strategy fail to aur restart kaise karein?</dt>
+      <dd>Don't restart immediately after 10 losing trades. Likely just variance (normal). Wait 30-50 trades. If win rate <48% after 50 trades, strategy failed: (1) Market changed (add adaptive filters). (2) Overfitted (simplify rules). (3) Costs higher than expected (reduce position size). Investigate root cause before restarting.</dd>
+      <dt>7. Parameter optimization: Kitne parameters OK hain?</dt>
+      <dd>Max 2-3. More = overfitting risk. Example good: MA period (1 param) + RSI threshold (1 param). Bad: MA, RSI, MACD threshold, Stochastic settings, Bollinger Band width (5 params = high overfitting risk).</dd>
+      <dt>8. Slippage prediction: Real slippage kitna hota hai?</dt>
+      <dd>Depends on: (1) Instrument (EURUSD: 1-2 pips, GOLD: 2-5 pips), (2) Execution method (market order: more slippage, limit order: less), (3) Time (major events: 5-10 pips, quiet: 1-2 pips). Add 2-5 pips per trade in backtest conservatively.</dd>
+      <dt>9. Strategy psychology test kaise karein?</dt>
+      <dd>Paper trade 30-50 trades. Track: (1) How many times you deviated from rules? (2) When did you deviate (after losses? winning streak?). If >20% deviation, rules too complex or position size too large. Simplify or reduce size.</dd>
+      <dt>10. Live vs backtest variance: Kitna acceptable hai?</dt>
+      <dd>After 30-50 live trades: ±10% variance acceptable (backtest 55% win, live 50% = normal). ±15% variance = caution (investigate). >20% variance = problem (overfitting or market changed). Investigate root cause before continuing.</dd>
     </dl></section>
 
     <section><h3>Author</h3><div class="author-box"><p><strong>Rahul Mehra</strong> — Focus on robust strategy development and testing. Related: <a href="backtesting-guide.html">Backtesting Guide</a>.</p></div></section>
