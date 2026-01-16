@@ -47,15 +47,26 @@
   const menuToggle = qs('#menuToggle');
   const toolsPanel = qs('#toolsPanel');
   const toolsClose = qs('#toolsClose');
+  const toolsTriggers = qsa('.tools-trigger');
+
+  const setToolsState = (open) => {
+    if (!toolsPanel) return;
+    toolsPanel.classList.toggle('open', open);
+    toolsPanel.setAttribute('aria-hidden', open ? 'false' : 'true');
+    if (menuToggle) menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  };
+
   if (menuToggle && toolsPanel) {
     menuToggle.addEventListener('click', () => {
-      const open = toolsPanel.classList.toggle('open');
-      menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      toolsPanel.setAttribute('aria-hidden', open ? 'false' : 'true');
+      const open = !toolsPanel.classList.contains('open');
+      setToolsState(open);
     });
   }
   if (toolsClose && toolsPanel) {
-    toolsClose.addEventListener('click', () => { toolsPanel.classList.remove('open'); toolsPanel.setAttribute('aria-hidden','true'); menuToggle.setAttribute('aria-expanded','false'); });
+    toolsClose.addEventListener('click', () => { setToolsState(false); });
+  }
+  if (toolsTriggers.length && toolsPanel) {
+    toolsTriggers.forEach(btn => btn.addEventListener('click', () => setToolsState(true)));
   }
 
   // Tools: quick pip calc (informational)
@@ -690,7 +701,7 @@
 
   /* Editable economic calendar using localStorage */
   function loadEcon() {
-    try { return JSON.parse(localStorage.getItem('econList') || '[]'); } catch (e) { return [] }
+    try { return JSON.parse(localStorage.getItem('econList') || '[]'); } catch (e) { return []; }
   }
   function saveEcon(list) { localStorage.setItem('econList', JSON.stringify(list)); }
   function renderEcon() {
@@ -713,15 +724,20 @@
 
   if (qs('#econAdd')) {
     qs('#econAdd').addEventListener('click', () => {
-      const time = qs('#econTime').value.trim() || 'TBD';
-      const title = qs('#econTitle').value.trim() || 'Event';
-      const impact = qs('#econImpact').value || 'High';
+      const econTime = qs('#econTime');
+      const econTitle = qs('#econTitle');
+      const econImpact = qs('#econImpact');
+      const time = (econTime && econTime.value.trim()) || 'TBD';
+      const title = (econTitle && econTitle.value.trim()) || 'Event';
+      const impact = (econImpact && econImpact.value) || 'High';
       const list = loadEcon();
       list.unshift({ time, title, impact });
       saveEcon(list);
       renderEcon();
-      qs('#econTime').value = '';
-      qs('#econTitle').value = '';
+      const econTimeClear = qs('#econTime');
+      const econTitleClear = qs('#econTitle');
+      if (econTimeClear) econTimeClear.value = '';
+      if (econTitleClear) econTitleClear.value = '';
     });
   }
   if (qs('#econClear')) {
@@ -802,11 +818,14 @@
     box.style.top = (rect.bottom + window.scrollY + 8) + 'px';
 
     // button inside tooltip
-    box.querySelector('.open-btn').addEventListener('click', (e) => {
+    box.querySelector('.open-btn')?.addEventListener('click', (e) => {
       const pair = e.target.dataset.pair || 'EUR/USD';
-      qs('#chartPairCustom').value = '';
-      qs('#chartPairSelect').value = pair;
-      qs('#openChart').click();
+      const customInput = qs('#chartPairCustom');
+      const selectInput = qs('#chartPairSelect');
+      const openBtn = qs('#openChart');
+      if (customInput) customInput.value = '';
+      if (selectInput) selectInput.value = pair;
+      if (openBtn) openBtn.click();
     });
 
     // hide on outside click
@@ -871,14 +890,23 @@
     return `<a href="/">Home</a> › ${crumbs.join(' › ')}`;
   }
 
-  // Auto TOC for H2/H3
+  // Auto TOC for H2/H3 with collapse/expand toggle
   function generateTOC() {
     const content = qs('main') || qs('.section.card');
     if (!content) return;
     const headings = [...content.querySelectorAll('h2,h3')];
     if (!headings.length) return;
     const toc = document.createElement('nav'); toc.className = 'toc';
-    toc.innerHTML = '<h4>Contents</h4>';
+    const h4 = document.createElement('h4');
+    h4.textContent = 'Contents';
+    h4.addEventListener('click', () => {
+      toc.classList.toggle('collapsed');
+      localStorage.setItem('toc_collapsed', toc.classList.contains('collapsed') ? '1' : '0');
+    });
+    // Restore collapsed state from localStorage
+    if (localStorage.getItem('toc_collapsed') === '1') {
+      toc.classList.add('collapsed');
+    }
     const ul = document.createElement('ul');
     headings.forEach(h => {
       if (!h.id) h.id = h.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
@@ -891,6 +919,7 @@
       li.appendChild(a);
       ul.appendChild(li);
     });
+    toc.appendChild(h4);
     toc.appendChild(ul);
     // try to place toc in a reasonable spot: insert before first article paragraph
     const first = content.querySelector('h2') || content.querySelector('p');
@@ -950,7 +979,7 @@
   function initGlossary() {
     qsa('.glossary-term').forEach(el => {
       const key = el.textContent.trim().toLowerCase();
-      if (GLOSSARY[key]) el.classList.add('gloss') , el.setAttribute('data-term', GLOSSARY[key]);
+      if (GLOSSARY[key]) { el.classList.add('gloss'); el.setAttribute('data-term', GLOSSARY[key]); }
     });
   }
 

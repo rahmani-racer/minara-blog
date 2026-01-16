@@ -220,14 +220,66 @@ header {
 .founder-grid { display:flex; gap:16px; align-items:center; }
 .founder-img { border-radius:12px; border:3px solid var(--accent); }
 
-/* Tools panel (off-canvas) */
-.tools-panel { position:fixed; right:-420px; top:0; width:420px; height:100vh; background:var(--bg-card); color:var(--text-main); box-shadow: -20px 0 60px rgba(0,0,0,0.6); transition: right 320ms ease; z-index:1600; padding:18px; overflow:auto; }
-.tools-panel.open { right:0; }
-.tools-panel .tools-inner { max-width:380px; margin:0 auto; }
-.tools-panel h3 { margin-top:6px; }
-.tools-panel .tool { margin-top:12px; }
-.tools-panel #toolsClose { position:absolute; left:12px; top:12px; background:transparent; border:none; color:var(--text-main); font-size:18px; }
-.btn.small { padding:6px 8px; font-size:13px; }
+/* Tools panel (off-canvas side drawer) */
+.tools-panel {
+  position: fixed;
+  right: -420px;
+  top: 0;
+  width: 420px;
+  height: 100vh;
+  background: linear-gradient(180deg, var(--bg-card), rgba(255,255,255,0.04));
+  color: var(--text-main);
+  box-shadow: -20px 0 60px rgba(0,0,0,0.6);
+  transition: right 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 1600;
+  padding: 60px 18px 18px;
+  overflow-y: auto;
+  border-left: 1px solid var(--border-soft);
+}
+.tools-panel.open {
+  right: 0;
+  box-shadow: -20px 0 80px rgba(56,189,248,0.15);
+}
+.tools-panel .tools-inner {
+  max-width: 380px;
+  margin: 0 auto;
+}
+.tools-panel h3 {
+  margin-top: 18px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 1px solid rgba(56,189,248,0.1);
+  padding-bottom: 10px;
+}
+.tools-panel .tool {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 10px;
+  border: 1px solid rgba(56,189,248,0.08);
+}
+.tools-panel #toolsClose {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  font-size: 20px;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background 200ms ease;
+}
+.tools-panel #toolsClose:hover {
+  background: rgba(255,255,255,0.08);
+}
+.btn.small { padding: 6px 8px; font-size: 13px; }
 
 /* Animations */
 .fade-in { animation: fadeIn 700ms ease both; }
@@ -235,6 +287,35 @@ header {
 
 /* Responsive */
 @media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; } .stats-grid { justify-content:flex-start; } .paths-grid { grid-template-columns: 1fr; } .trending-grid { flex-direction:column; } }
+
+/* Ensure tools / contents panel stays off-canvas by default and doesn't overlap main content */
+.tools-panel {
+  left: auto !important;
+  right: -420px !important;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(0);
+  transition: opacity 240ms ease, right 320ms ease, visibility 240ms;
+  z-index: 1400;
+}
+.tools-panel.open {
+  right: 0 !important;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Keep header above tools panel */
+header { z-index: 2000; }
+
+/* Constrain main content so left-side overlays don't cover central content */
+#main { max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px; }
+
+/* On very wide screens, keep tools panel hidden unless explicitly opened */
+@media (min-width: 1200px) {
+  .tools-panel { right: -420px; }
+}
 
 /* =========================
    NAVIGATION
@@ -436,10 +517,65 @@ nav a:hover::after { width: 100%; }
 .article-meta { display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:12px; }
 .reading-time { color:var(--text-muted); font-size:13px; }
 .breadcrumb { font-size:13px; color:var(--text-muted); margin-bottom:8px; }
-.toc { background: rgba(255,255,255,0.02); border:1px solid var(--border-soft); padding:12px; border-radius:10px; max-width:320px; font-size:14px; }
-.toc h4 { margin:0 0 8px 0; font-size:14px; }
-.toc ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
-.toc a { color:var(--text-main); font-size:14px; }
+
+/* COLLAPSIBLE TABLE OF CONTENTS */
+.toc {
+  background: linear-gradient(135deg, rgba(56,189,248,0.04), rgba(96,165,250,0.02));
+  border: 1px solid rgba(56,189,248,0.15);
+  padding: 16px;
+  border-radius: 12px;
+  max-width: 320px;
+  font-size: 14px;
+  position: sticky;
+  top: 120px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+.toc h4 {
+  margin: 0 0 12px 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+.toc h4::after {
+  content: '▼';
+  font-size: 11px;
+  transition: transform 240ms ease;
+}
+.toc.collapsed h4::after { transform: rotate(-90deg); }
+.toc.collapsed ul { display: none; }
+.toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: slideDown 280ms ease;
+}
+@keyframes slideDown {
+  from { opacity: 0; max-height: 0; }
+  to { opacity: 1; max-height: 600px; }
+}
+.toc ul li {
+  border-left: 2px solid transparent;
+  padding-left: 10px;
+  transition: border-color 200ms ease;
+}
+.toc ul li:hover { border-left-color: var(--accent); }
+.toc a {
+  color: var(--text-main);
+  font-size: 14px;
+  display: block;
+  padding: 4px 0;
+  transition: color 200ms ease;
+}
+.toc a:hover { color: var(--accent); font-weight: 600; }
 
 /* Sticky related articles sidebar (desktop) */
 .related-sidebar { position:sticky; top:120px; align-self:start; max-width:280px; }
@@ -501,6 +637,30 @@ a:focus, button:focus, input:focus { outline:3px solid rgba(56,189,248,0.22); ou
 .article-thumb { flex: 0 0 72px; width: 72px; height: 48px; padding: 4px; }
 .article-item .article-content { flex: 1; display: flex; align-items: center; justify-content: space-between; gap:12px; }
 .article-item .article-content strong { font-size: 15px; display:block; }
+
+/* Improve contrast and affordance for the small "Read →" links inside article lists */
+.article-item .article-content a {
+  background: rgba(255,255,255,0.06);
+  color: var(--text-main);
+  padding: 6px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 13px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.article-item .article-content a:hover { opacity: 0.95; transform: translateY(-1px); }
+
+/* Make interactive links keyboard-visible and easier to tap on mobile */
+.article-item .article-content a:focus,
+nav a:focus,
+.btn:focus {
+  outline: 3px solid rgba(56,189,248,0.18);
+  outline-offset: 3px;
+}
+
+/* Ensure nav links have an underline on hover for discoverability */
+nav a:hover { text-decoration: underline; }
 
 /* =====================================================
    MOBILE VIEW FIX ONLY

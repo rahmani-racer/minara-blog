@@ -89,32 +89,105 @@
   </div>
 </header>
 
-<!-- Off-canvas Tools Panel -->
-<aside id="toolsPanel" class="tools-panel" aria-hidden="true">
+<!-- Off-canvas Tools Panel (PREMIUM FEATURES) -->
+<aside id="toolsPanel" class="tools-panel" aria-hidden="true" aria-label="Premium Tools and Calculators">
+  <button id="toolsClose" aria-label="Close tools panel">✕</button>
   <div class="tools-inner">
-    <button id="toolsClose" aria-label="Close tools">✕</button>
-    <h3>Quick Tools</h3>
-    <p class="muted">Fast calculators & utilities — informational only.</p>
-
-    <div class="tool" id="toolPip">
-      <h4>Pip Calculator</h4>
-      <label>Pair: <input id="tp_pair" value="EUR/USD"></label>
-      <label>Lots: <input id="tp_lots" type="number" value="0.01" step="0.01"></label>
-      <div><button id="tp_calc" class="btn small">Calculate Pip Value</button></div>
-      <div id="tp_result" class="muted"></div>
+    
+    <h3>Market Data</h3>
+    <div class="tool" id="ratesCard">
+      <h4>Live Rates</h4>
+      <div id="ratesTicker" class="rates-ticker">
+        <ul></ul>
+      </div>
+      <small>Updated every 60s</small>
     </div>
 
-    <div class="tool" id="toolPosition">
-      <h4>Position Size</h4>
-      <label>Balance: <input id="tp_balance" type="number" value="1000"></label>
-      <label>Risk %: <input id="tp_risk" type="number" value="1"></label>
-      <label>Stop (pips): <input id="tp_stop" type="number" value="50"></label>
-      <div><button id="tp_pos_calc" class="btn small">Calculate Size</button></div>
-      <div id="tp_pos_result" class="muted"></div>
+    <div class="tool" id="sessionsCard">
+      <h4>Market Sessions (UTC)</h4>
+      <div id="marketSessions" class="sessions" role="list">
+        <span data-session="tokyo" class="session" role="button" tabindex="0">🌅 Tokyo</span>
+        <span data-session="london" class="session" role="button" tabindex="0">🏴󠁧󠁢󠁥󠁮󠁧󠁿 London</span>
+        <span data-session="newyork" class="session" role="button" tabindex="0">🗽 New York</span>
+      </div>
+      <small id="sessionLocalTime" style="display:block;margin-top:6px;"></small>
+      <div id="sessionTooltip" class="session-tooltip" style="display:none;position:relative;"></div>
     </div>
 
-    <div style="height:18px"></div>
-    <small class="muted">All tools are client-side and informational. No signals.</small>
+    <h3>Trading Tools</h3>
+    <div class="tool" id="chartCard">
+      <h4>Mini Chart (TradingView)</h4>
+      <small>Click to load — lightweight widget</small>
+      <div class="chart-controls" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:8px;">
+        <select id="chartPairSelect" style="font-size:12px;padding:6px;">
+          <option value="EUR/USD">EUR/USD</option>
+          <option value="GBP/USD">GBP/USD</option>
+          <option value="USD/JPY">USD/JPY</option>
+          <option value="AUD/USD">AUD/USD</option>
+          <option value="USD/CAD">USD/CAD</option>
+          <option value="USD/INR">USD/INR</option>
+          <option value="EUR/GBP">EUR/GBP</option>
+          <option value="XAU/USD">XAU/USD (Gold)</option>
+        </select>
+        <input id="chartPairCustom" placeholder="e.g. EUR/USD" style="width:100px;font-size:12px;padding:6px;">
+        <button id="openChart" class="btn small">Load</button>
+      </div>
+      <div id="chartContainer" style="margin-top:8px;max-height:280px;overflow:hidden;border-radius:8px;"></div>
+    </div>
+
+    <div class="tool" id="calcCard">
+      <h4>Position Size Calc</h4>
+      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
+        <label>Balance (USD): <input id="accountBalance" type="number" value="1000" style="width:90px;padding:4px;"></label>
+        <label>Risk %: <input id="riskPercent" type="number" value="1" step="0.1" style="width:70px;padding:4px;"></label>
+        <label>Stop Loss (pips): <input id="stopLoss" type="number" value="50" style="width:80px;padding:4px;"></label>
+        <label>Pair: <input id="pairCalc" value="EUR/USD" style="width:90px;padding:4px;"></label>
+        <button id="calcBtn" class="btn small">Calculate</button>
+        <div id="calcResult" class="calc-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
+      </div>
+    </div>
+
+    <div class="tool" id="convertCard">
+      <h4>Currency Converter</h4>
+      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
+        <label>From: <input id="convFrom" value="USD" style="width:70px;padding:4px;"></label>
+        <label>To: <input id="convTo" value="INR" style="width:70px;padding:4px;"></label>
+        <label>Amount: <input id="convAmount" type="number" value="100" style="width:80px;padding:4px;"></label>
+        <button id="convBtn" class="btn small">Convert</button>
+        <div id="convResult" class="conv-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
+      </div>
+    </div>
+
+    <h3>Your Lists</h3>
+    <div class="tool" id="watchlistCard">
+      <h4>Watchlist</h4>
+      <div class="watchlist-input" style="display:flex;gap:6px;margin-bottom:8px;">
+        <input id="watchInput" placeholder="EUR/USD" style="width:90px;font-size:12px;padding:4px;">
+        <button id="watchAdd" class="btn small">Add</button>
+      </div>
+      <ul id="watchList" style="font-size:12px;list-style:none;padding:0;margin:0;"></ul>
+    </div>
+
+    <div class="tool" id="econCard">
+      <h4>Economic Calendar</h4>
+      <div class="econ-controls" style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-bottom:8px;font-size:12px;">
+        <input id="econTime" placeholder="09:30" style="width:60px;padding:4px;">
+        <input id="econTitle" placeholder="Event" style="width:110px;padding:4px;">
+        <select id="econImpact" style="font-size:11px;padding:4px;">
+          <option>Low</option>
+          <option>Medium</option>
+          <option selected>High</option>
+        </select>
+        <button id="econAdd" class="btn small">Add</button>
+        <button id="econClear" class="btn small">Clr</button>
+      </div>
+      <ul id="econList" style="font-size:12px;list-style:none;padding:0;margin:0;"></ul>
+    </div>
+
+    <hr style="margin:16px 0;opacity:0.1;">
+    <small style="color:var(--text-muted);display:block;line-height:1.4;">
+      <strong>Disclaimer:</strong> All tools are client-side and informational only. Not financial advice.
+    </small>
   </div>
 </aside>
 
@@ -128,16 +201,16 @@
   <div class="hero-grid">
     <div class="hero-left">
       <img src="profile.jpg" alt="Minara Blog author portrait" class="profile" width="140" height="140" loading="eager" decoding="async">
-      <h1 class="hero-title">World-class Forex & Trading Education</h1>
-      <p class="hero-sub">Risk-first, psychology-driven learning — Beginner → Professional paths.</p>
+      <h1 class="hero-title">Premium Forex & Trading Education</h1>
+      <p class="hero-sub">Risk-first, discipline-driven learning in Hinglish. Master the markets the smart way.</p>
       <div class="hero-cta">
-        <a href="#premium-features" class="btn">Open Tools & Widgets</a>
-        <button id="openLive" class="btn outline">Open Live GOLD Chart</button>
+        <a href="#core-articles" class="btn">Explore Articles</a>
+        <button class="btn tools-trigger" style="font-weight:700;" aria-label="Open trading tools">⚙️ Tools</button>
       </div>
     </div>
 
     <div class="hero-right">
-      <div class="stats-grid">
+    <div class="stats-grid">
         <div class="stat">
           <div class="stat-value" id="statReaders">—</div>
           <div class="stat-label">Monthly Readers</div>
@@ -216,8 +289,8 @@
   <h2>Live Market Intelligence — GOLD (XAU/USD)</h2>
   <p class="muted">Interactive candlestick chart — lazy loaded for performance.</p>
   <div id="tv_chart_container" class="tv-chart" aria-live="polite">
-    <div id="tv_placeholder" class="tv-placeholder">
-      <button id="loadTv" class="btn">Load Live GOLD Chart</button>
+      <div id="tv_placeholder" class="tv-placeholder">
+      <button id="loadTv" class="btn">Load Live Gold Chart</button>
     </div>
   </div>
 </section>
@@ -240,106 +313,17 @@
   </div>
 </section>
 
-<!-- PREMIUM FEATURES / MARKET WIDGETS -->
-<section class="section card" id="premium-features">
-  <h2>Premium Tools & Market Widgets</h2>
-  <p>Useful client-side tools for forex traders — live-ish rates, session indicator, calculators and quick watchlist.</p>
-
-  <div class="premium-grid">
-    <div class="card small" id="ratesCard">
-      <h3>Rates Ticker</h3>
-      <div id="ratesTicker" class="rates-ticker">
-        <ul></ul>
-      </div>
-      <small>Updated every 60s • Data from exchangerate.host</small>
-    </div>
-
-    <div class="card small" id="sessionsCard">
-      <h3>Market Sessions</h3>
-      <div id="marketSessions" class="sessions" role="list">
-        <span data-session="tokyo" class="session" role="button" tabindex="0">Tokyo</span>
-        <span data-session="london" class="session" role="button" tabindex="0">London</span>
-        <span data-session="newyork" class="session" role="button" tabindex="0">New York</span>
-      </div>
-      <small id="sessionLocalTime"></small>
-      <div id="sessionTooltip" class="session-tooltip" style="display:none;position:relative;"></div>
-    </div>
-
-    <div class="card small" id="chartCard">
-      <h3>Mini Chart</h3>
-      <p>Select a pair and open an interactive TradingView chart (loads only when you click).</p>
-      <div class="chart-controls" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-        <select id="chartPairSelect">
-          <option value="EUR/USD">EUR/USD</option>
-          <option value="GBP/USD">GBP/USD</option>
-          <option value="USD/JPY">USD/JPY</option>
-          <option value="AUD/USD">AUD/USD</option>
-          <option value="USD/CAD">USD/CAD</option>
-          <option value="USD/INR">USD/INR</option>
-          <option value="EUR/GBP">EUR/GBP</option>
-          <option value="XAU/USD">XAU/USD (Gold)</option>
-        </select>
-        <input id="chartPairCustom" placeholder="Or enter pair like EUR/USD" style="width:160px">
-        <button id="openChart" class="btn">Open Chart</button>
-      </div>
-      <div id="chartContainer" style="margin-top:12px;"></div>
-    </div>
-
-    <div class="card tools" id="calcCard">
-      <h3>Pip & Position Size Calculator</h3>
-      <div class="calc-grid">
-        <label>Account Balance (<input id="accCurrency" value="USD" style="width:64px">): <input id="accountBalance" type="number" value="1000"></label>
-        <label>Risk %: <input id="riskPercent" type="number" value="1"></label>
-        <label>Stop Loss (pips): <input id="stopLoss" type="number" value="50"></label>
-        <label>Pair: <input id="pairCalc" value="EUR/USD" style="width:100px"></label>
-        <button id="calcBtn">Calculate</button>
-        <div id="calcResult" class="calc-result"></div>
-      </div>
-    </div>
-
-    <div class="card small" id="convertCard">
-      <h3>Currency Converter</h3>
-      <label>From: <input id="convFrom" value="USD" style="width:64px"></label>
-      <label>To: <input id="convTo" value="INR" style="width:64px"></label>
-      <label>Amount: <input id="convAmount" type="number" value="100"></label>
-      <button id="convBtn">Convert</button>
-      <div id="convResult" class="conv-result"></div>
-    </div>
-
-    <div class="card small" id="watchlistCard">
-      <h3>Watchlist</h3>
-      <div class="watchlist-input">
-        <input id="watchInput" placeholder="EUR/USD" style="width:120px">
-        <button id="watchAdd">Add</button>
-      </div>
-      <ul id="watchList"></ul>
-    </div>
-
-    <div class="card small" id="econCard">
-      <h3>Economic Calendar</h3>
-      <div class="econ-controls" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
-        <input id="econTime" placeholder="09:30 UTC" style="width:110px">
-        <input id="econTitle" placeholder="Event title" style="width:200px">
-        <select id="econImpact">
-          <option>Low</option>
-          <option>Medium</option>
-          <option selected>High</option>
-        </select>
-        <button id="econAdd">Add</button>
-        <button id="econClear">Clear All</button>
-      </div>
-      <ul id="econList"></ul>
-    </div>
-  </div>
-</section>
+<!-- PREMIUM FEATURES / MARKET WIDGETS (HIDDEN - IN SIDE DRAWER) -->
+<!-- All tools are now accessible via the side drawer menu toggle -->
+<!-- This section is hidden by default and shown in toolsPanel via script.js -->
 
 <!-- CORE ARTICLES -->
 <section class="section card">
-  <h2>Core Learning Articles</h2>
+      <h2>Core Learning Articles</h2>
   <p>
-    Ye articles Minara Blog ka foundation hain.
+    Yeh articles Minara Blog ka foundation hain.
     Agar aap trading ko seriously seekhna chahte hain,
-    to yahin se start karein.
+    to yahin se shuru karein.
   </p>
 
   <ul class="article-list">
@@ -495,8 +479,8 @@
   <h2>Explore More</h2>
 
   <p>
-    Market sirf strategy nahi, discipline aur mindset ka game hai.
-    In sections me short-form learning aur daily clarity milegi.
+    Market sirf strategy nahi hai; discipline aur mindset ka khel hai.
+    In sections mein short-form learning aur daily clarity milegi.
   </p>
 
   <div style="margin-top:30px;">
