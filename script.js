@@ -627,7 +627,8 @@
 
           const img = document.createElement('img');
           img.src = 'images/placeholder-400.svg';
-          img.alt = it.label || slug;
+          img.alt = it.label || it.file || 'Article thumbnail';
+          img.width = 72; img.height = 48;
           img.loading = 'lazy';
           img.decoding = 'async';
           img.style.width = '100%';
