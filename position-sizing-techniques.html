@@ -17,27 +17,83 @@
     <section>
       <h3>Intro</h3>
       <p>Proper sizing converts a signal into a controlled risk. Learn practical sizing methods that traders use.</p>
+      <p><strong>The sizing equation:</strong> Perfect setup hai, entry trigger mila, target defined hai—but agar size galat hai to ya to opportunity waste hogi (too small) ya account risk me aayega (too large). Position sizing strategy aur psychology ke beech ka bridge hai.</p>
+      <p><strong>Why it matters:</strong> 60% win-rate strategy bhi fail ho sakti hai agar sizing random hai. 1 big loss (5% risk) = 5 normal wins (1% each) erase. Consistent sizing = compounding possible. Random sizing = emotional rollercoaster guaranteed.</p>
+      <p><strong>Mathematical impact example:</strong> $10K account, Strategy A (1% risk per trade, 50% win-rate, 1:2 R:R) vs Strategy B (3% risk, same stats). After 100 trades: Strategy A ends at $11,200 (12% gain, max DD 8%). Strategy B ends at $9800 (2% loss, max DD 28%). Same edge, different sizing = opposite outcomes. Sizing amplifies or destroys edge—choose wisely.</p>
     </section>
     <section>
       <h3>Position Sizing Formula</h3>
       <p><strong>Size = (Account $ × Risk %) ÷ (Stop Pips × Pip Value)</strong></p>
       <p>$10K account, 1% risk ($100), 50-pip stop EURUSD: 100 ÷ (50 × $10/pip) = 0.2 lots. Risk exactly $100 per trade.</p>
       <p><strong>Three Methods:</strong> (1) Fixed Fractional: Risk % per trade (best, auto-scales). (2) Fixed Dollar: Same $ always ($100). (3) Kelly Criterion: Optimal from win rate + win/loss ratio (advanced, aggressive).</p>
+      <p><strong>Fixed Fractional Deep Dive:</strong> Har trade me constant % risk. $10K account, 1% = $100 risk. Account $11K ho gaya (after wins) to automatically 1% = $110. Account $9K ho gaya to 1% = $90. Self-adjusting system—winning streaks me size badhta hai (compounding), losing streaks me reduce hota hai (protection). Most retail traders ke liye best method.</p>
+      <p><strong>Kelly Criterion Reality:</strong> Formula: f* = (p × b - q) / b. p = win probability, b = win/loss ratio, q = loss probability. Example: 55% win rate, 1:1.5 avg R:R → f* = (0.55 × 1.5 - 0.45) / 1.5 = 0.25 = 25% of capital (!). Full Kelly extremely aggressive—drawdowns unbearable. Half-Kelly (12.5%) bhi risky. Quarter-Kelly (6%) realistic for high-confidence traders only. Beginners avoid.</p>
       <p><strong>Correlation Risk:</strong> 3 positions at 1% = 3% IF correlated. EURUSD + GBPUSD highly correlated. Reduce individual risk or cap portfolio max 2-3%. GOLD + EURUSD less correlated = can hold both 1% each.</p>
+      <p><strong>ATR-Based Dynamic Sizing:</strong> Volatility adjust karna crucial. GOLD ka 14-day ATR $15 hai to stop 1.5×ATR = $22.5. Agar ATR $30 ho gaya (volatile phase) to stop $45 chahiye. Same $100 risk, but size half ho jayega volatile market me. Automatic risk normalization across market conditions.</p>
+      <p><strong>Fixed Dollar Method Use Case:</strong> Agar monthly income target hai (not compounding growth) to fixed dollar method practical hai. $5000 account, har trade $50 risk. Win ho ya loss, next trade bhi $50 risk. Account $6000 ho gaya to bhi $50 risk maintain—surplus withdraw kar sakte ho. Income-focused traders ke liye ideal, growth-focused traders ke liye suboptimal (compounding effect lose hota hai).</p>
       <p><strong>GOLD real example:</strong> $10K, 1% risk = $100. GOLD setup: daily uptrend, pullback to 2100, stop 2080 (20 pips), GOLD $10/pip value. Size = 100 ÷ (20 × 10) = 0.5 units. Target 2150 (50 pips = $250 profit, 1:2.5 R:R).</p>
     </section>
     <div class="ads-slot" style="min-height:120px;margin:18px 0;"></div>
     <section>
       <h3>Common mistakes</h3>
       <ul>
-        <li>Using fixed lot sizes without recalculating risk.</li>
+        <li><strong>Fixed lot obsession:</strong> Trading 0.1 lot har trade pe—chahe volatility high ho ya low. GOLD volatile hai, rigid sizing se stop hunt easy ho jata hai.</li>
+        <li><strong>Kelly over-betting:</strong> Kelly criterion ko aggressively use karna bina drawdown tolerance dekhe. Theory sahi hai, practice me account blow kar deta hai.</li>
+        <li><strong>Correlation blindness:</strong> EURUSD aur GBPUSD pe simultaneously full size lena—correlation 80%+ hai, effective risk double ho jata hai.</li>
+        <li><strong>Equity curve ignorance:</strong> Losing streak me bhi same size trade karna. Winners ke baad size badhana chahiye, losers ke baad reduce karna.</li>
+        <li><strong>Portfolio heat neglect:</strong> Individual trade pe 1% risk control karna but total portfolio me 8 trades open—cumulative risk 8%. Disaster waiting.</li>
+        <li><strong>ATR skip:</strong> Recent ATR dekhe bina fixed pip stop use karna. Market calm hai to tight stop theek hai, volatile hai to wide stop mandatory.</li>
       </ul>
     </section>
     <section>
       <h3>Pro tips</h3>
       <ul>
-        <li>Automate sizing in your entry checklist to avoid manual errors.</li>
+        <li><strong>Weekly reset discipline:</strong> Har Monday apna max weekly risk define karo—say 5% of equity. Agar 4% loss ho gaya to next 2 days half size ya stop trading.</li>
+        <li><strong>Setup quality multiplier:</strong> A-grade setup (HTF alignment + confluence) me 1% risk, B-grade me 0.5%, C-grade skip. Quality priority, not frequency.</li>
+        <li><strong>ATR-based dynamic stops:</strong> GOLD ka 14-day ATR $18 hai to minimum stop 1.5×ATR = $27. Tight stop = premature exit, not safety.</li>
+        <li><strong>Correlation matrix check:</strong> Har Friday apne open positions ka correlation matrix check karo. Agar 3+ pairs 70%+ correlated hain to total size reduce karo.</li>
+        <li><strong>Drawdown circuit breaker:</strong> 10% account drawdown hit kare to mandatory 1-week break. Fresh review karke wapas aao, revenge trading nahi.</li>
+        <li><strong>Excel risk calculator:</strong> Simple Excel sheet banao—inputs: entry, stop, risk %, output: lot size. Manual calculation me error hota hai, automation consistent hai.</li>
       </ul>
+    </section>
+    <section>
+      <h3>Risk warning</h3>
+      <p>Perfect sizing capital protect karta hai but profit guarantee nahi deta. Strategy edge mandatory hai—sizing + edge = compounding possible. Kelly criterion paper pe brilliant hai, real trading me psychological stress unbearable ban sakta hai agar full Kelly use karo. Conservative sizing (1% fixed fractional) boring lagta hai but long-term compounding me yahi survive karta hai.</p>
+      <p><strong>Drawdown reality:</strong> Agar tumhara sizing aggressive hai (3-5% per trade) to even 50% win-rate strategy me 20-30% drawdowns common hain. Recovery time 6-12 months lag sakta hai. 1% sizing me worst-case 10-15% drawdown manageable hai, recovery 2-3 months. Patience test hota hai—aggressive sizing = faster failure ya spectacular success (mostly failure).</p>
+    </section>
+    <section>
+      <h3>FAQs</h3>
+      <dl>
+        <dt>Fixed fractional best hai kya har trader ke liye?</dt>
+        <dd>Beginners ke liye absolutely—simple, consistent, aur overtrading se bachata hai. 1% risk fixed rakho. Advanced traders Kelly ya portfolio heat use kar sakte hain but complexity sambhalni padegi. Risk pehle, returns baad me.</dd>
+        
+        <dt>Kelly criterion real trading me kaam karta hai?</dt>
+        <dd>Theory brilliant hai, practice me risky. Full Kelly use karne se drawdowns unbearable ho jate hain. Half-Kelly ya quarter-Kelly use karo. Conservative approach = survival, aggressive Kelly = emotional breakdown possible.</dd>
+        
+        <dt>Portfolio heat kaise calculate karun agar 5 positions open hain?</dt>
+        <dd>Har trade ka stop-loss distance as % of equity calculate karo. Example: Trade 1 = 1%, Trade 2 = 0.8%, Trade 3 = 1.2%, Trade 4 = 0.7%, Trade 5 = 1%. Total = 4.7%. Agar 5%+ ho raha hai to new position skip karo.</dd>
+        
+        <dt>GOLD trading me ATR-based sizing kyun important hai?</dt>
+        <dd>GOLD volatile hai—kabhi $15/day ATR, kabhi $30/day. Fixed pip stop (say 50 pips) volatile phase me premature exit de deta hai. 1.5×ATR stop use karo—structure-based aur volatility-adjusted.</dd>
+        
+        <dt>Correlated pairs trade karne se kya problem hoti hai?</dt>
+        <dd>EURUSD aur GBPUSD 80%+ correlated hain. Dono pe 1% risk = effective 1.8-2% risk ek direction me. Agar trade wrong gaya to double loss. Correlation check mandatory—max 2 correlated pairs simultaneously.</dd>
+        
+        <dt>Losing streak me size reduce karna chahiye ya consistent rakhna?</dt>
+        <dd>Reduce karo—psychology protect karne ke liye. 3 consecutive losses ke baad next 2 trades me half size use karo. Confidence rebuild ho jaye to normal size resume karo. Rigid sizing = emotional disaster possible.</dd>
+        
+        <dt>Risk calculator use karne ka fayda kya hai manual calculation se?</dt>
+        <dd>Accuracy aur speed. Manual me error common hai—especially GOLD jaise products me lot size calculation tricky hai. Excel ya app use karo: Entry, Stop, Risk % input → Lot size output. Consistent execution = compounding.</dd>
+        
+        <dt>Position size aur leverage me kya relation hai?</dt>
+        <dd>Leverage tumhe buying power deta hai but risk define nahi karta. 1:100 leverage se bhi 0.01 lot trade kar sakte ho (low risk), 1:20 se bhi 1 lot (high risk). Leverage tool hai, position size weapon—weapon responsibly use karo.</dd>
+        
+        <dt>Setup quality ke basis pe size vary karna sahi hai?</dt>
+        <dd>Advanced traders ke liye haan. A-grade setup (HTF + LTF alignment, confluence, fresh level) me 1% risk justified hai. B-grade (partial alignment) me 0.5%. C-grade skip. Quality over quantity = profitability ka formula.</dd>
+        
+        <dt>Fixed dollar sizing ka use case kya hai?</dt>
+        <dd>Agar tumhara main goal monthly income generation hai (not compounding) to fixed dollar use karo. Example: $5000 account, har trade me $50 risk = 1% initially. Account $6000 ho gaya to bhi $50 risk maintain—withdrawals consistent rahenge. Compounding goals ke liye fixed fractional better hai.</dd>
+      </dl>
     </section>
     <div class="author-box"><strong>Author:</strong> Rahul Mehra</div>
     <div class="ads-slot" style="min-height:120px;margin:18px 0;"></div>
