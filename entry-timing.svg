@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <rect width="100%" height="100%" fill="#08122a"/>
+  <g fill="#ffd166" font-family="Arial, Helvetica, sans-serif">
+    <text x="60" y="120" font-size="44" font-weight="700">Entry Timing</text>
+    <text x="60" y="160" font-size="18">Retest, candle confirmation, momentum timing</text>
+  </g>
+  <path d="M120 420 C 220 320, 360 280, 480 320 S 760 420, 980 380" stroke="#4cc9f0" stroke-width="6" fill="none"/>
+  <circle cx="480" cy="320" r="20" fill="#ff6b6b"/>
+</svg>
