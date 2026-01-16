@@ -30,9 +30,7 @@ Disallow: /*sessionid*
 # Block raw / data / dev files
 # -------------------------------
 Disallow: /*.json$
-Disallow: /*.xml$
 Disallow: /*.log$
-Disallow: /*.txt$
 Disallow: /*.md$
 
 # -------------------------------
@@ -62,6 +60,8 @@ Allow: /*.webp$
 Allow: /assets/
 Allow: /images/
 Allow: /fonts/
+Allow: /sitemap.xml
+Allow: /robots.txt
 
 # -------------------------------
 # Search engine specific rules

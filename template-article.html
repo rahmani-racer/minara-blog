@@ -25,53 +25,55 @@
 </header>
 
 <main id="main">
-  <article class="article">
+  <article class="article" role="article">
+    <nav class="breadcrumb" aria-label="Breadcrumb"></nav>
     <header class="article-head">
-      <h2>{{TITLE}}</h2>
+      <h1 id="articleTitle">{{TITLE}}</h1>
       <p class="byline">Last Updated: {{LAST_UPDATED}} — Minara Blog</p>
     </header>
 
     <section class="intro">
-      <h3>Problem-based introduction</h3>
+      <h2>Problem-based introduction</h2>
       <p>{{INTRO}}</p>
     </section>
 
     <section>
-      <h3>Step-by-step explanation</h3>
+      <h2>Step-by-step explanation</h2>
       {{STEP_BY_STEP}}
     </section>
 
     <section>
-      <h3>Real trading logic</h3>
+      <h2>Real trading logic</h2>
       {{REAL_LOGIC}}
     </section>
 
     <section>
-      <h3>Image-based examples (mandatory)</h3>
-      <img src="images/{{IMAGE}}" srcset="images/placeholder-400.svg 400w, images/placeholder-800.svg 800w, images/placeholder-1200.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="{{IMAGE_ALT}}" class="article-img" loading="lazy">
+      <h2>Image-based examples (mandatory)</h2>
+      <img src="images/{{IMAGE}}" srcset="images/placeholder-400.svg 400w, images/placeholder-800.svg 800w, images/placeholder-1200.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="{{IMAGE_ALT}}" class="article-img" loading="lazy" decoding="async" fetchpriority="low">
       <p>{{IMAGE_DESC}}</p>
     </section>
 
     <section>
-      <h3>Common Mistakes</h3>
+      <h2>Common Mistakes</h2>
       {{COMMON_MISTAKES}}
     </section>
 
     <section>
-      <h3>Pro Tips</h3>
+      <h2>Pro Tips</h2>
       {{PRO_TIPS}}
     </section>
 
     <section>
-      <h3>Risk Warning</h3>
+      <h2>Risk Warning</h2>
       <p>{{RISK_WARNING}}</p>
     </section>
 
     <div class="ads-slot" aria-hidden="true" style="min-height:120px; margin:18px 0;"></div>
 
     <section>
-      <h3>SEO FAQs</h3>
+      <h2>SEO FAQs</h2>
       {{FAQS}}
+      <!-- If no FAQs provided, authors can add items using .faq .faq-item structure -->
     </section>
 
     <section>

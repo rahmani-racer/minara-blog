@@ -446,35 +446,91 @@
   async function fetchPairPrice(pair) {
     try {
       if (!pair) return null;
-      const p = pair.replace('/', '').toUpperCase();
-      // special-case XAUUSD price using exchangerate.host -> symbol GOLD may not be available, use a simple demo or attempt convert via XAU
-      if (p === 'XAUUSD') {
-        // use demo or attempt convert endpoint
+      const normalized = pair.replace(/\s+/g,'').replace('/', '').toUpperCase();
+      // special-case XAU/XAG (precious metals)
+      if (normalized === 'XAUUSD' || normalized === 'XAGUSD') {
         try {
-          const r = await fetch(`${API_BASE}/convert?from=XAU&to=USD&amount=1`);
+          const r = await fetch(`${API_BASE}/convert?from=${normalized.slice(0,3)}&to=USD&amount=1`, { cache: 'no-store' });
+          if (!r.ok) throw new Error('convert failed');
           const j = await r.json();
-          if (j && typeof j.result !== 'undefined') return parseFloat(j.result).toFixed(2);
-        } catch (e) { /* ignore */ }
-        return DEMO_RATES['XAUUSD'] || '4373.00';
+          if (j && typeof j.result !== 'undefined') return Number(j.result).toFixed(2);
+        } catch (e) {
+          return DEMO_RATES[normalized] || null;
+        }
       }
 
-      // ...existing mapping code...
-      if (p === 'EURUSD') return (1 / (r['EUR'] || 1)).toFixed(4);
-      if (p === 'GBPUSD') return (1 / (r['GBP'] || 1)).toFixed(4);
-      if (p === 'USDJPY') return (r['JPY'] || 1).toFixed(2);
-      if (p === 'AUDUSD') return (1 / (r['AUD'] || 1)).toFixed(4);
-      if (p === 'USDCAD') return (r['CAD'] || 1).toFixed(4);
-      if (p === 'USDINR') return (r['INR'] || 1).toFixed(2);
-      // fallback: try convert endpoint swapping base/quote
-      const a = p.slice(0,3); const b = p.slice(3,6);
-      const convRes = await fetch(`${API_BASE}/convert?from=${a}&to=${b}&amount=1`);
-      const convJson = await convRes.json();
-      if (convJson && typeof convJson.result !== 'undefined') return convJson.result.toFixed(4);
-      return DEMO_RATES[p] || null;
+      // general case: try convert endpoint (1 unit of base -> quote)
+      const a = normalized.slice(0,3);
+      const b = normalized.slice(3,6);
+      if (!a || !b) return null;
+      try {
+        const convRes = await fetch(`${API_BASE}/convert?from=${a}&to=${b}&amount=1`, { cache: 'no-store' });
+        if (convRes.ok) {
+          const convJson = await convRes.json();
+          if (convJson && typeof convJson.result !== 'undefined') return Number(convJson.result).toFixed(4);
+        }
+      } catch (e) {
+        // ignore and fallback
+      }
+
+      // fallback: try latest endpoint and compute
+      try {
+        const latest = await fetch(`${API_BASE}/latest?base=${a}&symbols=${b}`, { cache: 'no-store' });
+        if (latest.ok) {
+          const lj = await latest.json();
+          const rate = lj.rates && lj.rates[b];
+          if (rate) return Number(rate).toFixed(4);
+        }
+      } catch (e) { /* ignore */ }
+
+      const key = normalized;
+      return DEMO_RATES[key] || null;
     } catch (err) {
       console.warn('fetchPairPrice error', err);
-      const key = pair.replace('/','').toUpperCase();
+      const key = (pair || '').replace('/','').toUpperCase();
       return DEMO_RATES[key] || null;
+    }
+  }
+
+  // Inject recommended links: next 3 articles from sitemap order
+  async function initRecommendedLinks() {
+    try {
+      const footer = qs('.article-footer') || qs('footer') || qs('main');
+      if (!footer) return;
+      const resp = await fetch('/sitemap.xml', { cache: 'no-store' });
+      if (!resp.ok) return;
+      const txt = await resp.text();
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(txt, 'application/xml');
+      const locs = [...xml.querySelectorAll('loc')].map(n => n.textContent.trim());
+      if (!locs.length) return;
+
+      const files = locs.map(u => {
+        try { return new URL(u).pathname.split('/').pop(); } catch (e) { return u.split('/').pop(); }
+      }).filter(f => f && f.endsWith('.html') && f !== 'template-article.html');
+
+      const cur = (location.pathname.split('/').pop() || 'index.html');
+      const idx = files.indexOf(cur);
+      const start = idx >= 0 ? idx + 1 : 0;
+      const picks = files.slice(start, start + 3);
+      if (!picks.length) return;
+
+      const wrap = document.createElement('div'); wrap.className = 'recommended-links';
+      const h = document.createElement('h4'); h.textContent = 'Recommended next';
+      const ul = document.createElement('ul'); ul.style.listStyle = 'none'; ul.style.padding = '0'; ul.style.margin = '8px 0 0';
+      picks.forEach(p => {
+        const li = document.createElement('li'); li.style.margin = '6px 0';
+        const a = document.createElement('a'); a.href = p; a.textContent = p.replace(/[-_\.html]+/g,' ').replace(/\s+/g,' ').trim();
+        li.appendChild(a); ul.appendChild(li);
+      });
+      wrap.appendChild(h); wrap.appendChild(ul);
+
+      const article = qs('article.article') || qs('main');
+      const footerEl = article ? article.querySelector('.article-footer') : null;
+      if (footerEl && footerEl.parentNode) footerEl.parentNode.insertBefore(wrap, footerEl);
+      else if (article) article.appendChild(wrap);
+    } catch (e) {
+      console.warn('Recommended links failed', e);
     }
   }
 
@@ -696,5 +752,243 @@
     el.addEventListener('click', (e) => showSessionTooltip(el.dataset.session, el));
     el.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') showSessionTooltip(el.dataset.session, el); });
   });
+
+  /* ==============================
+     ENTERPRISE FEATURES (ARTICLE UX)
+     - Auto TOC
+     - Reading time
+     - Breadcrumbs
+     - FAQ JSON-LD and accordion
+     - Glossary tooltips
+     - Sticky related sidebar (injection)
+     - Smooth anchor scrolling
+     - Author box + E-E-A-T JSON-LD
+  ============================== */
+
+  function safeSelector(sel) { try { return qs(sel); } catch (e) { return null; } }
+
+  // Reading time: count words inside main/article and show near title
+  function injectReadingTime() {
+    const article = qs('main') || qs('.section.card');
+    if (!article) return;
+    const text = article.innerText || article.textContent || '';
+    const words = text.trim().split(/\s+/).filter(Boolean).length;
+    const mins = Math.max(1, Math.round(words / 200));
+    // insert element under h1 if present
+    const h1 = article.querySelector('h1');
+    const metaWrap = document.createElement('div'); metaWrap.className = 'article-meta';
+    const reading = document.createElement('div'); reading.className = 'reading-time'; reading.textContent = `${mins} min read`;
+    // breadcrumb placeholder
+    const bc = document.createElement('div'); bc.className = 'breadcrumb';
+    // try generating breadcrumb
+    bc.innerHTML = generateBreadcrumbHTML();
+    metaWrap.appendChild(bc);
+    metaWrap.appendChild(reading);
+    if (h1 && h1.parentNode) h1.parentNode.insertBefore(metaWrap, h1.nextSibling);
+  }
+
+  // Generate simple breadcrumb from path
+  function generateBreadcrumbHTML() {
+    const path = location.pathname.replace(/\/index\.html$/,'').replace(/^\//,'');
+    if (!path || path === 'index.html' || path === '') return `<a href="/">Home</a>`;
+    const parts = path.split('/').filter(Boolean);
+    let acc = '';
+    const crumbs = parts.map((p,i) => {
+      acc += '/' + p;
+      const name = decodeURIComponent(p.replace(/[-_\.html]/g,' ')).replace(/\bhtml\b/,'').trim();
+      return `<a href="${acc}">${name}</a>`;
+    });
+    return `<a href="/">Home</a> › ${crumbs.join(' › ')}`;
+  }
+
+  // Auto TOC for H2/H3
+  function generateTOC() {
+    const content = qs('main') || qs('.section.card');
+    if (!content) return;
+    const headings = [...content.querySelectorAll('h2,h3')];
+    if (!headings.length) return;
+    const toc = document.createElement('nav'); toc.className = 'toc';
+    toc.innerHTML = '<h4>Contents</h4>';
+    const ul = document.createElement('ul');
+    headings.forEach(h => {
+      if (!h.id) h.id = h.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+      const li = document.createElement('li');
+      const a = document.createElement('a'); a.href = `#${h.id}`; a.textContent = h.textContent.trim();
+      a.addEventListener('click', (ev) => {
+        ev.preventDefault(); document.getElementById(h.id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', `#${h.id}`);
+      });
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+    toc.appendChild(ul);
+    // try to place toc in a reasonable spot: insert before first article paragraph
+    const first = content.querySelector('h2') || content.querySelector('p');
+    if (first && first.parentNode) {
+      const wrapper = document.createElement('div'); wrapper.style.display = 'flex'; wrapper.style.gap = '18px';
+      const mainCol = document.createElement('div'); mainCol.style.flex = '1';
+      // move content nodes after insertion into mainCol
+      // we'll insert toc as a sidebar element
+      const sidebar = document.createElement('aside'); sidebar.className = 'related-sidebar';
+      const sideCard = document.createElement('div'); sideCard.className = 'related-card';
+      sideCard.appendChild(toc);
+      sidebar.appendChild(sideCard);
+      // insert sidebar before content
+      content.parentNode.insertBefore(sidebar, content);
+    }
+  }
+
+  // FAQ accordion and JSON-LD generation
+  function initFAQ() {
+    const faqs = qsa('.faq');
+    if (!faqs.length) return;
+    faqs.forEach(faq => {
+      qsa('.faq-item', faq).forEach(item => {
+        const qEl = item.querySelector('.faq-question');
+        const aEl = item.querySelector('.faq-answer');
+        if (!qEl || !aEl) return;
+        qEl.setAttribute('role','button'); qEl.setAttribute('tabindex','0');
+        qEl.addEventListener('click', () => item.classList.toggle('open'));
+        qEl.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') item.classList.toggle('open'); });
+      });
+    });
+
+    // Build FAQ schema
+    try {
+      const qa = [];
+      faqs.forEach(faq => {
+        qsa('.faq-item', faq).forEach(item => {
+          const q = item.querySelector('.faq-question')?.innerText || '';
+          const a = item.querySelector('.faq-answer')?.innerText || '';
+          if (q && a) qa.push({ question: q.trim(), answer: a.trim() });
+        });
+      });
+      if (qa.length) {
+        const ld = { '@context':'https://schema.org', '@type':'FAQPage', 'mainEntity': qa.map(x => ({ '@type':'Question','name': x.question, 'acceptedAnswer': { '@type':'Answer','text': x.answer } })) };
+        const s = document.createElement('script'); s.type = 'application/ld+json'; s.textContent = JSON.stringify(ld);
+        document.head.appendChild(s);
+      }
+    } catch (e) { console.warn('FAQ schema failed', e); }
+  }
+
+  // Glossary tooltip: look for elements with class 'glossary-term' and wire term definitions
+  const GLOSSARY = {
+    'pip': 'Smallest price move in a currency pair. Typically 0.0001 for most pairs.',
+    'lot': 'A standardized contract size used in forex trading, e.g., 100,000 units for a standard lot.',
+    'spread': 'Difference between bid and ask price; a trading cost.'
+  };
+  function initGlossary() {
+    qsa('.glossary-term').forEach(el => {
+      const key = el.textContent.trim().toLowerCase();
+      if (GLOSSARY[key]) el.classList.add('gloss') , el.setAttribute('data-term', GLOSSARY[key]);
+    });
+  }
+
+  // Inject author box and E-E-A-T JSON-LD (non-intrusive)
+  function injectAuthorBox() {
+    const article = qs('main') || qs('.section.card'); if (!article) return;
+    const authorBox = document.createElement('aside'); authorBox.className = 'related-card';
+    authorBox.style.marginTop = '18px'; authorBox.innerHTML = `<strong>Author:</strong> Minara Blog<br><small class="muted">Founder & Editor — Practical trading education in Hinglish. Verified sources and transparent approach.</small>`;
+    article.appendChild(authorBox);
+
+    const person = { '@context':'https://schema.org', '@type':'Person', 'name':'Minara Blog', 'description':'Founder & Editor — Practical trading education in Hinglish.', 'url': location.origin };
+    const s = document.createElement('script'); s.type = 'application/ld+json'; s.textContent = JSON.stringify(person);
+    document.head.appendChild(s);
+  }
+
+  // Insert standard financial/educational disclaimer near footer
+  function injectDisclaimer() {
+    const footer = qs('footer') || qs('.footer-pro');
+    if (!footer) return;
+    if (qs('.disclaimer', footer)) return;
+    const d = document.createElement('div'); d.className = 'disclaimer';
+    d.innerHTML = `<strong>Disclaimer:</strong> This site provides educational content only. Nothing here is financial advice. Trading involves risk; always do your own research and risk management.`;
+    footer.parentNode.insertBefore(d, footer);
+  }
+
+  // Article interlinking (prev/next) — builds navigation from sitemap.xml
+  async function initArticleInterlinks() {
+    try {
+      const footer = qs('.article-footer') || qs('footer') || qs('main');
+      if (!footer) return;
+      const resp = await fetch('/sitemap.xml', { cache: 'no-store' });
+      if (!resp.ok) return;
+      const txt = await resp.text();
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(txt, 'application/xml');
+      const locs = [...xml.querySelectorAll('loc')].map(n => n.textContent.trim());
+      if (!locs.length) return;
+
+      const files = locs.map(u => {
+        try { return new URL(u).pathname.split('/').pop(); } catch (e) { return u.split('/').pop(); }
+      }).filter(Boolean)
+      // remove non-html helpers and template
+      .filter(f => f && f.endsWith('.html') && f !== 'template-article.html');
+
+      const cur = (location.pathname.split('/').pop() || 'index.html');
+      const idx = files.indexOf(cur);
+      if (idx === -1) return;
+
+      const prev = files[idx - 1];
+      const next = files[idx + 1];
+      if (!prev && !next) return;
+
+      const nav = document.createElement('nav'); nav.className = 'article-nav';
+      const makeLabel = (fname) => fname ? fname.replace(/[-_\.html]+/g, ' ').replace(/\s+/g,' ').trim() : '';
+
+      const left = document.createElement('div'); left.className = 'nav-prev';
+      if (prev) {
+        const a = document.createElement('a'); a.href = prev; a.rel = 'prev'; a.textContent = '← ' + makeLabel(prev);
+        left.appendChild(a);
+      }
+
+      const right = document.createElement('div'); right.className = 'nav-next';
+      if (next) {
+        const a2 = document.createElement('a'); a2.href = next; a2.rel = 'next'; a2.textContent = makeLabel(next) + ' →';
+        right.appendChild(a2);
+      }
+
+      nav.appendChild(left); nav.appendChild(right);
+
+      // style-friendly insertion: before .article-footer if present
+      const article = qs('article.article') || qs('main');
+      const footerEl = article ? article.querySelector('.article-footer') : null;
+      if (footerEl && footerEl.parentNode) footerEl.parentNode.insertBefore(nav, footerEl);
+      else if (article) article.appendChild(nav);
+    } catch (e) {
+      console.warn('Article interlinking failed', e);
+    }
+  }
+
+  // Smooth anchor scrolling offset to account for fixed header
+  function fixAnchorOffsets() {
+    document.addEventListener('click', function (ev) {
+      const a = ev.target.closest('a'); if (!a) return;
+      if (a.hash && document.getElementById(a.hash.replace('#',''))) {
+        ev.preventDefault(); const target = document.getElementById(a.hash.replace('#',''));
+        const y = target.getBoundingClientRect().top + window.scrollY - (headerEl ? headerEl.offsetHeight + 12 : 80);
+        window.scrollTo({ top: y, behavior: 'smooth' });
+        history.replaceState(null, '', a.hash);
+      }
+    });
+  }
+
+  // Initialize all article UX features safely
+  function initArticleFeatures() {
+    try { injectReadingTime(); } catch (e) { console.warn('reading time failed', e); }
+    try { generateTOC(); } catch (e) { console.warn('toc failed', e); }
+    try { initFAQ(); } catch (e) { console.warn('faq init failed', e); }
+    try { initGlossary(); } catch (e) { console.warn('glossary failed', e); }
+    try { injectAuthorBox(); } catch (e) { console.warn('author box failed', e); }
+    try { injectDisclaimer(); } catch (e) { console.warn('disclaimer failed', e); }
+    try { initArticleInterlinks(); } catch (e) { console.warn('article interlinks failed', e); }
+    try { initRecommendedLinks(); } catch (e) { console.warn('recommended links failed', e); }
+    try { fixAnchorOffsets(); } catch (e) { console.warn('anchor fix failed', e); }
+  }
+
+  // Run on DOMContentLoaded to ensure page content is present
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initArticleFeatures);
+  } else { initArticleFeatures(); }
 
 })();

@@ -398,6 +398,76 @@ nav a:hover::after { width: 100%; }
 .session { padding:6px 10px; border-radius:6px; background: rgba(255,255,255,0.03); cursor: pointer; transition: transform .12s ease; }
 .session:hover { transform: translateY(-2px); }
 .session.open { box-shadow: 0 6px 18px rgba(56,189,248,0.12); background: linear-gradient(90deg, rgba(56,189,248,0.12), rgba(56,189,248,0.06)); border: 1px solid rgba(56,189,248,0.2); }
+
+/* Article prev/next navigation (injected by script.js) */
+.article-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0 8px;
+  padding: 12px 14px;
+  border-top: 1px solid var(--border-soft);
+}
+.article-nav .nav-prev, .article-nav .nav-next { flex: 1; }
+.article-nav .nav-prev { text-align: left; }
+.article-nav .nav-next { text-align: right; }
+.article-nav a {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  color: var(--text-main);
+  font-weight: 700;
+}
+.article-nav a:hover { transform: translateY(-2px); box-shadow: var(--shadow-soft); }
+
+@media (max-width: 680px) {
+  .article-nav { flex-direction: column; align-items: stretch; }
+  .article-nav .nav-prev, .article-nav .nav-next { text-align: center; }
+  .article-nav a { width: 100%; box-sizing: border-box; }
+}
+
+/* =========================
+  ENTERPRISE / ARTICLE UX
+  Auto Table of Contents, Reading Time, Sidebar, FAQ etc.
+========================= */
+.article-meta { display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.reading-time { color:var(--text-muted); font-size:13px; }
+.breadcrumb { font-size:13px; color:var(--text-muted); margin-bottom:8px; }
+.toc { background: rgba(255,255,255,0.02); border:1px solid var(--border-soft); padding:12px; border-radius:10px; max-width:320px; font-size:14px; }
+.toc h4 { margin:0 0 8px 0; font-size:14px; }
+.toc ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
+.toc a { color:var(--text-main); font-size:14px; }
+
+/* Sticky related articles sidebar (desktop) */
+.related-sidebar { position:sticky; top:120px; align-self:start; max-width:280px; }
+.related-card { background: var(--bg-card); padding:12px; border-radius:10px; border:1px solid var(--border-soft); }
+
+/* FAQ accordion */
+.faq { margin-top:18px; text-align:left; }
+.faq .faq-item { border-bottom:1px solid rgba(255,255,255,0.03); padding:10px 0; }
+.faq .faq-question { cursor:pointer; font-weight:700; display:flex; justify-content:space-between; align-items:center; }
+.faq .faq-answer { max-height:0; overflow:hidden; transition: max-height 280ms ease; }
+.faq .faq-item.open .faq-answer { max-height:400px; margin-top:8px; }
+
+/* Glossary tooltip */
+.gloss { border-bottom:1px dashed var(--accent); cursor:help; position:relative; }
+.gloss[data-term]:hover::after { content: attr(data-term); position:absolute; left:0; top:110%; background:var(--bg-card); color:var(--text-main); padding:8px 10px; border-radius:8px; box-shadow:var(--shadow-soft); white-space:nowrap; z-index:2000; }
+
+/* Breadcrumb / small helpers */
+.breadcrumb a { color:var(--text-muted); }
+
+/* Accessibility: larger focus ring */
+a:focus, button:focus, input:focus { outline:3px solid rgba(56,189,248,0.22); outline-offset:2px; }
+
+/* Disclaimer box */
+.disclaimer { margin-top:20px; font-size:13px; color:var(--text-muted); background: rgba(255,255,255,0.02); padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); }
+
+/* Small screens: hide related sidebar */
+@media (max-width:980px) { .related-sidebar { display:none; } .toc { max-width:100%; } }
+
 .session-tooltip {
   position: absolute;
   background: var(--bg-card);
