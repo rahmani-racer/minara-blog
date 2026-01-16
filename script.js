@@ -531,7 +531,7 @@
       const ul = document.createElement('ul'); ul.style.listStyle = 'none'; ul.style.padding = '0'; ul.style.margin = '8px 0 0';
       picks.forEach(p => {
         const li = document.createElement('li'); li.style.margin = '6px 0';
-        const a = document.createElement('a'); a.href = p; a.textContent = p.replace(/[-_\.html]+/g,' ').replace(/\s+/g,' ').trim();
+        const a = document.createElement('a'); a.href = p; a.textContent = p.replace(/\.html$/,'').replace(/[-_]+/g,' ').replace(/\s+/g,' ').trim();
         li.appendChild(a); ul.appendChild(li);
       });
       wrap.appendChild(h); wrap.appendChild(ul);
@@ -579,7 +579,7 @@
             if (m && m[1]) return m[1].trim();
           }
         } catch (e) { /* ignore */ }
-        return fname.replace(/[-_\.html]+/g,' ').replace(/\s+/g,' ').trim();
+        return fname.replace(/\.html$/,'').replace(/[-_]+/g,' ').replace(/\s+/g,' ').trim();
       };
 
       // build items (limit to first container's capacity)
@@ -884,7 +884,7 @@
     let acc = '';
     const crumbs = parts.map((p,i) => {
       acc += '/' + p;
-      const name = decodeURIComponent(p.replace(/[-_\.html]/g,' ')).replace(/\bhtml\b/,'').trim();
+      const name = decodeURIComponent(p.replace(/\.html$/,'').replace(/[-_]+/g,' ')).trim();
       return `<a href="${acc}">${name}</a>`;
     });
     return `<a href="/">Home</a> › ${crumbs.join(' › ')}`;
@@ -1000,7 +1000,14 @@
   function injectAuthorBox() {
     const article = qs('main') || qs('.section.card'); if (!article) return;
     const authorBox = document.createElement('aside'); authorBox.className = 'related-card';
-    authorBox.style.marginTop = '18px'; authorBox.innerHTML = `<strong>Author:</strong> Minara Blog<br><small class="muted">Founder & Editor — Practical trading education in Hinglish. Verified sources and transparent approach.</small>`;
+    authorBox.style.marginTop = '18px'; authorBox.innerHTML = `
+      <div style="display:flex;gap:12px;align-items:center;">
+        <img src="profile.jpg.png" alt="Minara Blog Profile" width="64" height="64" loading="lazy" decoding="async" style="border-radius:50%; border:3px solid var(--accent); object-fit:cover;"/>
+        <div>
+          <strong>Author:</strong> Minara Blog<br>
+          <small class="muted">Founder & Editor — Practical trading education in Hinglish. Verified sources and transparent approach.</small>
+        </div>
+      </div>`;
     article.appendChild(authorBox);
 
     const person = { '@context':'https://schema.org', '@type':'Person', 'name':'Minara Blog', 'description':'Founder & Editor — Practical trading education in Hinglish.', 'url': location.origin };
@@ -1046,7 +1053,7 @@
       if (!prev && !next) return;
 
       const nav = document.createElement('nav'); nav.className = 'article-nav';
-      const makeLabel = (fname) => fname ? fname.replace(/[-_\.html]+/g, ' ').replace(/\s+/g,' ').trim() : '';
+      const makeLabel = (fname) => fname ? fname.replace(/\.html$/,'').replace(/[-_]+/g, ' ').replace(/\s+/g,' ').trim() : '';
 
       const left = document.createElement('div'); left.className = 'nav-prev';
       if (prev) {
