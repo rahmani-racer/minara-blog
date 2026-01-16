@@ -597,8 +597,21 @@
         items.forEach(it => {
           const li = document.createElement('li'); li.className = 'article-item';
           const thumb = document.createElement('div'); thumb.className = 'article-thumb';
-          // small svg placeholder (keeps layout stable)
-          thumb.innerHTML = `<svg width="72" height="48" viewBox="0 0 92 64" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;border-radius:6px;"><rect width="92" height="64" rx="6" fill="#071022"/></svg>`;
+
+          // derive thumbnail path from filename: images/<slug>.svg
+          const slug = (it.file || '').replace(/\.html$/,'');
+          const img = document.createElement('img');
+          img.src = `images/${slug}.svg`;
+          img.alt = it.label || slug;
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          img.style.width = '100%';
+          img.style.height = '100%';
+          img.style.display = 'block';
+          img.style.borderRadius = '6px';
+          img.onerror = function () { this.onerror = null; this.src = 'images/placeholder-400.svg'; };
+          thumb.appendChild(img);
+
           const content = document.createElement('div'); content.className = 'article-content';
           const strong = document.createElement('strong'); strong.textContent = it.label;
           const a = document.createElement('a'); a.href = it.file; a.textContent = 'Read →';
@@ -1094,16 +1107,23 @@
 
   // Initialize all article UX features safely
   function initArticleFeatures() {
-    try { injectReadingTime(); } catch (e) { console.warn('reading time failed', e); }
+    const isArticle = !!document.querySelector('article.article');
+
+    // Always safe on any page
     try { buildArticleLists(); } catch (e) { console.warn('build article lists failed', e); }
-    try { generateTOC(); } catch (e) { console.warn('toc failed', e); }
     try { initFAQ(); } catch (e) { console.warn('faq init failed', e); }
     try { initGlossary(); } catch (e) { console.warn('glossary failed', e); }
-    try { injectAuthorBox(); } catch (e) { console.warn('author box failed', e); }
-    try { injectDisclaimer(); } catch (e) { console.warn('disclaimer failed', e); }
-    try { initArticleInterlinks(); } catch (e) { console.warn('article interlinks failed', e); }
-    try { initRecommendedLinks(); } catch (e) { console.warn('recommended links failed', e); }
     try { fixAnchorOffsets(); } catch (e) { console.warn('anchor fix failed', e); }
+
+    // Scoped to article pages only
+    if (isArticle) {
+      try { injectReadingTime(); } catch (e) { console.warn('reading time failed', e); }
+      try { generateTOC(); } catch (e) { console.warn('toc failed', e); }
+      try { injectAuthorBox(); } catch (e) { console.warn('author box failed', e); }
+      try { injectDisclaimer(); } catch (e) { console.warn('disclaimer failed', e); }
+      try { initArticleInterlinks(); } catch (e) { console.warn('article interlinks failed', e); }
+      try { initRecommendedLinks(); } catch (e) { console.warn('recommended links failed', e); }
+    }
   }
 
   // Run on DOMContentLoaded to ensure page content is present
