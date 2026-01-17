@@ -213,33 +213,71 @@
 
         <li>Daily ATR compare karo: agar ATR collapse hai, breakout attempt likely; prepare for expansion.</li>
         <li>Backtest: log 50 trades (25 breakout, 25 mean-reversion); remove low-ev setups.</li>
-    <section class="intro">
+    <nav id="toc" class="toc">
+      <h4>Table of Contents</h4>
+      <ul>
+        <li><a href="#intro">Problem-based introduction</a></li>
+        <li><a href="#step-by-step">Step-by-step explanation</a></li>
+        <li><a href="#real-logic">Real trading logic (GOLD example)</a></li>
+        <li><a href="#breakout-vs-reversion">Breakout vs Mean Reversion</a></li>
+        <li><a href="#squeeze-spot">How to Spot a Squeeze</a></li>
+        <li><a href="#entry-exit">Entry & Exit Playbook</a></li>
+        <li><a href="#timeframes">Timeframes & Instruments</a></li>
+        <li><a href="#combining">Combining Indicators</a></li>
+        <li><a href="#case-study-breakout">Case Study: London Squeeze Breakout</a></li>
+        <li><a href="#case-study-failure">Case Study: Mean Reversion Failure</a></li>
+        <li><a href="#journal">Journal Template</a></li>
+        <li><a href="#advanced">Advanced Concept: Bollinger + Keltner</a></li>
+        <li><a href="#parameters">Parameter Choices</a></li>
+        <li><a href="#volatility">Volatility Regimes</a></li>
+        <li><a href="#checklist">Pre-Trade Checklist</a></li>
+        <li><a href="#faqs">FAQs</a></li>
+        <li><a href="#practice">Practice Plan</a></li>
+        <li><a href="#cheat-sheet">Quick Reference Cheat Sheet</a></li>
+        <li><a href="#risk-controls">Risk Controls</a></li>
+        <li><a href="#position-sizing">Risk & Position Sizing</a></li>
+        <li><a href="#htf-context">Higher Timeframe Context</a></li>
+        <li><a href="#mistakes">Common Mistakes</a></li>
+        <li><a href="#pro-tips">Pro Tips</a></li>
+        <li><a href="#risk-warning">Risk Warning</a></li>
+      </ul>
+    </nav>
+
+    <section class="intro" id="intro">
       <h3>Problem-based introduction</h3>
       <p>
-        Traders dekheinge Bollinger Bands par aur sochte hain ki kaise use karein — breakout ya mean-reversion? Simple Hinglish guide mein hum explain karenge volatility band ka matlab, kaunse setups kaam karte hain, aur GOLD (XAU/USD) examples ke saath real logic dikhayenge.
+        Traders dekheinge Bollinger Bands par aur sochte hain ki kaise use karein — breakout ya mean-reversion? Simple Hinglish guide mein hum explain karenge volatility band ka matlab, kaunse setups kaam karte hain, aur GOLD (XAU/USD) examples ke saath real logic dikhayenge. Many beginners use bands blindly, leading to losses. This guide provides a structured approach to using Bollinger Bands effectively for consistent results.
       </p>
+      <p>Why Bollinger Bands matter: They measure volatility and relative price extremes. In trending markets, bands help identify momentum; in ranging markets, they signal reversions. But without context, bands can mislead. We'll cover breakout and mean-reversion strategies with real GOLD examples.</p>
     </section>
 
-    <section>
+    <section id="step-by-step">
       <h3>Step-by-step explanation</h3>
       <ol>
         <li><strong>Components:</strong> Middle band = moving average (usually 20 SMA), upper/lower = MA ± k*stddev (commonly k=2).</li>
         <li><strong>Interpretation:</strong> Bands widen during high volatility and contract in low volatility (squeeze).</li>
         <li><strong>Setups:</strong> Mean-reversion: price touching band and reverting toward mid; Breakout: squeeze leading to directional move on expansion.</li>
+        <li><strong>Settings:</strong> Default 20,2; adjust for timeframe/instrument.</li>
+        <li><strong>Filters:</strong> Use HTF trend, session, news to improve odds.</li>
       </ol>
     </section>
 
-    <section>
+    <section id="real-logic">
       <h3>Real trading logic (GOLD example)</h3>
       <p>
         Example: XAU/USD in a narrow range with contracting bands (squeeze). Wait for confirmed band expansion with a candle outside upper band and follow-through to consider a breakout trade with stop under the squeeze low. For mean-reversion, if price sharply touches lower band near higher timeframe support and forms a reversal candle, use scaled entries toward mid-band.
       </p>
+      <p>Advanced tip: In GOLD, bands often hug during trends. Use band walks as momentum confirmation, not reversal signals.</p>
     </section>
 
-    <section>
+    <section id="image-examples">
       <h3>Image-based examples (mandatory)</h3>
       <img src="images/bollinger-bands.svg" srcset="images/bollinger-bands.svg 400w, images/bollinger-bands.svg 800w, images/bollinger-bands.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="Bollinger Bands examples" class="article-img" width="800" height="420" loading="lazy" decoding="async">
       <p>Annotated GOLD chart showing squeeze breakout and a mean-reversion setup.</p>
+      <figure>
+        <img src="images/bollinger-bands-breakout.svg" srcset="images/bollinger-bands-breakout.svg 400w, images/bollinger-bands-breakout.svg 800w, images/bollinger-bands-breakout.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="Bollinger Bands breakout example" class="article-img" width="800" height="420" loading="lazy" decoding="async">
+        <figcaption>Breakout setup on EUR/USD: Squeeze followed by expansion and momentum.</figcaption>
+      </figure>
     </section>
 
     <section>
