@@ -10,20 +10,20 @@
 :root {
   --bg-main: #ffffff;
   --bg-card: #ffffff;
-  --text-main: #0b1220;
-  --text-muted: #475569;
-  --accent: #06b6d4;
-  --border-soft: #e2e8f0;
+  --text-main: #000000;
+  --text-muted: #666666;
+  --accent: #ffffff;
+  --border-soft: #cccccc;
   --shadow-soft: 0 18px 30px rgba(0,0,0,0.12);
 }
 
 body.dark {
   --bg-main: #ffffff;
   --bg-card: #ffffff;
-  --text-main: #0f172a;
-  --text-muted: #475569;
-  --accent: #2563eb;
-  --border-soft: #e2e8f0;
+  --text-main: #000000;
+  --text-muted: #666666;
+  --accent: #ffffff;
+  --border-soft: #cccccc;
   --shadow-soft: 0 18px 30px rgba(0,0,0,0.12);
 }
 
@@ -153,17 +153,12 @@ header {
   width: 100%;
   z-index: 1000;
   padding: 18px 0;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364, #1a252f, #0f2027);
-  background-size: 400% 400%;
-  animation: headerGlow 20s ease-in-out infinite;
+  background: #ffffff;
   transition: transform 0.35s ease-in-out;
   box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 
-@keyframes headerGlow {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
+
 
 .header-hide {
   transform: translateY(-100%);
@@ -373,7 +368,7 @@ nav {
 }
 
 nav a {
-  color: #ffffff;
+  color: #000000;
   font-weight: 600;
   position: relative;
 }
@@ -397,7 +392,7 @@ nav a:hover::after { width: 100%; }
   margin-top: 10px;
   background: transparent;
   border: 1px solid var(--border-soft);
-  color: #ffffff;
+  color: #000000;
   border-radius: 20px;
   padding: 4px 12px;
   cursor: pointer;
