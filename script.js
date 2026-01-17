@@ -446,6 +446,28 @@
     });
   }
 
+  /* Retirement Calculator */
+  if (qs('#retirementBtn')) {
+    qs('#retirementBtn').addEventListener('click', () => {
+      const currentSavings = parseFloat(qs('#currentSavings').value) || 0;
+      const monthlyContrib = parseFloat(qs('#monthlyContrib').value) || 0;
+      const retirementRate = parseFloat(qs('#retirementRate').value) / 100 || 0;
+      const retirementYears = parseFloat(qs('#retirementYears').value) || 0;
+      const out = qs('#retirementResult');
+      if (!out) return;
+      if (currentSavings < 0 || monthlyContrib < 0 || retirementRate <= 0 || retirementYears <= 0) {
+        out.textContent = 'Enter valid positive values';
+        return;
+      }
+      // Simple future value calculation for retirement savings
+      const monthlyRate = retirementRate / 12;
+      const months = retirementYears * 12;
+      const futureValue = currentSavings * Math.pow(1 + monthlyRate, months) +
+                          monthlyContrib * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+      out.innerHTML = `<strong>Projected Savings:</strong> ${futureValue.toFixed(2)}<br><strong>Years:</strong> ${retirementYears}`;
+    });
+  }
+
   /* Trading Quiz */
   const quizData = [
     {
@@ -539,13 +561,46 @@
     qs('#searchBtn').addEventListener('click', () => {
       const query = qs('#headerSearch').value.trim().toLowerCase();
       if (query) {
-        // Simple search: alert for now, can be expanded to filter articles
-        alert(`Searching for: "${query}". Feature under development.`);
-        // Future: Implement search logic to filter articles or redirect to search page
+        // Redirect to learning-articles.html with search query
+        window.location.href = `learning-articles.html?search=${encodeURIComponent(query)}`;
       }
     });
     qs('#headerSearch').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') qs('#searchBtn').click();
+    });
+  }
+
+  /* Contact Form */
+  if (qs('#contactForm')) {
+    qs('#contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = qs('#contactName').value.trim();
+      const email = qs('#contactEmail').value.trim();
+      const message = qs('#contactMessage').value.trim();
+      const statusEl = qs('#contactStatus');
+
+      if (!name || !email || !message) {
+        statusEl.textContent = 'Please fill in all fields.';
+        statusEl.style.color = 'red';
+        return;
+      }
+
+      if (!email.includes('@')) {
+        statusEl.textContent = 'Please enter a valid email.';
+        statusEl.style.color = 'red';
+        return;
+      }
+
+      // Simulate sending (since no backend, store locally or alert)
+      const contactData = { name, email, message, timestamp: new Date().toISOString() };
+      localStorage.setItem('minara_contact_message', JSON.stringify(contactData));
+      statusEl.textContent = 'Thank you! Your message has been sent (stored locally).';
+      statusEl.style.color = 'green';
+
+      // Clear form
+      qs('#contactName').value = '';
+      qs('#contactEmail').value = '';
+      qs('#contactMessage').value = '';
     });
   }
 

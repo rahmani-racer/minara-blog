@@ -179,6 +179,41 @@
       </div>
     </div>
 
+    <div class="tool" id="retirementCalcCard">
+      <h4>Retirement Calculator</h4>
+      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
+        <label>Current Savings: <input id="currentSavings" type="number" value="50000" style="width:90px;padding:4px;"></label>
+        <label>Monthly Contribution: <input id="monthlyContrib" type="number" value="500" style="width:90px;padding:4px;"></label>
+        <label>Expected Return (%): <input id="retirementRate" type="number" value="7" step="0.1" style="width:90px;padding:4px;"></label>
+        <label>Years to Retirement: <input id="retirementYears" type="number" value="30" style="width:90px;padding:4px;"></label>
+        <button id="retirementBtn" class="btn small">Calculate</button>
+        <div id="retirementResult" class="retirement-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
+      </div>
+    </div>
+
+    <div class="tool" id="simulatorCard">
+      <h4>Trading Simulator</h4>
+      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
+        <label>Initial Balance: <input id="simBalance" type="number" value="10000" style="width:90px;padding:4px;"></label>
+        <label>Entry Price: <input id="simEntry" type="number" value="1.1000" step="0.0001" style="width:90px;padding:4px;"></label>
+        <label>Exit Price: <input id="simExit" type="number" value="1.1050" step="0.0001" style="width:90px;padding:4px;"></label>
+        <label>Lot Size: <input id="simLot" type="number" value="0.1" step="0.1" style="width:90px;padding:4px;"></label>
+        <button id="simBtn" class="btn small">Simulate Trade</button>
+        <div id="simResult" class="sim-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
+      </div>
+    </div>
+
+    <div class="tool" id="loanCalcCard">
+      <h4>Loan Calculator</h4>
+      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
+        <label>Loan Amount: <input id="loanAmount" type="number" value="100000" style="width:90px;padding:4px;"></label>
+        <label>Interest Rate (%): <input id="loanRate" type="number" value="8" step="0.1" style="width:90px;padding:4px;"></label>
+        <label>Loan Term (years): <input id="loanTerm" type="number" value="20" style="width:90px;padding:4px;"></label>
+        <button id="loanBtn" class="btn small">Calculate</button>
+        <div id="loanResult" class="loan-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
+      </div>
+    </div>
+
     <h3>Your Lists</h3>
     <div class="tool" id="watchlistCard">
       <h4>Watchlist</h4>
@@ -460,6 +495,22 @@
     <li>Risk management focused approach</li>
     <li>Long-term mindset building</li>
   </ul>
+</section>
+
+<!-- CONTACT FORM -->
+<section class="section card" id="contact-form">
+  <h2>Contact Us</h2>
+  <p>Have questions or feedback? Send us a message!</p>
+  <form id="contactForm" style="max-width:600px;margin:20px auto;">
+    <label for="contactName">Name:</label>
+    <input type="text" id="contactName" required style="width:100%;padding:8px;margin:8px 0;border:1px solid var(--border);border-radius:4px;">
+    <label for="contactEmail">Email:</label>
+    <input type="email" id="contactEmail" required style="width:100%;padding:8px;margin:8px 0;border:1px solid var(--border);border-radius:4px;">
+    <label for="contactMessage">Message:</label>
+    <textarea id="contactMessage" required rows="5" style="width:100%;padding:8px;margin:8px 0;border:1px solid var(--border);border-radius:4px;"></textarea>
+    <button type="submit" class="btn" style="margin-top:10px;">Send Message</button>
+    <div id="contactStatus" style="margin-top:10px;font-weight:700;"></div>
+  </form>
 </section>
 
 </div>
