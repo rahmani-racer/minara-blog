@@ -18,13 +18,13 @@
 }
 
 body.dark {
-  --bg-main: #0b1320;
-  --bg-card: #1e293b;
-  --text-main: #f1f5f9;
-  --text-muted: #cbd5e1;
-  --accent: #38bdf8;
-  --border-soft: #334155;
-  --shadow-soft: 0 20px 40px rgba(0,0,0,0.35);
+  --bg-main: #ffffff;
+  --bg-card: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --accent: #2563eb;
+  --border-soft: #e2e8f0;
+  --shadow-soft: 0 18px 30px rgba(0,0,0,0.12);
 }
 
 /* =========================
