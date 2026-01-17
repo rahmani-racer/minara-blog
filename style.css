@@ -10,22 +10,13 @@
 :root {
   --bg-main: #ffffff;
   --bg-card: #ffffff;
-  --text-main: #000000;
-  --text-muted: #666666;
-  --accent: #ffffff;
-  --border-soft: #cccccc;
-  --shadow-soft: 0 18px 30px rgba(0,0,0,0.12);
+  --text-main: #1a202c;
+  --text-muted: #64748b;
+  --accent: #2563eb;
+  --border-soft: #e2e8f0;
+  --shadow-soft: 0 18px 30px rgba(2,6,23,0.10);
 }
 
-body.dark {
-  --bg-main: #ffffff;
-  --bg-card: #ffffff;
-  --text-main: #000000;
-  --text-muted: #666666;
-  --accent: #ffffff;
-  --border-soft: #cccccc;
-  --shadow-soft: 0 18px 30px rgba(0,0,0,0.12);
-}
 
 /* =========================
    RESET & BASE
@@ -426,10 +417,10 @@ nav a:hover::after { width: 100%; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1e293b 0%, #334155 45%, #64748b 100%);
-  background-size: 400% 400%;
-  animation: heroGradient 18s ease infinite;
-  color: #f1f5f9;
+  background: #e0ecff;
+  color: #111111;
+  background-size: auto;
+  animation: none;
 }
 
 @keyframes heroGradient {
@@ -450,7 +441,7 @@ nav a:hover::after { width: 100%; }
 .tagline {
   margin: 14px 0;
   font-size: 20px;
-  color: #d1d5db;
+  color: #222222;
 }
 
 /* =========================
