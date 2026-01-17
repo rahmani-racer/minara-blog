@@ -10,27 +10,7 @@
   const qs = (s, p = document) => p.querySelector(s);
   const qsa = (s, p = document) => [...p.querySelectorAll(s)];
 
-  /* ---------- Theme System ---------- */
-  const themeToggle = qs("#themeToggle");
-  const savedTheme = localStorage.getItem("theme");
-
-  if (savedTheme === "light") {
-    document.body.classList.add("light");
-    if (themeToggle) {
-      themeToggle.textContent = "☀️";
-      themeToggle.setAttribute('aria-pressed', 'true');
-    }
-  }
-
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      document.body.classList.toggle("light");
-      const isLight = document.body.classList.contains("light");
-      localStorage.setItem("theme", isLight ? "light" : "dark");
-      themeToggle.textContent = isLight ? "☀️" : "🌙";
-      themeToggle.setAttribute('aria-pressed', isLight ? 'true' : 'false');
-    });
-  }
+  // Theme system removed: always light mode
 
   /* ---------- Auto Hero Text ---------- */
   const autoText = qs("#autoText");
@@ -570,37 +550,98 @@
     });
   }
 
-  /* Contact Form */
+  /* Contact Form with Backend API */
   if (qs('#contactForm')) {
-    qs('#contactForm').addEventListener('submit', (e) => {
+    const form = qs('#contactForm');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const statusEl = qs('#contactStatus');
+
+    // Real-time validation
+    const inputs = form.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+      input.addEventListener('input', () => {
+        validateField(input);
+      });
+      input.addEventListener('blur', () => {
+        validateField(input);
+      });
+    });
+
+    function validateField(field) {
+      const value = field.value.trim();
+      const isValid = field.checkValidity() && value.length > 0;
+
+      field.classList.toggle('invalid', !isValid);
+      field.classList.toggle('valid', isValid);
+
+      return isValid;
+    }
+
+    function showStatus(message, type = 'info') {
+      if (!statusEl) return;
+      statusEl.textContent = message;
+      statusEl.className = type; // success, error, warning, info
+    }
+
+    function setLoading(loading) {
+      if (submitBtn) {
+        submitBtn.disabled = loading;
+        submitBtn.textContent = loading ? 'Sending...' : 'Send Message';
+      }
+      inputs.forEach(input => input.disabled = loading);
+    }
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = qs('#contactName').value.trim();
-      const email = qs('#contactEmail').value.trim();
-      const message = qs('#contactMessage').value.trim();
-      const statusEl = qs('#contactStatus');
 
-      if (!name || !email || !message) {
-        statusEl.textContent = 'Please fill in all fields.';
-        statusEl.style.color = 'red';
+      // Validate all fields
+      let isFormValid = true;
+      inputs.forEach(input => {
+        if (!validateField(input)) {
+          isFormValid = false;
+        }
+      });
+
+      if (!isFormValid) {
+        showStatus('Please fill in all required fields correctly.', 'error');
         return;
       }
 
-      if (!email.includes('@')) {
-        statusEl.textContent = 'Please enter a valid email.';
-        statusEl.style.color = 'red';
-        return;
+      const formData = {
+        name: qs('#contactName').value.trim(),
+        email: qs('#contactEmail').value.trim(),
+        message: qs('#contactMessage').value.trim()
+      };
+
+      setLoading(true);
+      showStatus('Sending your message...', 'info');
+
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          showStatus(result.message, 'success');
+          form.reset();
+          inputs.forEach(input => {
+            input.classList.remove('valid', 'invalid');
+          });
+        } else {
+          showStatus(result.error || 'Failed to send message. Please try again.', 'error');
+        }
+      } catch (error) {
+        console.error('Contact form error:', error);
+        showStatus('Network error. Please check your connection and try again.', 'error');
+      } finally {
+        setLoading(false);
       }
-
-      // Simulate sending (since no backend, store locally or alert)
-      const contactData = { name, email, message, timestamp: new Date().toISOString() };
-      localStorage.setItem('minara_contact_message', JSON.stringify(contactData));
-      statusEl.textContent = 'Thank you! Your message has been sent (stored locally).';
-      statusEl.style.color = 'green';
-
-      // Clear form
-      qs('#contactName').value = '';
-      qs('#contactEmail').value = '';
-      qs('#contactMessage').value = '';
     });
   }
 
