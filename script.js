@@ -984,6 +984,9 @@
     // pair like EUR/USD or XAU/USD -> FX:EURUSD or OANDA:XAUUSD (use FX for most, use FX for XAU as well via 'OANDA' could vary)
     pair = pair.replace(/\s+/g, '').toUpperCase();
     if (pair === 'XAU/USD' || pair === 'XAUUSD') return 'OANDA:XAUUSD';
+    if (pair === 'XAG/USD' || pair === 'XAGUSD') return 'OANDA:XAGUSD';
+    if (pair === 'BTC/USD' || pair === 'BTCUSD') return 'CRYPTO:BTCUSD';
+    if (pair === 'ETH/USD' || pair === 'ETHUSD') return 'CRYPTO:ETHUSD';
     const [a,b] = pair.split('/');
     if (!a || !b) return null;
     return `FX:${a}${b}`;
@@ -1019,6 +1022,11 @@
   if (qs('#ratesTicker')) {
     fetchRates();
     setInterval(fetchRates, 60_000);
+  }
+
+  // Initialize TradingView Currency Converter
+  if (qs('#tv-converter')) {
+    initTradingViewConverter();
   }
 
   /* End Premium features */

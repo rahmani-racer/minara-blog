@@ -30,41 +30,45 @@
     }
   }
 
-  /* ---------- Rates ticker (lightweight) ---------- */
-  const ratesConfig = {
-    base: "USD",
-    symbols: ["EUR","GBP","JPY","AUD","INR"],
-    endpoint: "https://api.exchangerate.host/latest"
-  };
+  /* ---------- Rates ticker (TradingView) ---------- */
+  function renderRatesTicker() {
+    const container = qs("#tv-ticker");
+    if (!container) return;
 
-  async function fetchRates() {
-    try {
-      const url = `${ratesConfig.endpoint}?base=${ratesConfig.base}&symbols=${ratesConfig.symbols.join(",")}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("rates fetch failed");
-      const json = await res.json();
-      return json.rates || null;
-    } catch (e) {
-      console.warn("Rates fetch error:", e);
-      return null;
-    }
-  }
-
-  async function renderRatesTicker() {
-    const root = qs("#ratesTicker ul");
-    if (!root) return;
-
-    const rates = await fetchRates();
-    if (!rates) {
-      root.innerHTML = `<li class="muted">Rates unavailable</li>`;
-      return;
-    }
-
-    const items = Object.entries(rates).map(([sym, val]) =>
-      `<li aria-label="${sym}"><strong>${sym}</strong>: ${val.toFixed(4)}</li>`
-    );
-
-    root.innerHTML = items.join("");
+    // Create TradingView Ticker Tape widget
+    new TradingView.widget({
+      "container_id": "tv-ticker",
+      "width": "100%",
+      "height": 50,
+      "symbolsGroups": [
+        {
+          "name": "Forex",
+          "originalName": "Forex",
+          "symbols": [
+            {"name": "FX:EURUSD"},
+            {"name": "FX:GBPUSD"},
+            {"name": "FX:USDJPY"},
+            {"name": "FX:AUDUSD"},
+            {"name": "FX:USDCAD"},
+            {"name": "FX:USDINR"}
+          ]
+        },
+        {
+          "name": "Commodities",
+          "originalName": "Commodities",
+          "symbols": [
+            {"name": "COMEX:GC1!"},
+            {"name": "NYMEX:CL1!"},
+            {"name": "NYMEX:NG1!"}
+          ]
+        }
+      ],
+      "showSymbolLogo": true,
+      "colorTheme": "light",
+      "isTransparent": false,
+      "displayMode": "regular",
+      "locale": "en"
+    });
   }
 
   /* ---------- Newsletter modal (local-only) ---------- */
@@ -141,9 +145,8 @@
   /* ---------- Init ---------- */
   document.addEventListener("DOMContentLoaded", () => {
     if (qs("#featuredList")) renderFeatured();
-    if (qs("#ratesTicker")) {
+    if (qs("#tv-ticker")) {
       renderRatesTicker();
-      setInterval(renderRatesTicker, 60_000);
     }
     setupNewsletterModal();
     setupWatchlist();

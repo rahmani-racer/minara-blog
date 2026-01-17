@@ -105,11 +105,9 @@
     
     <h3>Market Data</h3>
     <div class="tool" id="ratesCard">
-      <h4>Live Rates</h4>
-      <div id="ratesTicker" class="rates-ticker">
-        <ul></ul>
-      </div>
-      <small>Updated every 60s</small>
+      <h4>Live Rates (TradingView)</h4>
+      <div id="tv-ticker" class="rates-ticker"></div>
+      <small>Live rates from TradingView</small>
     </div>
 
     <div class="tool" id="sessionsCard">
@@ -158,13 +156,24 @@
 
     <div class="tool" id="convertCard">
       <h4>Currency Converter</h4>
-      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
-        <label>From: <input id="convFrom" value="USD" style="width:70px;padding:4px;"></label>
-        <label>To: <input id="convTo" value="INR" style="width:70px;padding:4px;"></label>
+      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;margin-bottom:8px;">
+        <label>From: <select id="convFrom" style="width:70px;padding:4px;"><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="JPY">JPY</option><option value="AUD">AUD</option><option value="CAD">CAD</option><option value="CHF">CHF</option><option value="NZD">NZD</option><option value="INR">INR</option></select></label>
+        <label>To: <select id="convTo" style="width:70px;padding:4px;"><option value="INR">INR</option><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="JPY">JPY</option><option value="AUD">AUD</option><option value="CAD">CAD</option><option value="CHF">CHF</option><option value="NZD">NZD</option></select></label>
         <label>Amount: <input id="convAmount" type="number" value="100" style="width:80px;padding:4px;"></label>
         <button id="convBtn" class="btn small">Convert</button>
+        <button id="convReverse" class="btn small" style="margin-left:4px;">↔️ Reverse</button>
         <div id="convResult" class="conv-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
       </div>
+      <hr style="margin:8px 0;opacity:0.3;">
+      <h5 style="font-size:13px;margin:0 0 6px;">Pip Value Calculator</h5>
+      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
+        <label>Lot Size: <input id="pipLotSize" type="number" value="0.1" step="0.01" style="width:80px;padding:4px;"></label>
+        <label>Pip Movement: <input id="pipMovement" type="number" value="10" style="width:80px;padding:4px;"></label>
+        <button id="pipBtn" class="btn small">Calculate Pip Value</button>
+        <div id="pipResult" class="pip-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
+      </div>
+      <div id="tv-converter" style="width:100%;height:200px;border-top:1px solid var(--border);padding-top:8px;margin-top:8px;"></div>
+      <small>Real-time conversions from TradingView</small>
     </div>
 
     <div class="tool" id="compoundCalcCard">
@@ -256,7 +265,6 @@
 <section id="home" class="section hero-dashboard">
   <div class="hero-grid">
     <div class="hero-left">
-      <img src="profile.jpg.png" alt="Minara Blog author portrait" class="profile" width="140" height="140" loading="eager" decoding="async">
       <h1 class="hero-title">Premium Forex & Trading Education</h1>
       <p class="hero-sub">Risk-first, discipline-driven learning in Hinglish. Master the markets the smart way.</p>
       <div class="hero-cta">
