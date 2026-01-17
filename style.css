@@ -10,9 +10,9 @@
 :root {
   --bg-main: #ffffff;
   --bg-card: #ffffff;
-  --text-main: #0f172a;
+  --text-main: #0b1220;
   --text-muted: #475569;
-  --accent: #000000;
+  --accent: #06b6d4;
   --border-soft: #e2e8f0;
   --shadow-soft: 0 18px 30px rgba(0,0,0,0.12);
 }
@@ -431,8 +431,8 @@ nav a:hover::after { width: 100%; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(120deg,#020617,#0b1320,#0e1a2b,#111827);
-  background-size: 300% 300%;
+  background: linear-gradient(135deg, #071427 0%, #0f172a 45%, #1e3a8a 100%);
+  background-size: 400% 400%;
   animation: heroGradient 18s ease infinite;
   color: #ffffff;
 }
