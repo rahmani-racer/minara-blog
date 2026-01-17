@@ -71,7 +71,9 @@
 <!-- HEADER -->
 <header role="banner">
   <div class="header-inner">
-    <h1 class="logo">Minara<span>Blog</span></h1>
+    <div class="header-left">
+      <h1 class="logo">Minara<span>Blog</span></h1>
+    </div>
 
     <nav role="navigation" aria-label="Primary">
       <a href="index.html">Home</a>
@@ -82,9 +84,16 @@
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </nav>
-    <div class="header-controls">
-      <button id="menuToggle" aria-label="Open tools menu" aria-expanded="false">☰</button>
-      <button id="themeToggle" aria-pressed="false" aria-label="Toggle theme">☀️</button>
+
+    <div class="header-right">
+      <div class="search-bar">
+        <input type="text" id="headerSearch" placeholder="Search articles..." aria-label="Search">
+        <button id="searchBtn" aria-label="Search">🔍</button>
+      </div>
+      <div class="header-controls">
+        <button id="menuToggle" aria-label="Open tools menu" aria-expanded="false">☰</button>
+        <button id="themeToggle" aria-pressed="false" aria-label="Toggle theme">☀️</button>
+      </div>
     </div>
   </div>
 </header>
@@ -155,6 +164,18 @@
         <label>Amount: <input id="convAmount" type="number" value="100" style="width:80px;padding:4px;"></label>
         <button id="convBtn" class="btn small">Convert</button>
         <div id="convResult" class="conv-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
+      </div>
+    </div>
+
+    <div class="tool" id="compoundCalcCard">
+      <h4>Compound Interest Calculator</h4>
+      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
+        <label>Principal: <input id="principal" type="number" value="1000" style="width:90px;padding:4px;"></label>
+        <label>Rate (%): <input id="rate" type="number" value="5" step="0.1" style="width:80px;padding:4px;"></label>
+        <label>Time (years): <input id="time" type="number" value="10" style="width:90px;padding:4px;"></label>
+        <label>Compounds/year: <input id="compounds" type="number" value="12" style="width:90px;padding:4px;"></label>
+        <button id="compoundBtn" class="btn small">Calculate</button>
+        <div id="compoundResult" class="compound-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
       </div>
     </div>
 
@@ -404,6 +425,28 @@
     <p><a href="trading.html">Trading Experience & Assistant →</a></p>
     <p><a href="thought.html">Trading Thoughts & Quotes →</a></p>
     <p><a href="daily.html">Daily Information & Learning →</a></p>
+  </div>
+</section>
+
+<!-- NEWS WIDGET -->
+<section class="section card" id="market-news">
+  <h2>Market News</h2>
+  <p>Latest financial news updates (demo feed).</p>
+  <div id="newsContainer">
+    <button id="loadNews" class="btn">Load News</button>
+    <div id="newsList" style="display:none;"></div>
+  </div>
+</section>
+
+<!-- QUIZ SECTION -->
+<section class="section card" id="trading-quiz">
+  <h2>Trading Knowledge Quiz</h2>
+  <p>Test your trading basics knowledge!</p>
+  <div id="quizContainer">
+    <div id="quizQuestion"></div>
+    <div id="quizOptions"></div>
+    <button id="quizNext" class="btn" style="display:none;">Next</button>
+    <div id="quizResult" style="display:none;"></div>
   </div>
 </section>
 

@@ -427,6 +427,150 @@
     });
   }
 
+  /* Compound Interest Calculator */
+  if (qs('#compoundBtn')) {
+    qs('#compoundBtn').addEventListener('click', () => {
+      const principal = parseFloat(qs('#principal').value) || 0;
+      const rate = parseFloat(qs('#rate').value) / 100 || 0;
+      const time = parseFloat(qs('#time').value) || 0;
+      const compounds = parseFloat(qs('#compounds').value) || 1;
+      const out = qs('#compoundResult');
+      if (!out) return;
+      if (principal <= 0 || rate <= 0 || time <= 0 || compounds <= 0) {
+        out.textContent = 'Enter valid positive values';
+        return;
+      }
+      const amount = principal * Math.pow(1 + rate / compounds, compounds * time);
+      const interest = amount - principal;
+      out.innerHTML = `<strong>Future Value:</strong> ${amount.toFixed(2)}<br><strong>Interest Earned:</strong> ${interest.toFixed(2)}`;
+    });
+  }
+
+  /* Trading Quiz */
+  const quizData = [
+    {
+      question: "What is the primary goal of risk management in trading?",
+      options: ["Maximize profits", "Minimize losses", "Increase leverage", "Avoid taxes"],
+      answer: 1
+    },
+    {
+      question: "What does 'pip' stand for in forex trading?",
+      options: ["Percentage in point", "Price interest point", "Profit in point", "Point in percentage"],
+      answer: 1
+    },
+    {
+      question: "Which trading style holds positions for several days to weeks?",
+      options: ["Scalping", "Day trading", "Swing trading", "Position trading"],
+      answer: 2
+    },
+    {
+      question: "What is leverage in forex trading?",
+      options: ["Free money from broker", "Borrowing to increase position size", "Insurance against losses", "Tax deduction"],
+      answer: 1
+    },
+    {
+      question: "What is the most important factor in trading success?",
+      options: ["Strategy", "Discipline", "Luck", "Technology"],
+      answer: 1
+    }
+  ];
+
+  let currentQuizIndex = 0;
+  let quizScore = 0;
+
+  function loadQuizQuestion() {
+    const questionEl = qs('#quizQuestion');
+    const optionsEl = qs('#quizOptions');
+    const nextBtn = qs('#quizNext');
+    const resultEl = qs('#quizResult');
+    if (!questionEl || !optionsEl) return;
+
+    if (currentQuizIndex < quizData.length) {
+      const q = quizData[currentQuizIndex];
+      questionEl.textContent = q.question;
+      optionsEl.innerHTML = q.options.map((opt, idx) => `<button class="quiz-option" data-idx="${idx}">${opt}</button>`).join('');
+      nextBtn.style.display = 'none';
+      resultEl.style.display = 'none';
+
+      qsa('.quiz-option').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = parseInt(e.target.dataset.idx);
+          if (idx === q.answer) quizScore++;
+          nextBtn.style.display = 'block';
+        });
+      });
+    } else {
+      showQuizResult();
+    }
+  }
+
+  function showQuizResult() {
+    const resultEl = qs('#quizResult');
+    const questionEl = qs('#quizQuestion');
+    const optionsEl = qs('#quizOptions');
+    const nextBtn = qs('#quizNext');
+    if (!resultEl) return;
+
+    questionEl.style.display = 'none';
+    optionsEl.style.display = 'none';
+    nextBtn.style.display = 'none';
+    resultEl.style.display = 'block';
+    resultEl.innerHTML = `<h3>Quiz Complete!</h3><p>Your score: ${quizScore}/${quizData.length}</p><button id="restartQuiz" class="btn">Restart Quiz</button>`;
+
+    qs('#restartQuiz').addEventListener('click', () => {
+      currentQuizIndex = 0;
+      quizScore = 0;
+      questionEl.style.display = 'block';
+      optionsEl.style.display = 'block';
+      loadQuizQuestion();
+    });
+  }
+
+  if (qs('#quizContainer')) {
+    loadQuizQuestion();
+    qs('#quizNext').addEventListener('click', () => {
+      currentQuizIndex++;
+      loadQuizQuestion();
+    });
+  }
+
+  /* Header Search */
+  if (qs('#searchBtn')) {
+    qs('#searchBtn').addEventListener('click', () => {
+      const query = qs('#headerSearch').value.trim().toLowerCase();
+      if (query) {
+        // Simple search: alert for now, can be expanded to filter articles
+        alert(`Searching for: "${query}". Feature under development.`);
+        // Future: Implement search logic to filter articles or redirect to search page
+      }
+    });
+    qs('#headerSearch').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') qs('#searchBtn').click();
+    });
+  }
+
+  /* Market News Widget */
+  if (qs('#loadNews')) {
+    qs('#loadNews').addEventListener('click', () => {
+      const newsList = qs('#newsList');
+      const demoNews = [
+        { title: 'Fed Signals Potential Rate Hike', summary: 'Federal Reserve hints at interest rate adjustments.' },
+        { title: 'Oil Prices Surge Amid Supply Concerns', summary: 'Crude oil reaches new highs due to global tensions.' },
+        { title: 'Tech Stocks Rally on Earnings Reports', summary: 'Major tech companies report better-than-expected profits.' },
+        { title: 'Cryptocurrency Market Volatility', summary: 'Bitcoin and altcoins experience sharp fluctuations.' },
+        { title: 'Economic Indicators Show Growth', summary: 'Latest GDP figures indicate positive economic trends.' }
+      ];
+      newsList.innerHTML = demoNews.map(n => `<div class="news-item" style="margin:8px 0;padding:8px;border-bottom:1px solid var(--border);"><h4>${n.title}</h4><p>${n.summary}</p></div>`).join('');
+      newsList.style.display = 'block';
+      qs('#loadNews').style.display = 'none';
+    });
+  }
+
+  /* Basic Trading Simulator */
+  if (qs('#trading-simulator')) {
+    // Add simulator logic here if needed
+  }
+
   /* Watchlist (localStorage) */
   function loadWatchlist() {
     const raw = localStorage.getItem('watchlist');
@@ -1014,7 +1158,327 @@
   const GLOSSARY = {
     'pip': 'Smallest price move in a currency pair. Typically 0.0001 for most pairs.',
     'lot': 'A standardized contract size used in forex trading, e.g., 100,000 units for a standard lot.',
-    'spread': 'Difference between bid and ask price; a trading cost.'
+    'spread': 'Difference between bid and ask price; a trading cost.',
+    'leverage': 'Borrowing money to increase position size beyond your capital.',
+    'margin': 'Collateral required to open and maintain a leveraged position.',
+    'forex': 'Foreign exchange market where currencies are traded.',
+    'technical analysis': 'Study of price charts and patterns to predict future movements.',
+    'fundamental analysis': 'Evaluation of economic factors affecting asset values.',
+    'risk management': 'Strategies to minimize potential losses in trading.',
+    'stop-loss': 'Order to automatically close a position at a predetermined loss level.',
+    'take-profit': 'Order to automatically close a position at a predetermined profit level.',
+    'volatility': 'Degree of variation in trading price over time.',
+    'liquidity': 'Ease of buying or selling an asset without affecting its price.',
+    'hedging': 'Strategy to reduce risk by taking offsetting positions.',
+    'breakout': 'Price movement above resistance or below support levels.',
+    'breakdown': 'Price movement below support or above resistance levels.',
+    'candlestick': 'Chart representation showing open, high, low, and close prices.',
+    'moving average': 'Indicator smoothing price data to identify trends.',
+    'rsi': 'Relative Strength Index, momentum oscillator measuring price changes.',
+    'macd': 'Moving Average Convergence Divergence, trend-following momentum indicator.',
+    'bollinger bands': 'Volatility bands placed above and below a moving average.',
+    'fibonacci retracement': 'Tool using Fibonacci ratios to identify potential reversal levels.',
+    'economic calendar': 'Schedule of economic events impacting markets.',
+    'interest rate': 'Cost of borrowing money or return on savings.',
+    'inflation': 'Rate at which general price level of goods and services rises.',
+    'gdp': 'Gross Domestic Product, total value of goods and services produced.',
+    'cpi': 'Consumer Price Index, measure of inflation based on consumer goods.',
+    'nfp': 'Non-Farm Payrolls, monthly US employment report.',
+    'fomc': 'Federal Open Market Committee, sets US monetary policy.',
+    'ecb': 'European Central Bank, manages eurozone monetary policy.',
+    'boe': 'Bank of England, UK central bank.',
+    'fed': 'Federal Reserve, US central banking system.',
+    'carry trade': 'Borrowing in low-interest currency to invest in high-interest one.',
+    'correlation': 'Statistical measure of how two assets move in relation to each other.',
+    'diversification': 'Spreading investments to reduce risk.',
+    'drawdown': 'Peak-to-trough decline in account value.',
+    'expectancy': 'Average expected value of each trade.',
+    'kelly criterion': 'Formula to determine optimal bet size.',
+    'martingale': 'Doubling bet after loss strategy.',
+    'scalping': 'Very short-term trading for small profits.',
+    'day trading': 'Buying and selling within the same trading day.',
+    'swing trading': 'Holding positions for several days to weeks.',
+    'position trading': 'Long-term holding based on fundamental trends.',
+    'thinkorswim': 'Advanced trading platform by TD Ameritrade.',
+    'interactive brokers': 'Global brokerage with access to multiple markets.',
+    'etrade': 'Online brokerage for stocks, options, and futures.',
+    'schwab': 'Brokerage offering research, trading, and banking.',
+    'fidelity': 'Investment firm with trading platforms and funds.',
+    'robinhood': 'Commission-free trading app for stocks and crypto.',
+    'webull': 'Mobile trading app with advanced features.',
+    'tradestation': 'Platform for futures, forex, and stocks.',
+    'ninjatrader': 'Trading software for professional traders.',
+    'dukascopy': 'Swiss online broker specializing in forex and CFDs.',
+    'saxo bank': 'Danish online broker for forex and CFD trading.',
+    'ig': 'UK-based CFD and forex broker.',
+    'cm trading': 'Global CFD and forex brokerage.',
+    'ayondo': 'Social trading and CFD platform.',
+    'skilling': 'CFD and forex broker with educational tools.',
+    'trade nation': 'CFD and forex broker with competitive spreads.',
+    'yubikey': 'Hardware authentication device for security.',
+    '2fa': 'Two-factor authentication for account security.',
+    'vpn': 'Virtual Private Network for encrypted internet access.',
+    'ssl': 'Secure Sockets Layer for secure web communications.',
+    'https': 'Secure protocol for web traffic.',
+    'api': 'Application Programming Interface for software integration.',
+    'json': 'JavaScript Object Notation for data interchange.',
+    'xml': 'Extensible Markup Language for structured data.',
+    'html': 'HyperText Markup Language for web pages.',
+    'css': 'Cascading Style Sheets for web styling.',
+    'javascript': 'Programming language for interactive web effects.',
+    'python': 'Programming language for data analysis and automation.',
+    'r': 'Programming language for statistical computing.',
+    'matlab': 'Software for numerical computing and visualization.',
+    'excel': 'Spreadsheet software for data analysis.',
+    'google sheets': 'Online spreadsheet tool for collaboration.',
+    'tableau': 'Data visualization and business intelligence tool.',
+    'power bi': 'Business analytics tool by Microsoft.',
+    'sas': 'Statistical software for data management.',
+    'spss': 'Software for statistical analysis.',
+    'stata': 'Statistical software for data science.',
+    'minitab': 'Statistical software for quality improvement.',
+    'jmp': 'Statistical software for data exploration.',
+    'zeromq': 'Open-source messaging library.',
+    'nats': 'Open-source messaging system for cloud-native applications.',
+    'mosquitto': 'Open-source MQTT broker.',
+    'emqtt': 'Enterprise MQTT broker.',
+    'vernemq': 'Distributed MQTT broker.',
+    'hive mq': 'Enterprise MQTT broker for IoT.',
+    'aws iot core': 'Managed cloud service for IoT device connectivity.',
+    'azure iot hub': 'Cloud service for IoT device management.',
+    'google cloud iot': 'Platform for IoT device data ingestion.',
+    'particle': 'Platform for building IoT products.',
+    'adafruit io': 'IoT platform for data visualization.',
+    'thingspeak': 'IoT analytics platform.',
+    'losant': 'IoT application enablement platform.',
+    'ubidots': 'IoT platform for device management.',
+    'cayenne': 'IoT project builder platform.',
+    'blynk': 'IoT platform for mobile apps.',
+    'ifttt': 'Service for automating workflows.',
+    'zapier': 'Automation tool for web apps.',
+    'microsoft flow': 'Workflow automation service.',
+    'google apps script': 'Scripting language for Google apps.',
+    'aws lambda': 'Serverless compute service.',
+    'azure functions': 'Serverless compute platform.',
+    'google cloud functions': 'Serverless execution environment.',
+    'heroku': 'Cloud platform for app deployment.',
+    'netlify': 'Platform for static site hosting.',
+    'vercel': 'Platform for frontend frameworks.',
+    'surge': 'Static site deployment tool.',
+    'github pages': 'Static site hosting from GitHub.',
+    'gitlab pages': 'Static site hosting from GitLab.',
+    'bitbucket pages': 'Static site hosting from Bitbucket.',
+    'codepen': 'Online community for testing code.',
+    'jsfiddle': 'Online IDE for web development.',
+    'codesandbox': 'Online code editor for web apps.',
+    'repl.it': 'Online IDE for multiple languages.',
+    'greedy algorithm': 'Algorithm making locally optimal choices.',
+    'divide and conquer': 'Algorithm breaking problems into subproblems.',
+    'backtracking': 'Algorithm exploring all solutions systematically.',
+    'branch and bound': 'Optimization technique pruning unlikely paths.',
+    'genetic algorithm': 'Optimization inspired by natural selection.',
+    'simulated annealing': 'Probabilistic optimization method.',
+    'ant colony optimization': 'Optimization via collective behavior.',
+    'particle swarm optimization': 'Optimization using swarm intelligence.',
+    'artificial neural network': 'Computing system inspired by biological neurons.',
+    'deep learning': 'Subset of machine learning with deep networks.',
+    'machine learning': 'Automated analytical model building.',
+    'supervised learning': 'Learning from labeled data.',
+    'unsupervised learning': 'Learning from unlabeled data.',
+    'reinforcement learning': 'Learning through interaction and rewards.',
+    'natural language processing': 'AI for understanding human language.',
+    'computer vision': 'AI for interpreting visual information.',
+    'speech recognition': 'AI for converting speech to text.',
+    'sentiment analysis': 'Extracting subjective info from text.',
+    'chatbot': 'AI for conversational interfaces.',
+    'collaborative filtering': 'Recommendation based on user preferences.',
+    'content-based filtering': 'Recommendation based on item features.',
+    'hybrid recommendation': 'Combining multiple recommendation methods.',
+    'microsoft ai': 'AI initiatives by Microsoft.',
+    'amazon ai': 'AI services by Amazon.',
+    'facebook ai': 'AI research by Meta.',
+    'apple ai': 'AI technologies by Apple.',
+    'tesla ai': 'AI for autonomous driving.',
+    'nvidia ai': 'AI hardware and software.',
+    'ibm watson': 'AI for natural language questions.',
+    'cortana': 'Virtual assistant by Microsoft.',
+    'siri': 'Virtual assistant by Apple.',
+    'alexa': 'Voice assistant by Amazon.',
+    'google assistant': 'AI-powered assistant.',
+    'bing': 'Search engine by Microsoft.',
+    'duckduckgo': 'Privacy-focused search engine.',
+    'yahoo': 'Search engine and web portal.',
+    'baidu': 'Chinese search engine.',
+    'yandex': 'Russian search engine.',
+    'alibaba': 'Chinese e-commerce giant.',
+    'tencent': 'Chinese internet and technology company.',
+    'jd.com': 'Chinese e-commerce platform.',
+    'pinduoduo': 'Chinese e-commerce company.',
+    'meituan': 'Chinese lifestyle services platform.',
+    'uber': 'Ride-sharing company.',
+    'lyft': 'Ride-sharing service.',
+    'didi': 'Chinese ride-hailing company.',
+    'grab': 'Southeast Asian ride-hailing.',
+    'ola': 'Indian ride-sharing company.',
+    'rapido': 'Indian bike taxi service.',
+    'bolt': 'European ride-sharing app.',
+    'lime': 'Electric scooter sharing.',
+    'bird': 'Electric scooter rental.',
+    'tier': 'European scooter sharing.',
+    'voi': 'European scooter sharing.',
+    'mobike': 'Chinese bike sharing.',
+    'ofo': 'Chinese bike sharing.',
+    'swiggy': 'Indian food delivery.',
+    'zomato': 'Indian restaurant aggregator.',
+    'dominos': 'Pizza delivery chain.',
+    'pizza hut': 'Pizza restaurant chain.',
+    'kfc': 'Fried chicken chain.',
+    'mcdonalds': 'Fast food chain.',
+    'hypertension': 'Persistently high blood pressure.',
+    'cholesterol': 'Fat-like substance in blood.',
+    'heart disease': 'Conditions affecting heart and vessels.',
+    'stroke': 'Brain damage from poor blood flow.',
+    'cancer': 'Abnormal cell growth.',
+    'covid-19': 'Contagious respiratory disease.',
+    'epidemic': 'Widespread infectious disease.',
+    'pandemic': 'Global spread of disease.',
+    'quarantine': 'Isolation to prevent disease spread.',
+    'lockdown': 'Restriction of movement.',
+    'social distancing': 'Maintaining distance to reduce transmission.',
+    'mask': 'Protective covering for face.',
+    'ppe': 'Personal protective equipment.',
+    'ventilator': 'Device for mechanical ventilation.',
+    'oxygen': 'Gas essential for respiration.',
+    'remdesivir': 'Antiviral for COVID-19.',
+    'hydroxychloroquine': 'Antimalarial drug.',
+    'azithromycin': 'Antibiotic.',
+    'dexamethasone': 'Anti-inflammatory steroid.',
+    'plasma therapy': 'Treatment with recovered patient blood.',
+    'mrna vaccine': 'Vaccine using messenger RNA.',
+    'dna vaccine': 'Vaccine using DNA.',
+    'adenovirus vaccine': 'Vaccine using adenovirus.',
+    'inactivated vaccine': 'Vaccine using killed virus.',
+    'live attenuated vaccine': 'Vaccine using weakened virus.',
+    'ld50': 'Lethal dose for 50% of population.',
+    'ed50': 'Effective dose for 50%.',
+    'potency': 'Drug amount for effect.',
+    'efficacy': 'Maximum drug effect.',
+    'selectivity': 'Targeting specific tissues.',
+    'specificity': 'Binding to particular receptors.',
+    'affinity': 'Binding strength to receptors.',
+    'intrinsic activity': 'Activation ability.',
+    'competitive antagonist': 'Blocks agonist binding.',
+    'non-competitive antagonist': 'Binds elsewhere.',
+    'reversible antagonist': 'Effects can be overcome.',
+    'irreversible antagonist': 'Effects cannot be overcome.',
+    'partial agonist': 'Submaximal response.',
+    'inverse agonist': 'Opposite effect to agonist.',
+    'allosteric agonist': 'Binds outside active site.',
+    'xenobiotic': 'Foreign chemical in body.',
+    'cytochrome p450': 'Enzyme for detoxification.',
+    'phase 1 metabolism': 'Oxidation, reduction, hydrolysis.',
+    'phase 2 metabolism': 'Conjugation for excretion.',
+    'glucuronidation': 'Adding glucuronic acid.',
+    'acetylation': 'Adding acetyl group.',
+    'methylation': 'Adding methyl group.',
+    'sulfation': 'Adding sulfate group.',
+    'active metabolite': 'Retains pharmacological effect.',
+    'inactive metabolite': 'No pharmacological effect.',
+    'prodrug': 'Inactive until converted.',
+    'defibrillation': 'Electric shock for heart rhythm.',
+    'cpr': 'Cardiopulmonary resuscitation.',
+    'basic life support': 'Basic emergency care.',
+    'advanced life support': 'Advanced emergency care.',
+    'intensive care': 'Specialized treatment.',
+    'critical care': 'Care for life-threatening conditions.',
+    'trauma': 'Physical injury.',
+    'fracture': 'Broken bone.',
+    'dislocation': 'Misaligned bone.',
+    'burn': 'Tissue damage from heat.',
+    'sprain': 'Ligament injury.',
+    'strain': 'Muscle injury.',
+    'contusion': 'Bruise.',
+    'laceration': 'Deep cut.',
+    'abrasion': 'Surface scrape.',
+    'puncture': 'Piercing wound.',
+    'amputation': 'Limb removal.',
+    'shock': 'Inadequate blood flow.',
+    'sepsis': 'Severe infection response.',
+    'septic shock': 'Sepsis with low blood pressure.',
+    'mods': 'Multiple organ dysfunction syndrome.',
+    'ards': 'Acute respiratory distress syndrome.',
+    'pneumonia': 'Lung inflammation.',
+    'bronchitis': 'Bronchial tube inflammation.',
+    'copd': 'Chronic obstructive pulmonary disease.',
+    'asthma': 'Airway inflammation.',
+    'eczema': 'Skin inflammation.',
+    'psoriasis': 'Skin cell buildup.',
+    'acne': 'Skin pore blockage.',
+    'rosacea': 'Facial skin condition.',
+    'vitiligo': 'Skin depigmentation.',
+    'melanoma': 'Skin cancer.',
+    'hemangioma': 'Blood vessel tumor.',
+    'schwannoma': 'Nerve sheath tumor.',
+    'meningioma': 'Meninges tumor.',
+    'pituitary adenoma': 'Pituitary gland tumor.',
+    'craniopharyngioma': 'Craniopharyngeal duct tumor.',
+    'dermoid cyst': 'Cyst with hair and skin.',
+    'epidermoid cyst': 'Cyst with keratin.',
+    'mucocele': 'Mucus cyst.',
+    'ranula': 'Mouth mucus cyst.',
+    'ovarian cyst': 'Fluid-filled sac in ovary.',
+    'follicular cyst': 'From ovarian follicle.',
+    'endometrioma': 'With endometrial tissue.',
+    'hepatic cyst': 'Liver cyst.',
+    'simple liver cyst': 'Benign liver cyst.',
+    'polycystic liver disease': 'Multiple liver cysts.',
+    'hydatid cyst': 'From Echinococcus infection.',
+    'amebic liver abscess': 'From Entamoeba histolytica.',
+    'pancreatic cyst': 'Pancreas cyst.',
+    'pseudocyst': 'No epithelial lining.',
+    'serous cystadenoma': 'Benign pancreas cyst.',
+    'biliary cystadenoma': 'Bile duct cyst.',
+    'choledochal cyst': 'Bile duct cyst.',
+    'central cloudy dystrophy': 'Cloudy corneal deposits.',
+    'fleck corneal dystrophy': 'Fleck deposits.',
+    'posterior amorphous': 'Amorphous deposits.',
+    'congenital stromal dystrophy': 'Stromal abnormalities.',
+    'autosomal dominant': 'Inherited dominant trait.',
+    'autosomal recessive': 'Inherited recessive trait.',
+    'x-linked': 'Linked to X chromosome.',
+    'japanese': 'Regional corneal dystrophy.',
+    'korean': 'Regional corneal dystrophy.',
+    'latin american': 'Regional corneal dystrophy.',
+    'bolivian': 'Regional corneal dystrophy.',
+    'chilean': 'Regional corneal dystrophy.',
+    'argentine': 'Regional corneal dystrophy.',
+    'uruguayan': 'Regional corneal dystrophy.',
+    'paraguayan': 'Regional corneal dystrophy.',
+    'panamanian': 'Regional corneal dystrophy.',
+    'costa rican': 'Regional corneal dystrophy.',
+    'nicaraguan': 'Regional corneal dystrophy.',
+    'honduran': 'Regional corneal dystrophy.',
+    'salvadoran': 'Regional corneal dystrophy.',
+    'guatemalan': 'Regional corneal dystrophy.',
+    'belizean': 'Regional corneal dystrophy.',
+    'mexican': 'Regional corneal dystrophy.',
+    'cuban': 'Regional corneal dystrophy.',
+    'jamaican': 'Regional corneal dystrophy.',
+    'haitian': 'Regional corneal dystrophy.',
+    'dominican': 'Regional corneal dystrophy.',
+    'puerto rican': 'Regional corneal dystrophy.',
+    'bahamian': 'Regional corneal dystrophy.',
+    'trinidadian': 'Regional corneal dystrophy.',
+    'tobagonian': 'Regional corneal dystrophy.',
+    'barbadian': 'Regional corneal dystrophy.',
+    'guyanese': 'Regional corneal dystrophy.',
+    'surinamese': 'Regional corneal dystrophy.',
+    'french guianese': 'Regional corneal dystrophy.',
+    'brazilian': 'Regional corneal dystrophy.',
+    'peruvian': 'Regional corneal dystrophy.',
+    'ecuadorian': 'Regional corneal dystrophy.',
+    'colombian': 'Regional corneal dystrophy.',
+    'venezuelan': 'Regional corneal dystrophy.'
   };
   function initGlossary() {
     qsa('.glossary-term').forEach(el => {
