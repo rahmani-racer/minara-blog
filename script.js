@@ -69,23 +69,7 @@
     toolsTriggers.forEach(btn => btn.addEventListener('click', () => setToolsState(true)));
   }
 
-  // Tools: quick pip calc (informational)
-  qs('#tp_calc')?.addEventListener('click', () => {
-    const pair = (qs('#tp_pair').value || 'EUR/USD').toUpperCase();
-    const lots = parseFloat(qs('#tp_lots').value) || 0;
-    const pip = pair.includes('JPY') ? 0.01 : 0.0001;
-    const valuePerPip = lots * 100000 * pip; // approximate
-    qs('#tp_result').textContent = `${valuePerPip.toFixed(4)} per pip (approx)`;
-  });
-  qs('#tp_pos_calc')?.addEventListener('click', () => {
-    const bal = parseFloat(qs('#tp_balance').value) || 0;
-    const risk = parseFloat(qs('#tp_risk').value) || 0;
-    const stop = parseFloat(qs('#tp_stop').value) || 1;
-    const riskAmt = bal * (risk / 100);
-    const pipVal = 10; // approx per lot in USD
-    const lots = (riskAmt / (stop * pipVal));
-    qs('#tp_pos_result').textContent = `Risk amount ${riskAmt.toFixed(2)} → Suggested size ${lots.toFixed(4)} lots (approx)`;
-  });
+
 
   /* ---------- USD ↔ INR live rates (auto-update) ---------- */
   const usdInrEl = qs('#usdInrRate');

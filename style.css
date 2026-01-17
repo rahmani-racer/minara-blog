@@ -55,7 +55,7 @@ article table,
 main table {
   width: 100%;
   border-collapse: collapse;
-  background: linear-gradient(145deg, rgba(12,18,30,0.96), rgba(11,19,32,0.9));
+  background: #0c121e;
   border: 1px solid rgba(255,255,255,0.08);
   color: var(--text-main);
   box-shadow: 0 16px 38px rgba(0,0,0,0.35);
@@ -153,8 +153,16 @@ header {
   width: 100%;
   z-index: 1000;
   padding: 18px 0;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364, #1a252f, #0f2027);
+  background-size: 400% 400%;
+  animation: headerGlow 20s ease-in-out infinite;
   transition: transform 0.35s ease-in-out;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+@keyframes headerGlow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .header-hide {
@@ -291,7 +299,7 @@ header {
 .tools-panel .tool {
   margin-top: 16px;
   padding: 12px;
-  background: rgba(255,255,255,0.02);
+  background: #0f1419;
   border-radius: 10px;
   border: 1px solid rgba(56,189,248,0.08);
 }
