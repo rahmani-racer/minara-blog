@@ -548,8 +548,13 @@
   // Build homepage article lists from sitemap.xml so new pages appear automatically
   async function buildArticleLists() {
     try {
+      console.log('buildArticleLists: starting...');
       const listContainers = document.querySelectorAll('.article-list');
-      if (!listContainers.length) return;
+      if (!listContainers.length) {
+        console.log('buildArticleLists: no .article-list containers found');
+        return;
+      }
+      console.log('buildArticleLists: found', listContainers.length, 'containers');
 
       const resp = await fetch('/sitemap.xml', { cache: 'no-store' });
       if (!resp.ok) return;
@@ -607,6 +612,7 @@
       function getThumbPath(fname) {
         const key = (fname || '').toLowerCase();
         if (THUMB_MAP[key]) return 'images/' + THUMB_MAP[key];
+        console.log('buildArticleLists: populating list with', items.length, 'items');
         const slug = key.replace(/\.html$/,'');
         return 'images/' + slug + '.svg';
       }
@@ -1132,6 +1138,7 @@
   // Initialize all article UX features safely
   function initArticleFeatures() {
     const isArticle = !!document.querySelector('article.article');
+    console.log('initArticleFeatures: isArticle =', isArticle);
 
     // Always safe on any page
     try { buildArticleLists(); } catch (e) { console.warn('build article lists failed', e); }
@@ -1141,6 +1148,7 @@
 
     // Scoped to article pages only
     if (isArticle) {
+      console.log('Running article-specific features...');
       try { injectReadingTime(); } catch (e) { console.warn('reading time failed', e); }
       try { generateTOC(); } catch (e) { console.warn('toc failed', e); }
       try { injectAuthorBox(); } catch (e) { console.warn('author box failed', e); }
