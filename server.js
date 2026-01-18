@@ -114,6 +114,86 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// API endpoint to get list of articles
+app.get('/api/articles', async (req, res) => {
+  try {
+    const articlesDir = path.join(__dirname);
+    const files = await fs.readdir(articlesDir);
+    const articles = files.filter(file => file.endsWith('.html') && !file.includes('template')).map(file => ({
+      title: file.replace('.html', '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+      filename: file,
+      url: `/${file}`
+    }));
+    res.json({
+      success: true,
+      articles: articles
+    });
+  } catch (error) {
+    console.error('Error fetching articles:', error);
+    res.status(500).json({
+      error: 'Failed to fetch articles'
+    });
+  }
+});
+
+// API endpoint to search articles
+app.get('/api/articles/search', async (req, res) => {
+  try {
+    const query = sanitizeInput(req.query.q || '').toLowerCase();
+    if (!query) {
+      return res.status(400).json({
+        error: 'Search query is required'
+      });
+    }
+
+    const articlesDir = path.join(__dirname);
+    const files = await fs.readdir(articlesDir);
+    const matchingArticles = [];
+
+    for (const file of files) {
+      if (file.endsWith('.html') && !file.includes('template')) {
+        const filePath = path.join(articlesDir, file);
+        const content = await fs.readFile(filePath, 'utf8');
+        const title = file.replace('.html', '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+        if (title.toLowerCase().includes(query) || content.toLowerCase().includes(query)) {
+          // Generate relevant snippet around query
+          let snippet;
+          const queryIndex = content.toLowerCase().indexOf(query);
+          if (queryIndex !== -1) {
+            const start = Math.max(0, queryIndex - 100);
+            const end = Math.min(content.length, queryIndex + 100);
+            snippet = content.substring(start, end) + '...';
+          } else {
+            snippet = content.substring(0, 200) + '...';
+          }
+
+          matchingArticles.push({
+            title: title,
+            filename: file,
+            url: `/${file}`,
+            snippet: snippet
+          });
+        }
+      }
+    }
+
+    // Limit results to 10
+    matchingArticles.splice(10);
+
+    res.json({
+      success: true,
+      query: query,
+      results: matchingArticles
+    });
+  } catch (error) {
+    console.error('Error searching articles:', error);
+    res.status(500).json({
+      error: 'Failed to search articles'
+    });
+  }
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
