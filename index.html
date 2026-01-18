@@ -28,6 +28,9 @@
   <link rel="preconnect" href="https://s.tradingview.com" crossorigin>
 
   <!-- STYLES -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 
   <!-- Structured data (Organization, WebSite, WebPage) to support E-E-A-T -->
@@ -72,15 +75,25 @@
 <header role="banner">
   <div class="header-inner">
     <div class="header-left">
-      <h1 class="logo">Minara<span>Blog</span></h1>
+      <div class="logo-container">
+        <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" class="logo-icon">
+          <rect width="40" height="40" rx="8" fill="var(--accent)"/>
+          <path d="M10 15 L20 10 L30 15 L30 25 L20 30 L10 25 Z" fill="#ffffff"/>
+          <circle cx="20" cy="20" r="3" fill="var(--accent-gold)"/>
+        </svg>
+        <div class="logo-text">
+          <h1 class="logo">Minara<span>Blog</span></h1>
+          <p class="tagline">Master Trading with Discipline & Risk-First Education</p>
+        </div>
+      </div>
     </div>
 
     <nav role="navigation" aria-label="Primary">
       <a href="index.html">Home</a>
-      <a href="trading.html">Trading</a>
-      <a href="forex.html">Forex</a>
-      <a href="thought.html">Thoughts</a>
-      <a href="learning-articles.html">Learning Articles</a>
+      <a href="trading.html">Trading Basics</a>
+      <a href="forex.html">Forex Guides</a>
+      <a href="thought.html">Daily Wisdom</a>
+      <a href="learning-articles.html">All Articles</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </nav>
