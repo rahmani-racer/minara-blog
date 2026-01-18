@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="en-IN">
 <head>
   <meta charset="UTF-8">
@@ -136,8 +136,56 @@
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
-  </div><h2>Simple Trade Plan (Step-by-step)</h2>
+  <h2>Simple Trade Plan (Step-by-step)</h2>
   <p>1) Decide session and pairs you will trade. 2) Use higher-timeframe to find trend/bias (daily/4H). 3) Wait for a pattern or pullback on your trading timeframe (1H/15m). 4) Enter with stop under logical level and position sized to risk limit. 5) Place target and manage trade (partial take-profit / trailing stop). Yeh process discipline deta hai — emotions kam rahenge.</p>
+
+  <!-- Interactive Trading Calculator -->
+  <div class="calculator-section" style="background:rgba(0,0,0,0.03);padding:20px;border-radius:8px;margin:20px 0;">
+    <h3>Position Size Calculator</h3>
+    <div class="calc-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin:15px 0;">
+      <div>
+        <label for="calcAccount">Account Balance ($):</label>
+        <input type="number" id="calcAccount" placeholder="10000" style="width:100%;padding:8px;margin:5px 0;border:1px solid var(--border);border-radius:4px;">
+      </div>
+      <div>
+        <label for="calcRisk">Risk per Trade (%):</label>
+        <input type="number" id="calcRisk" placeholder="1" step="0.1" style="width:100%;padding:8px;margin:5px 0;border:1px solid var(--border);border-radius:4px;">
+      </div>
+      <div>
+        <label for="calcStopLoss">Stop Loss (Pips):</label>
+        <input type="number" id="calcStopLoss" placeholder="20" style="width:100%;padding:8px;margin:5px 0;border:1px solid var(--border);border-radius:4px;">
+      </div>
+      <div>
+        <label for="calcPair">Currency Pair:</label>
+        <select id="calcPair" style="width:100%;padding:8px;margin:5px 0;border:1px solid var(--border);border-radius:4px;">
+          <option value="0.1">EUR/USD (0.1 pip value)</option>
+          <option value="0.1">GBP/USD (0.1 pip value)</option>
+          <option value="0.01">USD/JPY (0.01 pip value)</option>
+        </select>
+      </div>
+    </div>
+    <button id="calculateBtn" class="btn" style="margin:10px 0;">Calculate Position Size</button>
+    <div id="calcResult" style="font-weight:600;margin:10px 0;padding:10px;background:var(--bg-card);border-radius:4px;"></div>
+  </div>
+
+  <script>
+  // Position Size Calculator
+  document.getElementById('calculateBtn').addEventListener('click', function() {
+    const account = parseFloat(document.getElementById('calcAccount').value);
+    const riskPercent = parseFloat(document.getElementById('calcRisk').value);
+    const stopLoss = parseFloat(document.getElementById('calcStopLoss').value);
+    const pipValue = parseFloat(document.getElementById('calcPair').value);
+
+    if (account && riskPercent && stopLoss && pipValue) {
+      const riskAmount = account * (riskPercent / 100);
+      const positionSize = riskAmount / (stopLoss * pipValue);
+      document.getElementById('calcResult').textContent =
+        `Position Size: ${positionSize.toFixed(2)} lots | Risk Amount: $${riskAmount.toFixed(2)}`;
+    } else {
+      document.getElementById('calcResult').textContent = 'Please fill all fields';
+    }
+  });
+  </script>
 
   <h2>Common Mistakes & How to Avoid Them (Detailed Breakdown)</h2>
   
