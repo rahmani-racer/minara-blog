@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <rect width="100%" height="100%" fill="#0b1726"/>
+  <g fill="#ffd166" font-family="Arial, Helvetica, sans-serif">
+    <text x="60" y="120" font-size="48" font-weight="700">GOLD (XAU/USD) — Example 1</text>
+    <text x="60" y="170" font-size="20">Annotated: trendline, retest, entry</text>
+  </g>
+  <g stroke="#ffd166" stroke-width="6" fill="none">
+    <path d="M120 420 C 220 300, 360 240, 480 300 S 760 420, 980 380"/>
+  </g>
+  <circle cx="480" cy="300" r="26" fill="#ff6b6b"/>
+</svg>

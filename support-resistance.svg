@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <rect width="100%" height="100%" fill="#071028"/>
+  <g fill="#ffd166" font-family="Arial, Helvetica, sans-serif">
+    <text x="60" y="120" font-size="48" font-weight="700">Support & Resistance</text>
+    <text x="60" y="170" font-size="20">S/R levels and retest areas</text>
+  </g>
+  <rect x="120" y="320" width="860" height="6" fill="#ffd166"/>
+  <path d="M120 360 L240 300 L360 340 L480 280 L600 330 L720 260 L840 300 L960 240" stroke="#4cc9f0" stroke-width="6" fill="none"/>
+</svg>

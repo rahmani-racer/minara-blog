@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <rect width="100%" height="100%" fill="#071028"/>
+  <g fill="#ffd166" font-family="Arial, Helvetica, sans-serif">
+    <text x="60" y="120" font-size="44" font-weight="700">Chart Patterns</text>
+    <text x="60" y="160" font-size="18">Head & Shoulders, Triangles, Flags — examples</text>
+  </g>
+  <g stroke="#4cc9f0" stroke-width="6" fill="none">
+    <path d="M200 420 L340 300 L480 360 L620 260 L760 340"/>
+  </g>
+</svg>
