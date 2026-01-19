@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+  <meta charset="UTF-8">
+  <title>Trading Vlog | Minara Blog</title>
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T7CQ1H1SD9"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T7CQ1H1SD9');
+</script>
+
+  <!-- SEO -->
+  <meta name="description" content="Trading vlog, market experience and risk management in Hindi. Practical trading lessons and mindset guidance.">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="canonical" href="https://minarablog.in/trading.html">
+  <meta property="og:title" content="Trading Vlog | Minara Blog">
+  <meta property="og:description" content="Trading vlog, market experience and risk management in Hindi. Practical trading lessons and mindset guidance.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://minarablog.in/trading.html">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="preconnect" href="https://api.exchangerate.host" crossorigin>
+  <!-- STYLES -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- SCROLL PROGRESS -->
+  <div id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- HEADER -->
+<header role="banner">
+  <div class="header-inner">
+    <h1 class="logo">Minara<span>Blog</span></h1>
+
+    <nav role="navigation" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="trading.html">Trading</a>
+      <a href="forex.html">Forex</a>
+      <a href="thought.html">Thoughts</a>
+      <a href="daily.html">Daily Info</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <button id="themeToggle" aria-pressed="false" aria-label="Toggle theme">☀️</button>
+  </div>
+</header>
+
+
+  <main>
+  <div id="main" role="main">
+
+    <!-- INTRO -->
+    <section class="section card">
+      <h2>Trading Vlog</h2>
+      <p>
+        Yahan real market experience, live trading mindset,
+        discipline aur proper risk management concepts share kiye jaate hain.
+      </p>
+    </section>
+    <section class="section card">
+  <h2>Smart Trading Assistant</h2>
+
+  <select id="aiExp">
+    <option value="">Experience Level</option>
+    <option value="beginner">Beginner</option>
+    <option value="intermediate">Intermediate</option>
+    <option value="advanced">Advanced</option>
+  </select>
+
+  <select id="aiRisk">
+    <option value="">Risk Level</option>
+    <option value="low">Low</option>
+    <option value="medium">Medium</option>
+    <option value="high">High</option>
+  </select>
+
+  <select id="aiMarket">
+    <option value="">Market</option>
+    <option value="forex">Forex</option>
+    <option value="crypto">Crypto</option>
+    <option value="stocks">Stocks</option>
+  </select>
+
+  <button onclick="getTradingAdvice()">Get Advice</button>
+
+  <p id="aiResult" style="margin-top:15px;"></p>
+</section>
+
+
+    <!-- SEARCH -->
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search trading concepts..."
+      aria-label="Search trading content"
+    >
+
+    <!-- CONTENT -->
+    <section class="section card">
+      <div class="quotes">
+
+        <p class="quote">
+          Trading me profit se zyada important hota hai
+          <strong>capital protection</strong>.
+        </p>
+
+        <p class="quote">
+          Har trade opportunity nahi hota,
+          lekin har patience opportunity ban sakti hai.
+        </p>
+
+        <p class="quote">
+          Overtrading account ko nahi,
+          <strong>mindset ko destroy</strong> karta hai.
+        </p>
+
+        <p class="quote">
+          Ek acchi strategy se zyada important hota hai
+          us strategy ko consistently follow karna.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- FEATURED VIDEO -->
+    <section class="section card">
+      <h3>Featured Trading Video</h3>
+
+      <iframe
+        data-src="https://www.youtube.com/embed/aIVhlbqaQns"
+        allowfullscreen
+        loading="lazy">
+      </iframe>
+
+      <p style="margin-top:15px;">
+        Is video me live trading aur risk management ko
+        practical examples ke saath explain kiya gaya hai.
+      </p>
+    </section>
+
+  </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer-pro">
+    <p>
+      © <span id="year"></span> Minara Blog · All Rights Reserved
+    </p>
+
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="forex.html">Forex</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
+
+  <!-- YEAR -->
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <!-- MAIN SCRIPT -->
+  <script src="script.js" defer></script>
+
+  <script>
+let lastScrollY = window.scrollY;
+const header = document.querySelector("header");
+
+window.addEventListener("scroll", () => {
+    if (window.scrollY > lastScrollY) {
+        header.classList.add("header-hide");
+    } else {
+        header.classList.remove("header-hide");
+    }
+    lastScrollY = window.scrollY;
+});
+</script>
+
+<!-- Static recommended links (non-JS fallback) -->
+<div class="recommended-links" style="max-width:900px;margin:18px auto;padding:12px;border-top:1px solid rgba(255,255,255,0.04);">
+  <h4>Recommended next</h4>
+  <ul style="list-style:none;padding:0;margin:8px 0 0;">
+    <li style="margin:6px 0;"><a href="trading-basics.html">Trading Basics – Strong Foundation</a></li>
+    <li style="margin:6px 0;"><a href="price-action.html">Price Action Trading – Complete Guide</a></li>
+    <li style="margin:6px 0;"><a href="risk-management.html">Risk Management – Survival First</a></li>
+  </ul>
+</div>
+</body>
+</html>
+
+

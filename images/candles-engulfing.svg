@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="220" viewBox="0 0 700 220">
+  <rect width="700" height="220" fill="#071022"/>
+  <g transform="translate(40,20)">
+    <text x="0" y="16" font-family="Arial" font-size="14" fill="#9aa9b2">Engulfing Pattern</text>
+    <g transform="translate(0,30)">
+      <!-- small candle -->
+      <rect x="0" y="40" width="30" height="20" fill="#ef4444"/>
+      <line x1="15" y1="0" x2="15" y2="40" stroke="#fff" stroke-width="2" opacity="0.6"/>
+      <!-- large candle engulfing -->
+      <rect x="50" y="10" width="60" height="60" fill="#10b981"/>
+      <line x1="80" y1="0" x2="80" y2="80" stroke="#fff" stroke-width="3"/>
+      <!-- context candles -->
+      <rect x="130" y="30" width="30" height="40" fill="#ef4444" opacity="0.5"/>
+    </g>
+  </g>
+  <text x="40" y="200" font-family="Arial" font-size="12" fill="#9aa9b2">Example: bullish engulfing after down-leg indicates potential reversal.</text>
+</svg>

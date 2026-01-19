@@ -1,0 +1,367 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leverage and Margin Explained — Forex Basics | Minara Blog</title>
+  <meta name="description" content="Simple Hinglish guide explaining leverage and margin, practical examples, and risk management with GOLD (XAU/USD).">
+  <link rel="canonical" href="https://minarablog.in/leverage-and-margin-explained.html">
+  <meta property="og:title" content="Leverage and Margin Explained — Forex Basics | Minara Blog">
+  <meta property="og:description" content="Simple Hinglish guide explaining leverage and margin, practical examples, and risk management with GOLD (XAU/USD).">
+  <link rel="preconnect" href="https://api.exchangerate.host" crossorigin>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header role="banner"><div class="header-inner"><h1 class="logo">Minara<span>Blog</span></h1></div></header>
+<main id="main">
+  <article class="article">
+    <header class="article-head"><h2>Leverage and Margin Explained</h2>
+    <p class="byline">Last Updated: 16 Jan 2026 — Minara Blog</p></header>
+
+    <section class="intro">
+      <h3 id="toc-1">Problem-based introduction</h3>
+      <p>Leverage dekh kar beginners excited ho jate hain — "10x, 50x" — lekin margin ka galat use account blow-up tak le ja sakta hai. Is article mein simple Hinglish me leverage, margin aur practical GOLD (XAU/USD) examples se samjhayenge ki safe use kaise karein.</p>
+    </section>
+
+    <nav id="toc">
+      <h3>Table of Contents</h3>
+      <ul>
+        <li><a href="#toc-1">Problem-based introduction</a></li>
+        <li><a href="#toc-2">Hidden trading costs (spell-checked)</a></li>
+        <li><a href="#toc-3">Regulatory lens</a></li>
+        <li><a href="#toc-4">Step-by-step explanation</a></li>
+        <li><a href="#toc-5">Real trading logic (GOLD example)</a></li>
+        <li><a href="#toc-6">How to size positions safely</a></li>
+        <li><a href="#toc-7">Image-based examples (mandatory)</a></li>
+        <li><a href="#toc-8">Margin calls and liquidation</a></li>
+        <li><a href="#toc-9">Two quick calculators you should run</a></li>
+        <li><a href="#toc-10">Psychology with leverage</a></li>
+        <li><a href="#toc-11">Case study: disciplined vs reckless</a></li>
+        <li><a href="#toc-12">Broker models and leverage offers</a></li>
+        <li><a href="#toc-13">Risk controls you must enforce</a></li>
+        <li><a href="#toc-14">Weekend gaps and rollover reality</a></li>
+        <li><a href="#toc-15">Leverage scenario compare (quick math)</a></li>
+        <li><a href="#toc-16">Common Mistakes (and How to Fix Them)</a></li>
+        <li><a href="#toc-17">Pro Tips (From Traders Who Survived)</a></li>
+        <li><a href="#toc-18">Risk Warning</a></li>
+        <li><a href="#toc-19">SEO FAQs</a></li>
+        <li><a href="#toc-20">Author</a></li>
+      </ul>
+    </nav>
+
+    <section>
+      <h3 id="toc-2">Hidden trading costs (spell-checked)</h3>
+      <ul>
+        <li>Spread + commission = visible cost; slippage = hidden cost.</li>
+        <li>Swap/financing: overnight costs can erode returns; check GOLD swap on your broker.</li>
+        <li>Requotes/latency: during news, poor routing can add hidden losses.</li>
+      </ul>
+      <p>Action: journal every fill vs expected; if slippage > 0.2R regularly, reduce size or switch timing/broker.</p>
+    </section>
+
+    <section>
+      <h3>Regulatory lens</h3>
+      <p>
+        Regions like ESMA/ASIC cap leverage for retail to protect traders. Offshore brokers may offer 1:500 or higher, but with greater risk of slippage, stops not honoring, or withdrawal friction. Choose safety over extreme leverage.
+      </p>
+      <ul>
+        <li>Check license and dispute resolution process.</li>
+        <li>Test small deposits/withdrawals before scaling.</li>
+        <li>Avoid bonuses tied to turnover; they incentivize overtrading.</li>
+      </ul>
+    </section>
+    <section>
+      <h3>Step-by-step explanation</h3>
+      <ol>
+        <li><strong>Leverage:</strong> Ratio jo broker deti hai (e.g., 1:100) — aap chhote capital se bada exposure le sakte ho.</li>
+        <li><strong>Margin:</strong> Required deposit to open a leveraged position (exposure / leverage).</li>
+        <li><strong>Maintenance margin & margin call:</strong> Broker minimum equity level below which position may be closed.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h3>Real trading logic (GOLD example)</h3>
+      <p>Example: Account $1000, leverage 1:100, you can open $100,000 notional. If XAU/USD moves $10 against you and your contract size / pip value leads to $50 per lot per $1 move (broker-specific), losses magnify quickly. Always calculate absolute dollar risk before using leverage.</p>
+    </section>
+
+    <section>
+      <h3>How to size positions safely</h3>
+      <ol>
+        <li>Define risk per trade: 0.25%–0.5% (intraday) or 1% (swing).</li>
+        <li>Calculate dollar risk = Account * risk%.</li>
+        <li>Position = Dollar risk / (stop distance * pip value). Pip value broker/contract spec se check karo.</li>
+      </ol>
+      <p>Example: $1000 account, risk 0.5% = $5. Stop 200 cents on GOLD micro (approx $0.10 per cent per micro) → size around 0.25 micro lots. Small lagta hai, but survival-first.</p>
+    </section>
+
+    <section>
+      <h3>Image-based examples (mandatory)</h3>
+      <picture>
+        <source srcset="images/leverage-margin-example.svg" type="image/svg+xml">
+        <img src="images/leverage-margin-example.svg"
+             srcset="images/leverage-margin-example.svg 400w, images/leverage-margin-example.svg 800w, images/leverage-margin-example.svg 1200w"
+             sizes="(max-width:600px) 100vw, 600px"
+             alt="Leverage and margin illustration"
+             class="article-img"
+             width="800"
+             height="420"
+             loading="lazy"
+             decoding="async"
+             onerror="this.onerror=null;this.src='images/placeholder-800.svg';">
+      </picture>
+      <p>Annotated example showing equity, margin used, and effect of price move. Fallback image loads automatically if the SVG fails.</p>
+    </section>
+
+    <section>
+      <h3>Margin calls and liquidation</h3>
+      <ul>
+        <li>Margin level = Equity / Used margin * 100. Broker thresholds differ (e.g., call at 100%, stop-out at 50%).</li>
+        <li>Near stop-out, broker can auto-close worst positions first.</li>
+        <li>High leverage + wide stops + news spikes = fast equity drops; plan sizing to avoid margin stress.</li>
+      </ul>
+      <p>Practical guardrail: keep free margin > 500% for intraday; > 800% for swing positions. If free margin shrinks, cut size.</p>
+    </section>
+
+    <section>
+      <h3>Two quick calculators you should run</h3>
+      <ol>
+        <li><strong>Max position size:</strong> (Account * risk%) / (stop distance * pip value). Example: $1000, 0.5% risk = $5; stop 200 cents on XAUUSD micro (≈$0.10/cent) → size ≈0.25 micro lots.</li>
+        <li><strong>Margin used:</strong> Notional / leverage. Example: $2,500 notional at 1:100 uses $25 margin; free margin stays healthy.</li>
+      </ol>
+      <p>Goal: trade small so that even a streak of losses doesn't trigger margin pressure.</p>
+    </section>
+
+    <section>
+      <h3>Psychology with leverage</h3>
+      <ul>
+        <li>High leverage amplifies emotions. Start with micro lots until execution is consistent.</li>
+        <li>Avoid revenge trades after a margin call. Step away, review journal, cut size further.</li>
+        <li>Use alerts instead of staring at every tick; over-monitoring leads to impulsive scaling.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Case study: disciplined vs reckless</h3>
+      <p>
+        Trader A uses 0.5% risk, small size, stops defined. Trader B uses max leverage, no hard stops. Same market move of $8 on GOLD: Trader A loses $4–$6; Trader B blows 30%+ in one spike. Discipline keeps you in the game; leverage without plan is account-killer.
+      </p>
+
+      <h4>Real Margin Call Breakdown: Priya's Rs. 1 Lakh Account</h4>
+      <p>Priya opens account with Rs. 1,00,000. Broker offers 1:200 leverage. She's excited, starts trading EUR/USD aggressively.</p>
+      
+      <p><strong>Week 1:</strong> Opens 5 positions simultaneously (0.3 lot each = 1.5 standard lots total). Notional exposure: $150,000 (≈Rs. 1.24 crore). Margin used: Rs. 62,000. Free margin: Rs. 38,000 (38%). Small moves against her—loses Rs. 8,000, now equity = Rs. 92,000.</p>
+      
+      <p><strong>Week 2:</strong> Tries to "recover losses" (revenge trading). Adds 3 more positions (0.2 lot each). Now holding 2.1 lots total. Friday US jobs data surprise—EUR/USD moves 120 pips against her in 4 minutes. Loss: Rs. 18,000. Equity drops to Rs. 74,000. Margin level = 74,000÷62,000 × 100 = 119%. Broker sends margin call warning.</p>
+      
+      <p><strong>Week 3 Monday:</strong> Weekend gap adds another 30 pips slippage. Equity at Rs. 68,000. Margin level = 109% (below broker's 120% warning threshold). Broker auto-closes 3 worst positions at market. Priya's now down Rs. 32,000 (32% drawdown) in 2.5 weeks.</p>
+      
+      <p><strong>Lesson:</strong> High leverage + multiple simultaneous positions + no hard stops = margin call ka seedha rasta. Agar Priya 1% risk rule follow karti (Rs. 1,000 per trade, max 2-3 positions at once), losses would be Rs. 3,000–5,000 max, equity still Rs. 95,000+, margin stress zero. <em>Leverage ko respect karo, abuse mat karo.</em></p>
+    </section>
+
+    <section>
+      <h3>Broker models and leverage offers</h3>
+      <ul>
+        <li><strong>ECN:</strong> Raw spreads + commission; leverage may be lower but fills cleaner in liquid hours.</li>
+        <li><strong>Market maker:</strong> Wider spreads; can reduce leverage during news; watch for slippage.</li>
+        <li><strong>Regulation:</strong> ESMA/ASIC caps leverage; offshore may offer very high leverage—risk bhi high.</li>
+      </ul>
+      <p>Safe rule: leverage dekh kar excite mat ho; execution quality, regulation, aur risk controls zyada important hain.</p>
+    </section>
+
+    <section>
+      <h3>Risk controls you must enforce</h3>
+      <ol>
+        <li>No trade without predefined stop distance and dollar risk.</li>
+        <li>News window: size half or flat 5–10 minutes before major events.</li>
+        <li>Max daily loss: 1–2% cap; hit ho to stop trading.</li>
+        <li>Weekend holds: avoid leveraged overnight unless hedged.</li>
+      </ol>
+      <p>Leverage is a tool, edge nahi. Skill = risk control + discipline.</p>
+    </section>
+
+    <section>
+      <h3>Weekend gaps and rollover reality</h3>
+      <p>
+        Friday close ke baad news aa sakti hai; Monday open par gap aata hai jo stop-loss ko slip kara sakta hai. Simple rule: agar weekend hold karna zaroori ho, size quarter karo ya hedge karo (e.g., partial opposite micro). Warna flat rehna safest hai.
+      </p>
+    </section>
+
+    <section>
+      <h3>Leverage scenario compare (quick math)</h3>
+      <ul>
+        <li><strong>1:20</strong> — Same $ risk, margin used higher, but forced size stays small; good for beginners.</li>
+        <li><strong>1:100</strong> — Popular; only safe with strict sizing formula and fixed stops.</li>
+        <li><strong>1:500</strong> — Tempting but dangerous; tiny stops or poor fills can erase days of gains. Avoid unless pro + tested plan.</li>
+      </ul>
+      <p>Notice: risk is controlled by position size, not by leverage number. Always compute lot size from risk first, then check margin requirement.</p>
+
+      <h4>Real Broker Comparison: Same Rs. 50,000 Account</h4>
+      <p>Scenario: XAU/USD at 2,500, 1 standard lot = $250,000 notional (100 ounces). You want to risk 1% = Rs. 500 with 200-cent stop.</p>
+      
+      <table style="width:100%; border-collapse:collapse; margin:12px 0; font-size:0.9em;">
+        <thead>
+          <tr style="background:rgba(255,255,255,0.05);">
+            <th style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Broker Leverage</th>
+            <th style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Lot Size (1% risk, 200c SL)</th>
+            <th style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Margin Required</th>
+            <th style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Free Margin %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">1:20 (ASIC-regulated)</td>
+            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">0.05 lot (Rs. 500 risk)</td>
+            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Rs. 625 (12,500÷20)</td>
+            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">98.7% (OK)</td>
+          </tr>
+          <tr>
+            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">1:100 (standard)</td>
+            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">0.05 lot (same risk)</td>
+            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Rs. 125 (12,500÷100)</td>
+            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">99.7% (OK)</td>
+          </tr>
+          <tr style="background:rgba(255,50,50,0.08);">
+            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">1:500 (offshore)</td>
+            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">0.05 lot (same risk)</td>
+            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">Rs. 25 (12,500÷500)</td>
+            <td style="padding:8px; border:1px solid rgba(255,255,255,0.1);">99.9% (tempting but high risk)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><strong>Key insight:</strong> Notice lot size is SAME across all three (0.05 lot) because risk is fixed at Rs. 500. Leverage only changes margin requirement, not your position size. High leverage ka advantage sirf yeh hai ki kam margin tie-up hota hai—but overtrading ka temptation badh jata hai. Disciplined trader ke liye 1:100 sufficient hai; 1:500 sirf account blow-up ka invitation hai.</p>
+    </section>
+
+    <section>
+      <h3>Common Mistakes (and How to Fix Them)</h3>
+      
+      <h4>1. Treating Leverage as a "Multiplier" of Profits</h4>
+      <p><strong>Mistake:</strong> "Broker offers 1:500, matlab meri Rs. 10,000 se Rs. 50 lakh ka control—main jaldi ameer ban jaunga!"</p>
+      <p><strong>Reality:</strong> Leverage amplifies losses bhi equally. 2% adverse move = Rs. 1 lakh loss (account gone 10x over).</p>
+      <p><strong>Fix:</strong> Leverage ko facility samjho, target nahi. Position size risk se calculate karo (1% rule), leverage se nahi.</p>
+      
+      <h4>2. Opening Too Many Positions at Once ("Portfolio Effect" Myth)</h4>
+      <p><strong>Mistake:</strong> "5-6 trades saath mein kholunga, diversification hoga." But all EUR pairs correlated, same direction mein move.</p>
+      <p><strong>Reality:</strong> Correlated positions = multiplied risk, multiplied margin usage. One news event triggers margin call across all.</p>
+      <p><strong>Fix:</strong> Max 2-3 uncorrelated positions simultaneously. Check correlation matrix (EUR/USD, GBP/USD = 80%+ correlation).</p>
+      
+      <h4>3. No Hard Stop-Loss Because "Margin Level Abhi Thik Hai"</h4>
+      <p><strong>Mistake:</strong> Entering trade without stop, thinking "agar loss hoga to band kar doonga." Margin level 400% pe comfortable feel.</p>
+      <p><strong>Reality:</strong> News spike mein 2 minute mein margin level 400% se 80% tak gir sakta hai. Emotional freeze, can't click close button.</p>
+      <p><strong>Fix:</strong> EVERY trade must have hard stop-loss before entry. No exceptions. Stop hit = controlled loss; no stop = blown account.</p>
+      
+      <h4>4. Weekend Holds with Full Leverage ("Friday Close to Monday Open Gap Risk")</h4>
+      <p><strong>Mistake:</strong> Friday evening 1.5 lot EUR/USD long position hold kiya. Weekend mein geopolitical event—Monday 80-pip gap down open.</p>
+      <p><strong>Reality:</strong> Stop-loss at 1.0950 set tha, but market opens at 1.0870—80 pips slippage. Intended Rs. 1,000 loss becomes Rs. 9,000 loss.</p>
+      <p><strong>Fix:</strong> Weekend holds: (1) size quarter karo, (2) hedge with opposite micro, (3) or flat rehna. Safest = flat.</p>
+      
+      <h4>5. Using Leverage "Because It's Available" (Seat Belt Analogy)</h4>
+      <p><strong>Mistake:</strong> Car 200 km/h chala sakti hai matlab main daily 200 chalaunga? Nahi. Same way, 1:500 available doesn't mean use karna hai.</p>
+      <p><strong>Reality:</strong> Available leverage ≠ recommended leverage. Brokers offer high leverage for commission income (more trades = more fees).</p>
+      <p><strong>Fix:</strong> Calculate effective leverage used: (Position size × price) ÷ equity. Keep it under 5:1 for swing, under 10:1 for intraday (even if broker offers 500:1).</p>
+      
+      <h4>6. Ignoring "Margin Call" Warning ("Abhi Aur Chal Jayega" Mentality)</h4>
+      <p><strong>Mistake:</strong> Broker sends email: "Margin level 110%, add funds or close positions." Trader ignores: "Market reverse hogi, tension mat lo."</p>
+      <p><strong>Reality:</strong> Margin level 110% se 50% (stop-out) tak only 2-3 big candles distance. Once stop-out hits, broker closes ALL at market (worst prices).</p>
+      <p><strong>Fix:</strong> Margin warning = RED ALERT. Immediate action: close weakest positions, add funds if possible, or accept loss and reset. Never "hope" during margin stress.</p>
+      
+      <h4>7. Confusing "Free Margin" with "Available to Lose"</h4>
+      <p><strong>Mistake:</strong> "Rs. 40,000 free margin hai, matlab Rs. 40,000 aur loss handle kar sakta hoon." Opens more trades.</p>
+      <p><strong>Reality:</strong> Free margin shrinks with every pip against you ACROSS ALL OPEN POSITIONS. 3 trades, each 50 pips against = massive equity drop.</p>
+      <p><strong>Fix:</strong> Free margin ≥ 500% maintain karo. Below 300% = immediate size reduction. Below 200% = close everything, reassess.</p>
+      
+      <h4>8. Revenge Trading After Margin Call (Doubling Down)</h4>
+      <p><strong>Mistake:</strong> Margin call hit hua, Rs. 30,000 loss. "Ab recover karna hai jaldi." Deposits Rs. 20,000 more, opens 2x size position.</p>
+      <p><strong>Reality:</strong> Emotional state = worst time for trading. Bigger size + revenge mindset = second margin call within days. Account fully blown.</p>
+      <p><strong>Fix:</strong> Margin call ke baad MANDATORY 1-week break. No trading. Review journal, fix sizing formula, cut target size by 50% for next 100 trades. Discipline > revenge.</p>
+    </section>
+
+    <section>
+      <h3>Pro Tips (From Traders Who Survived)</h3>
+      <ul>
+        <li><strong>Start with 1:20 or 1:50 max:</strong> Regulatory-capped brokers force discipline. High leverage = high temptation to overtrade.</li>
+        <li><strong>"Margin used" should never exceed 20% of equity:</strong> If Rs. 1 lakh account, max Rs. 20,000 margin tied up across ALL positions. Rest = safety buffer.</li>
+        <li><strong>Calculate worst-case scenario BEFORE entry:</strong> "If stop hit + 20% slippage, loss kya hoga?" Agar comfortable nahi, size cut karo.</li>
+        <li><strong>Use margin calculator for every new instrument:</strong> GOLD, indices, exotics—sab ke margin requirements different. Assume mat karo, calculate karo.</li>
+        <li><strong>Set "max positions open" rule:</strong> Example: "Never more than 3 positions at once, never more than 1 per currency pair." Prevents correlation blowup.</li>
+        <li><strong>Weekend rule = "Flat or 25% size":</strong> No full-size overnight Friday to Monday. Gaps are account-killers.</li>
+      </ul>
+
+      <h4>Leverage Progression Roadmap (Beginner → Intermediate)</h4>
+      <p>Most traders blow up because they start with max leverage. Here's a safer path:</p>
+      
+      <p><strong>Month 1-3 (Demo only, 1:100 leverage):</strong></p>
+      <ul style="margin-left:20px;">
+        <li>0.01 lot trades only (micro)</li>
+        <li>Focus: stop-loss placement, not profit</li>
+        <li>Target: 50 trades with ZERO margin stress (free margin always > 800%)</li>
+        <li>If margin level drops below 500% even once = reset, reduce size further</li>
+      </ul>
+      
+      <p><strong>Month 4-6 (Live Rs. 10,000 account, 1:50 leverage):</strong></p>
+      <ul style="margin-left:20px;">
+        <li>0.01 lot trades, 1% risk = Rs. 100 per trade</li>
+        <li>Focus: execution discipline, journaling fills vs slippage</li>
+        <li>Target: 100 trades with max 15% total drawdown (i.e., account never below Rs. 8,500)</li>
+        <li>Success metric: Win rate doesn't matter, MARGIN STRESS = 0 matters</li>
+      </ul>
+      
+      <p><strong>Month 7-12 (Rs. 50,000 account, 1:100 leverage):</strong></p>
+      <ul style="margin-left:20px;">
+        <li>0.02-0.05 lot trades, 0.5-1% risk</li>
+        <li>Max 2 positions simultaneously</li>
+        <li>Focus: scaling into winners, cutting losers fast</li>
+        <li>Target: 200 trades, survive 5-trade losing streak without panic</li>
+      </ul>
+      
+      <p><strong>Year 2+ (Rs. 2 lakh+ account, 1:100-200 leverage OK if disciplined):</strong></p>
+      <ul style="margin-left:20px;">
+        <li>0.1-0.5 lot trades, still 1% risk per trade</li>
+        <li>Can hold 3-4 uncorrelated positions</li>
+        <li>Focus: consistency over 500+ trades, building track record</li>
+        <li>Leverage becomes invisible—you're trading RISK, not leverage</li>
+      </ul>
+      
+      <p><strong>Golden Rule:</strong> Jab tak margin stress kabhi feel nahi kiya (i.e., free margin always > 500%), tab tak size mat badhao. Leverage progression is not equal to profit progression. Discipline progression = real edge.</p>
+    </section>
+
+    <section>
+      <h3>Risk Warning</h3>
+      <p>Leverage increases both potential profit and potential loss. Always define risk per trade, set a hard stop-loss before entry, and pre-calc margin usage.</p>
+      <p>Never treat available leverage as target size. Survival-first: small size, clear stops, journal every fill, and reduce size after any margin warning.</p>
+    </section>
+
+    <div class="ads-slot" style="min-height:120px; margin:18px 0;"></div>
+
+    <section>
+      <h3>SEO FAQs</h3>
+      <dl>
+        <dt>1. Leverage kya hai?</dt>
+        <dd>Leverage allows larger market exposure relative to account capital.</dd>
+        <dt>2. Margin kaise calculate karein?</dt>
+        <dd>Margin = exposure / leverage (check broker contract specs).</dd>
+        <dt>3. Kya high leverage kabhi safe hota hai?</dt>
+        <dd>Only for experienced traders with strict risk controls; beginners should avoid high leverage.</dd>
+      </dl>
+    </section>
+
+    <section><h3>Author</h3><div class="author-box"><p><strong>Rahul Mehra</strong> — Risk-focused trading educator. Related: <a href="risk-management.html">Risk Management</a>.</p></div></section>
+    <div class="ads-slot" style="min-height:120px; margin:18px 0;"></div>
+    <footer class="article-footer"><p>Related: <a href="position-sizing-formula.html">Position Sizing Formula</a></p></footer>
+  </article>
+</main>
+<script src="script.js" defer></script>
+<!-- Static recommended links (non-JS fallback) -->
+<div class="recommended-links" style="max-width:900px;margin:18px auto;padding:12px;border-top:1px solid rgba(255,255,255,0.04);">
+  <h4>Recommended next</h4>
+  <ul style="list-style:none;padding:0;margin:8px 0 0;">
+    <li style="margin:6px 0;"><a href="trading-basics.html">Trading Basics – Strong Foundation</a></li>
+    <li style="margin:6px 0;"><a href="price-action.html">Price Action Trading – Complete Guide</a></li>
+    <li style="margin:6px 0;"><a href="risk-management.html">Risk Management – Survival First</a></li>
+  </ul>
+</div>
+</body>
+</html>
+
+

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="220" viewBox="0 0 700 220">
+  <rect width="700" height="220" fill="#0f1724"/>
+  <g transform="translate(40,20)">
+    <text x="0" y="16" font-family="Arial" font-size="14" fill="#9aa9b2">Pin Bar (Rejection)</text>
+    <g transform="translate(0,30)">
+      <!-- wick up -->
+      <line x1="40" y1="0" x2="40" y2="80" stroke="#fff" stroke-width="3"/>
+      <!-- body small near bottom (bearish pin) -->
+      <rect x="20" y="70" width="40" height="12" rx="2" fill="#ef4444"/>
+      <!-- other candles for context -->
+      <rect x="0" y="20" width="20" height="60" fill="#ef4444" opacity="0.6"/>
+      <rect x="80" y="40" width="20" height="40" fill="#10b981" opacity="0.6"/>
+      <line x1="120" y1="0" x2="120" y2="60" stroke="#fff" stroke-width="2" opacity="0.6"/>
+      <rect x="100" y="20" width="40" height="20" fill="#10b981" opacity="0.6"/>
+    </g>
+  </g>
+  <text x="40" y="200" font-family="Arial" font-size="12" fill="#9aa9b2">Example: long wick shows rejection of price – good context needed.</text>
+</svg>

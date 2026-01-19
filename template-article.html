@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{TITLE}} | Minara Blog</title>
+  <meta name="description" content="{{META_DESC}}">
+  <link rel="canonical" href="{{CANONICAL}}">
+  <meta property="og:title" content="{{TITLE}}">
+  <meta property="og:description" content="{{META_DESC}}">
+  <link rel="preconnect" href="https://api.exchangerate.host" crossorigin>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header role="banner">
+  <div class="header-inner">
+    <h1 class="logo">Minara<span>Blog</span></h1>
+    <nav role="navigation" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="trading.html">Trading</a>
+      <a href="forex.html">Forex</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article class="article" role="article">
+    <nav class="breadcrumb" aria-label="Breadcrumb"></nav>
+    <header class="article-head">
+      <h1 id="articleTitle">{{TITLE}}</h1>
+      <p class="byline">Last Updated: {{LAST_UPDATED}} — Minara Blog</p>
+    </header>
+
+    <!-- Premium widgets (lightweight placeholders) -->
+    <div class="premium-widgets" aria-hidden="false" style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;margin:12px 0;">
+      <div id="ratesCardSmall" class="card small" style="min-width:220px;max-width:320px;padding:10px;"> 
+        <h4 style="margin:0 0 8px;font-size:14px;">Rates</h4>
+        <div id="ratesTickerSmall" class="rates-ticker" style="padding:8px;min-height:34px;"> <ul style="list-style:none;margin:0;padding:0;display:flex;gap:8px;"></ul></div>
+      </div>
+
+      <div id="watchSmall" class="card small" style="min-width:220px;max-width:320px;padding:10px;">
+        <h4 style="margin:0 0 8px;font-size:14px;">Watchlist</h4>
+        <div id="watchlistInline" style="min-height:34px;"> <small class="muted">Add symbols in the top tools</small></div>
+      </div>
+
+      <div id="tv_small" class="card small" style="min-width:220px;max-width:420px;padding:10px;">
+        <h4 style="margin:0 0 8px;font-size:14px;">Mini Chart</h4>
+        <div id="tv_article_placeholder" class="tv-article-placeholder" style="min-height:80px;display:flex;align-items:center;justify-content:center;"> <button class="btn" data-load-tv>Load mini chart</button></div>
+      </div>
+    </div>
+
+    <section class="intro">
+      <h2>Problem-based introduction</h2>
+      <p>{{INTRO}}</p>
+    </section>
+
+    <section>
+      <h2>Step-by-step explanation</h2>
+      {{STEP_BY_STEP}}
+    </section>
+
+    <section>
+      <h2>Real trading logic</h2>
+      {{REAL_LOGIC}}
+    </section>
+
+    <section>
+      <h2>Image-based examples (mandatory)</h2>
+      <img src="images/{{IMAGE}}" srcset="images/placeholder-400.svg 400w, images/placeholder-800.svg 800w, images/placeholder-1200.svg 1200w" sizes="(max-width:600px) 100vw, 600px" alt="{{IMAGE_ALT}}" class="article-img" width="800" height="420" loading="lazy" decoding="async" fetchpriority="low">
+      <p>{{IMAGE_DESC}}</p>
+    </section>
+
+    <section>
+      <h2>Common Mistakes</h2>
+      {{COMMON_MISTAKES}}
+    </section>
+
+    <section>
+      <h2>Pro Tips</h2>
+      {{PRO_TIPS}}
+    </section>
+
+    <section>
+      <h2>Risk Warning</h2>
+      <p>{{RISK_WARNING}}</p>
+    </section>
+
+    <div class="ads-slot" aria-hidden="true" style="min-height:120px; margin:18px 0;"></div>
+
+    <section>
+      <h2>SEO FAQs</h2>
+      {{FAQS}}
+      <!-- If no FAQs provided, authors can add items using .faq .faq-item structure -->
+    </section>
+
+    <section>
+      <h3>Author</h3>
+      <div class="author-box">{{AUTHOR_BOX}}</div>
+    </section>
+
+    <div class="ads-slot" aria-hidden="true" style="min-height:120px; margin:18px 0;"></div>
+
+    <footer class="article-footer">
+      <p>Related: {{RELATED_LINKS}}</p>
+    </footer>
+  </article>
+</main>
+
+<script src="script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <rect width="100%" height="100%" fill="#071028"/>
+  <g fill="#ffd166" font-family="Arial, Helvetica, sans-serif">
+    <text x="60" y="120" font-size="44" font-weight="700">Major vs Minor Pairs</text>
+    <text x="60" y="160" font-size="18">Liquidity and volatility differences</text>
+  </g>
+  <g fill="#4cc9f0">
+    <rect x="120" y="320" width="200" height="80"/>
+    <rect x="360" y="300" width="200" height="100"/>
+    <rect x="600" y="280" width="200" height="120"/>
+  </g>
+</svg>

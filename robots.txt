@@ -1,0 +1,81 @@
+# =====================================
+# Minara Blog - Advanced robots.txt
+# SEO Optimized | Static + Future Backend Safe
+# =====================================
+
+User-agent: *
+Allow: /
+
+# -------------------------------
+# Block unnecessary system paths
+# -------------------------------
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /private/
+Disallow: /core/
+Disallow: /config/
+Disallow: /includes/
+
+# -------------------------------
+# Block non-SEO URLs & parameters
+# -------------------------------
+Disallow: /*?*
+Disallow: /*&*
+Disallow: /*=*
+Disallow: /*utm_*
+Disallow: /*ref=*
+Disallow: /*sessionid*
+
+# -------------------------------
+# Block raw / data / dev files
+# -------------------------------
+Disallow: /*.json$
+Disallow: /*.log$
+Disallow: /*.md$
+
+# -------------------------------
+# Prevent duplicate content pages
+# -------------------------------
+Disallow: /search
+Disallow: /search/
+Disallow: /tag/
+Disallow: /tags/
+Disallow: /filter/
+Disallow: /filters/
+Disallow: /page/
+Disallow: /author/
+
+# -------------------------------
+# Explicitly allow critical assets
+# (Important for Google rendering)
+# -------------------------------
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.webp$
+Allow: /assets/
+Allow: /images/
+Allow: /fonts/
+Allow: /sitemap.xml
+Allow: /robots.txt
+
+# -------------------------------
+# Search engine specific rules
+# -------------------------------
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 3
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 5
+
+# -------------------------------
+# Sitemap declaration
+# -------------------------------
+Sitemap: https://minarablog.in/sitemap.xml

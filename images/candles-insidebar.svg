@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="220" viewBox="0 0 700 220">
+  <rect width="700" height="220" fill="#071022"/>
+  <g transform="translate(40,20)">
+    <text x="0" y="16" font-family="Arial" font-size="14" fill="#9aa9b2">Inside Bar Pattern</text>
+    <g transform="translate(0,30)">
+      <!-- mother bar -->
+      <rect x="0" y="10" width="70" height="70" fill="#ef4444" opacity="0.6"/>
+      <line x1="35" y1="0" x2="35" y2="90" stroke="#fff" stroke-width="2" opacity="0.6"/>
+      <!-- inside bar -->
+      <rect x="90" y="30" width="30" height="30" fill="#10b981"/>
+      <line x1="105" y1="20" x2="105" y2="80" stroke="#fff" stroke-width="2"/>
+      <!-- context candles -->
+      <rect x="140" y="40" width="20" height="50" fill="#ef4444" opacity="0.4"/>
+    </g>
+  </g>
+  <text x="40" y="200" font-family="Arial" font-size="12" fill="#9aa9b2">Example: inside bar signals consolidation and potential breakout direction.</text>
+</svg>
