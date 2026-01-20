@@ -233,11 +233,13 @@ app.put('/api/user/data', authMiddleware, (req, res) => {
   });
 });
 
+const ADMIN_EMAILS = ['admin@minara.com', 'mdrahmani1566@gmail.com'];
+
 // --- ADMIN ROUTES ---
 // Get all contact messages (Protected: Real app should check for admin role)
 app.get('/api/admin/contacts', authMiddleware, async (req, res) => {
   // Simple check: only allow specific email (Replace with your email)
-  if (req.user.email !== 'admin@minara.com') { 
+  if (!ADMIN_EMAILS.includes(req.user.email)) { 
     return res.status(403).json({ error: 'Access denied. Admin only.' });
   }
   try {
@@ -248,7 +250,7 @@ app.get('/api/admin/contacts', authMiddleware, async (req, res) => {
 
 // Delete contact message
 app.delete('/api/admin/contacts/:id', authMiddleware, async (req, res) => {
-  if (req.user.email !== 'admin@minara.com') return res.status(403).json({ error: 'Denied' });
+  if (!ADMIN_EMAILS.includes(req.user.email)) return res.status(403).json({ error: 'Denied' });
   try {
     const filePath = path.join(__dirname, 'contacts.json');
     const data = await fs.readFile(filePath, 'utf8');
@@ -261,7 +263,7 @@ app.delete('/api/admin/contacts/:id', authMiddleware, async (req, res) => {
 
 // Get all users list
 app.get('/api/admin/users', authMiddleware, async (req, res) => {
-  if (req.user.email !== 'admin@minara.com') return res.status(403).json({ error: 'Denied' });
+  if (!ADMIN_EMAILS.includes(req.user.email)) return res.status(403).json({ error: 'Denied' });
   // Return users without sensitive passwords
   const safeUsers = users.map(u => ({
     id: u.id,
@@ -274,7 +276,7 @@ app.get('/api/admin/users', authMiddleware, async (req, res) => {
 
 // Delete user (Ban)
 app.delete('/api/admin/users/:id', authMiddleware, async (req, res) => {
-  if (req.user.email !== 'admin@minara.com') return res.status(403).json({ error: 'Denied' });
+  if (!ADMIN_EMAILS.includes(req.user.email)) return res.status(403).json({ error: 'Denied' });
   const id = parseInt(req.params.id);
   users = users.filter(u => u.id !== id);
   await saveUsers(); // Save updated list to file
