@@ -668,6 +668,56 @@
     if (registerForm) registerForm.addEventListener('submit', (e) => handleAuth(e, '/api/auth/register'));
   }
 
+  /* ---------- DASHBOARD LOGIC ---------- */
+  async function loadDashboard() {
+    if (!qs('#userEmail')) return; // Not on dashboard page
+
+    try {
+        const res = await fetch('/api/user/data', { headers: getAuthHeaders() });
+        if (!res.ok) throw new Error('Failed to load data');
+        const data = await res.json();
+        
+        // Update UI
+        // Note: In a real app, email would come from the token or a specific /me endpoint
+        // Here we assume the backend might send it, or we decode it. 
+        // For this basic version, we'll just show "Logged In User" if email isn't in data
+        qs('#userEmail').textContent = 'Welcome back!'; 
+        
+        const watchCount = data.userData.watchlist ? data.userData.watchlist.length : 0;
+        const eventCount = data.userData.econ_events ? data.userData.econ_events.length : 0;
+        
+        qs('#watchCount').textContent = watchCount;
+        qs('#eventCount').textContent = eventCount;
+
+        // Admin Check (Simple client-side check, real security is on server)
+        // We try to fetch admin data to see if we have permission
+        const adminBtn = qs('#loadContacts');
+        if(adminBtn) {
+            adminBtn.addEventListener('click', async () => {
+                try {
+                    const adminRes = await fetch('/api/admin/contacts', { headers: getAuthHeaders() });
+                    if(adminRes.ok) {
+                        const contacts = await adminRes.json();
+                        const list = qs('#contactList');
+                        list.innerHTML = contacts.map(c => `
+                            <li>
+                                <div><strong>${c.name}</strong> <small>(${c.email})</small><br>${c.message}</div>
+                                <small>${new Date(c.timestamp).toLocaleDateString()}</small>
+                            </li>
+                        `).join('');
+                        qs('#adminPanel').style.display = 'block'; // Show panel if request worked
+                    } else {
+                        alert('Access Denied: Admin only');
+                    }
+                } catch(e) { console.error(e); }
+            });
+            // Auto-trigger to check permission silently
+            qs('#adminPanel').style.display = 'block'; // Show container, let button control fetch
+        }
+
+    } catch (e) { console.error(e); }
+  }
+
   /* ---------- Economic Calendar (localStorage with Backend Sync) ---------- */
     async function loadEcon() {
       if (isLoggedIn()) {
@@ -783,6 +833,19 @@
   // --- Initialize on DOMContentLoaded ---
   document.addEventListener("DOMContentLoaded", () => {
     setupAuthUI(); // Initialize Auth
+    
+    // Add Dashboard Link if Logged In
+    if (isLoggedIn()) {
+        const nav = qs('nav');
+        if (nav && !qs('a[href="dashboard.html"]')) {
+            const dashLink = document.createElement('a');
+            dashLink.href = 'dashboard.html';
+            dashLink.textContent = 'Dashboard';
+            nav.appendChild(dashLink);
+        }
+        loadDashboard(); // Load dashboard data if on dashboard page
+    }
+
     // Homepage specific
     if (qs("#home")) {
         setupCarousel();

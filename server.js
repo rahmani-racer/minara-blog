@@ -16,7 +16,30 @@ const JWT_SECRET = 'your-super-secret-key-change-this'; // Change this to a long
 // --- DATABASE PLACEHOLDER ---
 // In a real app, you'd connect to MongoDB and have a User model.
 // For now, we'll use an in-memory array to simulate a user database.
-let users = []; // {id, email, passwordHash, data: {watchlist: [], econ_events: []}}
+const USERS_FILE = path.join(__dirname, 'users.json');
+let users = []; 
+
+// Load users from file on startup
+async function initUsers() {
+  try {
+    const data = await fs.readFile(USERS_FILE, 'utf8');
+    users = JSON.parse(data);
+    console.log(`Loaded ${users.length} users from disk.`);
+  } catch (error) {
+    console.log('No users file found, creating new database on first registration.');
+    users = [];
+  }
+}
+initUsers();
+
+// Helper to save users to file
+async function saveUsers() {
+  try {
+    await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
+  } catch (error) {
+    console.error('Error saving users:', error);
+  }
+}
 
 // Rate limiting
 const apiLimiter = rateLimit({
@@ -89,6 +112,7 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
     data: { watchlist: [], econ_events: [] }
   };
   users.push(newUser);
+  await saveUsers(); // Save to file
   console.log(`New user registered: ${email}`);
   res.status(201).json({ success: true, message: 'Registration successful!' });
 });
@@ -201,11 +225,25 @@ app.get('/api/user/data', authMiddleware, (req, res) => {
 app.put('/api/user/data', authMiddleware, (req, res) => {
   // Merge new data with existing data
   req.user.data = { ...req.user.data, ...req.body };
+  saveUsers(); // Save changes to file
   console.log(`Updated data for user ${req.user.email}`);
   res.json({
     success: true,
     message: 'Data saved successfully.'
   });
+});
+
+// --- ADMIN ROUTES ---
+// Get all contact messages (Protected: Real app should check for admin role)
+app.get('/api/admin/contacts', authMiddleware, async (req, res) => {
+  // Simple check: only allow specific email (Replace with your email)
+  if (req.user.email !== 'admin@minara.com') { 
+    return res.status(403).json({ error: 'Access denied. Admin only.' });
+  }
+  try {
+    const data = await fs.readFile(path.join(__dirname, 'contacts.json'), 'utf8');
+    res.json(JSON.parse(data));
+  } catch (e) { res.json([]); }
 });
 
 // Health check endpoint
