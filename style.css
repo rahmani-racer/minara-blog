@@ -396,7 +396,7 @@ header {
 .pillar { flex:1; background: var(--bg-main); padding:16px; border-radius:10px; text-align:center; color:var(--text-main); }
 
 /* TradingView chart */
-.tv-chart { min-height:360px; display:flex; align-items:center; justify-content:center; }
+.tv-chart { height:600px; min-height:600px; display:flex; align-items:center; justify-content:center; }
 .tv-placeholder { text-align:center; }
 
 /* Founder Section Enhancements */
@@ -1505,5 +1505,11 @@ nav a:hover { text-decoration: underline; }
   /* Ensure parent card does not clip */
   .card {
     overflow: visible !important;
+  }
+
+  /* Adjust main chart height for mobile */
+  .tv-chart {
+    height: 450px !important;
+    min-height: 450px !important;
   }
 }
