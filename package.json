@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "build": "echo 'Build complete'"
+    "build": "mkdir -p public"
   },
   "dependencies": {
     "@vercel/analytics": "^1.6.1",
