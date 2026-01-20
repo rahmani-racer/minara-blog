@@ -338,14 +338,18 @@ header {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out forwards;
 }
 .hero-sub { 
   color: #94a3b8; 
   margin-bottom: 24px; 
   font-size: 1.15rem; 
   max-width: 600px; 
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out 0.2s forwards;
 }
-.hero-cta { display:flex; gap:16px; margin-top: 24px; }
+.hero-cta { display:flex; gap:16px; margin-top: 24px; opacity: 0; animation: fadeIn 0.8s ease-out 0.4s forwards; }
 .hero-cta .btn.primary {
   background: var(--accent);
   box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
