@@ -10,17 +10,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap');
 
 :root {
-  /* Brand Colors */
-  --primary-dark: #0f172a;
-  --primary-light: #334155;
+  /* =========================
+     FIXED COLOR SYSTEM
+     1 Primary | 1 Accent | 1 Neutral
+  ========================= */
+  
+  /* 1. Primary (Trust: Dark Blue / Charcoal) */
+  --primary: #0f172a;
+  --primary-light: #334155; /* Helper for gradients */
+
+  /* 2. Accent (Action: Orange) */
+  --accent: #f97316;
+  
+  /* 3. Neutral (White/Grey) */
   --bg-main: #ffffff;
   --bg-card: #f8fafc;
-  --bg-gradient: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-light) 100%);
-  --text-main: #1e293b; /* Darker for better readability */
+  --text-main: #1e293b;
   --text-muted: #64748b;
-  --accent: #f97316; /* Brand Accent: Orange */
-  --accent-secondary: #10b981; /* Green */
-  --accent-gold: #f59e0b; /* Amber Gold */
+
+  /* Helpers & Derived */
+  --accent-secondary: #10b981;
+  --accent-gold: #f59e0b;
+  --bg-gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   --border-soft: #e2e8f0;
   --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -273,7 +284,7 @@ header {
   font-weight: 800;
   letter-spacing: -0.5px;
   margin: 0;
-  color: var(--primary-dark);
+  color: var(--primary);
   display: flex;
   align-items: center;
   gap: 6px;
