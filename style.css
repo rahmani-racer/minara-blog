@@ -382,9 +382,79 @@ header {
 .tv-chart { min-height:360px; display:flex; align-items:center; justify-content:center; }
 .tv-placeholder { text-align:center; }
 
-/* Founder */
-.founder-grid { display:flex; gap:16px; align-items:center; }
-.founder-img { border-radius:12px; border:3px solid var(--accent); }
+/* Founder Section Enhancements */
+.founder-grid {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.founder-img {
+  border-radius: 12px;
+  border: 3px solid var(--accent);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.founder-content h3 {
+  margin-top: 0;
+  color: var(--accent);
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.founder-quote {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--text-main);
+  border-left: 4px solid var(--accent);
+  padding-left: 16px;
+  margin: 0 0 20px 0;
+  line-height: 1.4;
+}
+
+.mission-box {
+  background: var(--bg-main);
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border-soft);
+  margin-top: 24px;
+}
+
+.mission-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.mission-box h4 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 8px;
+}
+
+.mission-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mission-box li {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.mission-box li strong {
+  color: var(--text-main);
+}
 
 /* Tools panel (off-canvas side drawer) */
 .tools-panel {
@@ -1231,6 +1301,24 @@ nav a:hover { text-decoration: underline; }
   .article-list,
   .article-item {
     max-width: 100%;
+  }
+
+  .founder-grid {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .founder-quote {
+    border-left: none;
+    border-top: 4px solid var(--accent);
+    padding-top: 16px;
+    padding-left: 0;
+  }
+  .mission-box {
+    text-align: left;
+  }
+  .mission-grid {
+    grid-template-columns: 1fr;
   }
 
   /* Images & SVG overflow fix */
