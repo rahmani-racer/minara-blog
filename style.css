@@ -7,13 +7,15 @@
 /* =========================
    THEME VARIABLES — PREMIUM PALETTE
 ========================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap');
+
 :root {
   --bg-main: #ffffff;
   --bg-card: #f8fafc;
   --bg-gradient: linear-gradient(135deg, #0f172a 0%, #334155 100%); /* Premium Dark Slate */
   --text-main: #334155;
   --text-muted: #64748b;
-  --accent: #2563eb; /* Royal Blue */
+  --accent: #f97316; /* Brand Accent: Orange */
   --accent-gold: #f59e0b; /* Amber Gold */
   --border-soft: #e2e8f0;
   --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
@@ -37,11 +39,15 @@ html {
 body {
   margin: 0;
   padding-top: 100px;
-  font-family: 'Inter', "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   background: var(--bg-main);
   color: var(--text-main);
   line-height: 1.7;
   font-weight: 400;
+}
+
+h1, h2, h3, h4, h5, h6, .logo, .hero-title, .btn, nav a {
+  font-family: 'Outfit', sans-serif;
 }
 
 /* Global table hardening for readability on dark backgrounds */

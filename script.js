@@ -25,7 +25,8 @@
             padding: 4rem 2rem;
             position: relative;
             overflow: hidden !important;
-            border-bottom: 4px solid #fbbf24;
+            border-bottom: 4px solid #f97316;
+            font-family: 'Outfit', sans-serif;
           }
           .minara-hero-inner {
             max-width: 1200px; margin: 0 auto;
@@ -36,16 +37,18 @@
             font-size: 3rem; font-weight: 800; margin-bottom: 1rem; line-height: 1.1;
             background: linear-gradient(to right, #ffffff, #cbd5e1);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-family: 'Outfit', sans-serif;
           }
-          .minara-hero .highlight { color: #fbbf24; -webkit-text-fill-color: #fbbf24; }
+          .minara-hero .highlight { color: #f97316; -webkit-text-fill-color: #f97316; }
           .minara-hero p, .minara-hero p * { font-size: 1.2rem; color: #94a3b8 !important; margin-bottom: 2rem; }
           
           .minara-btn {
             padding: 0.8rem 1.5rem; border-radius: 6px; font-weight: 600; text-decoration: none;
             display: inline-block; cursor: pointer; border: none; font-size: 1rem; transition: 0.2s;
+            font-family: 'Outfit', sans-serif;
           }
-          .minara-btn-primary { background: #fbbf24; color: #000; }
-          .minara-btn-primary:hover { background: #f59e0b; }
+          .minara-btn-primary { background: #f97316; color: #fff; }
+          .minara-btn-primary:hover { background: #ea580c; }
           .minara-btn-secondary { background: rgba(255,255,255,0.1); color: #fff; margin-left: 10px; }
           .minara-btn-secondary:hover { background: rgba(255,255,255,0.2); }
 
@@ -87,8 +90,8 @@
         container.innerHTML = `
           <div class="minara-hero-inner">
             <div class="hero-left">
-              <h1>Trade with <span class="highlight">Confidence</span></h1>
-              <p>Master <span id="autoText">Trading Knowledge</span> with discipline.</p>
+              <h1>Minara: Your <span class="highlight">Market Beacon</span></h1>
+              <p>Guiding you through <span id="autoText">Trading Chaos</span> with clarity.</p>
               <div>
                 <a href="learning-articles.html" class="minara-btn minara-btn-primary">Start Beginner Path</a>
                 <button class="minara-btn minara-btn-secondary tools-trigger">Use Pro Tools</button>
