@@ -277,6 +277,7 @@ header {
   letter-spacing: -1px;
   background: linear-gradient(to right, #ffffff, #cbd5e1);
   color: transparent;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
