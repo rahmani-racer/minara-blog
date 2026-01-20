@@ -346,6 +346,15 @@ header {
   max-width: 600px; 
 }
 .hero-cta { display:flex; gap:16px; margin-top: 24px; }
+.hero-cta .btn.primary {
+  background: var(--accent);
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.hero-cta .btn.primary:hover {
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.7);
+  transform: translateY(-2px);
+}
 .stats-grid { display:flex; gap:12px; margin-bottom:12px; }
 .stat { background: var(--bg-card); padding:12px; border-radius:10px; text-align:center; min-width:96px; color: var(--text-main); }
 .stat-value { font-weight:800; font-size:18px; }
