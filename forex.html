@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="en-IN">
 <head>
   <meta charset="UTF-8">
@@ -41,13 +41,22 @@
       <a href="index.html">Home</a>
       <a href="trading.html">Trading</a>
       <a href="forex.html">Forex</a>
-      <a href="thought.html">Thoughts</a>
-      <a href="daily.html">Daily Info</a>
+      <a href="thought.html">Trading Psychology</a>
+      <a href="daily.html">Market Insights</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </nav>
 
-    <button id="themeToggle">☀️</button>
+    <div class="header-right">
+      <div class="search-bar">
+        <input type="text" id="headerSearch" placeholder="Search..." aria-label="Search">
+        <button id="searchBtn">🔍</button>
+      </div>
+      <div class="header-controls">
+        <button id="menuToggle" aria-label="Open tools menu">☰</button>
+        <button id="themeToggle" aria-pressed="false" aria-label="Toggle theme">☀️</button>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -398,5 +407,3 @@ window.addEventListener("scroll", () => {
 </div>
 </body>
 </html>
-
-
