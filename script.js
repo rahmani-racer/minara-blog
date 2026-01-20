@@ -443,126 +443,288 @@
     });
   }
 
-  /* ---------- Contact Form (Client-Side) ---------- */
+  /* ---------- Contact Form (Connected to Backend) ---------- */
   if (qs('#contactForm')) {
     const form = qs('#contactForm');
     const statusEl = qs('#contactStatus');
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!statusEl) return;
-      
+
       const name = qs('#contactName').value;
       const email = qs('#contactEmail').value;
       const message = qs('#contactMessage').value;
+      const data = { name, email, message };
 
-      if(!name || !email || !message) {
-          statusEl.textContent = "Please fill out all fields.";
-          statusEl.style.color = 'red';
-          return;
+      statusEl.textContent = 'Sending...';
+      statusEl.style.color = 'var(--text-muted)';
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+
+        if (!res.ok) {
+          throw new Error(result.error || 'Something went wrong');
+        }
+        
+        statusEl.textContent = result.message;
+        statusEl.style.color = 'green';
+        form.reset();
+
+      } catch (err) {
+        statusEl.textContent = err.message;
+        statusEl.style.color = 'red';
       }
-      
-      statusEl.textContent = 'Thank you for your message!';
-      statusEl.style.color = 'green';
-      form.reset();
     });
   }
 
   /* ---------- Market News Widget ---------- */
   if (qs('#loadNews')) {
-    qs('#loadNews').addEventListener('click', () => {
-      const newsList = qs('#newsList');
-      const loadBtn = qs('#loadNews');
-      const demoNews = [
-        { title: 'Fed Signals Potential Rate Hike', summary: 'Federal Reserve hints at interest rate adjustments.' },
-        { title: 'Oil Prices Surge Amid Supply Concerns', summary: 'Crude oil reaches new highs due to global tensions.' },
-        { title: 'Tech Stocks Rally on Earnings Reports', summary: 'Major tech companies report better-than-expected profits.' },
-      ];
-      if(newsList) {
-        newsList.innerHTML = demoNews.map(n => `<div class="news-item" style="margin:8px 0;padding:8px;border-bottom:1px solid var(--border);"><h4>${n.title}</h4><p>${n.summary}</p></div>`).join('');
-        newsList.style.display = 'block';
-      }
-      if(loadBtn) loadBtn.style.display = 'none';
+    qs('#loadNews').addEventListener('click', async () => {
+        const newsList = qs('#newsList');
+        const loadBtn = qs('#loadNews');
+        // In the future, this could fetch from a real news API endpoint
+        const demoNews = [
+            { title: 'Fed Signals Potential Rate Hike', summary: 'Federal Reserve hints at interest rate adjustments.' },
+            { title: 'Oil Prices Surge Amid Supply Concerns', summary: 'Crude oil reaches new highs due to global tensions.' },
+            { title: 'Tech Stocks Rally on Earnings Reports', summary: 'Major tech companies report better-than-expected profits.' },
+        ];
+        if(newsList) {
+            newsList.innerHTML = demoNews.map(n => `<div class="news-item" style="margin:8px 0;padding:8px;border-bottom:1px solid var(--border);"><h4>${n.title}</h4><p>${n.summary}</p></div>`).join('');
+            newsList.style.display = 'block';
+        }
+        if(loadBtn) loadBtn.style.display = 'none';
     });
   }
 
-  /* ---------- Watchlist (localStorage) ---------- */
-  function loadWatchlist() {
+  /* ---------- USER DATA HELPERS (Backend Ready) ---------- */
+  const isLoggedIn = () => !!localStorage.getItem('minara_token');
+  const getAuthHeaders = () => ({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('minara_token')}`
+  });
+
+  /* ---------- Watchlist (localStorage with Backend Sync) ---------- */
+  async function loadWatchlist() {
+    if (isLoggedIn()) {
+      try {
+        const res = await fetch('/api/user/data', { headers: getAuthHeaders() });
+        const data = await res.json();
+        if (res.ok && data.userData.watchlist) {
+          localStorage.setItem('minara_watchlist', JSON.stringify(data.userData.watchlist)); // Sync local
+          return data.userData.watchlist;
+        }
+      } catch (e) { console.warn('Could not fetch watchlist from server.', e); }
+    }
     return JSON.parse(localStorage.getItem('minara_watchlist') || '[]');
   }
-  function saveWatchlist(list) {
+
+  async function saveWatchlist(list) {
     localStorage.setItem('minara_watchlist', JSON.stringify(list));
+    if (isLoggedIn()) {
+      try {
+        await fetch('/api/user/data', { method: 'PUT', headers: getAuthHeaders(), body: JSON.stringify({ watchlist: list }) });
+      } catch (e) { console.warn('Could not save watchlist to server.', e); }
+    }
   }
-  function renderWatchlist() {
+
+  async function renderWatchlist() {
     const ul = qs('#watchList');
     if (!ul) return;
-    const list = loadWatchlist();
+    const list = await loadWatchlist();
     ul.innerHTML = list.map(item => `<li>${item} <button data-item="${item}" class="remove-watch">X</button></li>`).join('');
   }
   if(qs('#watchAdd')){
-      qs('#watchAdd').addEventListener('click', () => {
+      qs('#watchAdd').addEventListener('click', async () => {
           const input = qs('#watchInput');
           const v = (input.value || '').trim().toUpperCase();
           if (!v) return;
-          const list = loadWatchlist();
+          const list = await loadWatchlist();
           if (!list.includes(v)) {
             list.push(v);
-            saveWatchlist(list);
-            renderWatchlist();
+            await saveWatchlist(list);
+            await renderWatchlist();
           }
           input.value = '';
       });
-      qs('#watchList').addEventListener('click', (e) => {
+      qs('#watchList').addEventListener('click', async (e) => {
           if (e.target.classList.contains('remove-watch')) {
               const item = e.target.dataset.item;
-              const newList = loadWatchlist().filter(x => x !== item);
-              saveWatchlist(newList);
-              renderWatchlist();
+              let list = await loadWatchlist();
+              const newList = list.filter(x => x !== item);
+              await saveWatchlist(newList);
+              await renderWatchlist();
           }
       });
       renderWatchlist();
   }
   
-  /* ---------- Economic Calendar (localStorage) ---------- */
-    function loadEcon() {
-        return JSON.parse(localStorage.getItem('minara_econ_events') || '[]');
+  /* ---------- AUTHENTICATION UI LOGIC ---------- */
+  function setupAuthUI() {
+    const authBtn = qs('#authBtn'); // Button in header
+    const modal = qs('#authModal');
+    const closeBtn = qs('#closeAuth');
+    const tabs = qsa('.auth-tab');
+    const forms = qsa('.auth-form');
+    const loginForm = qs('#loginForm');
+    const registerForm = qs('#registerForm');
+
+    // 1. Check Login State on Load
+    if (isLoggedIn()) {
+      if (authBtn) {
+        authBtn.textContent = 'Logout';
+        authBtn.classList.add('secondary'); // Style change
+        authBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          localStorage.removeItem('minara_token');
+          window.location.reload();
+        });
+      }
+    } else {
+      // 2. Open Modal logic
+      if (authBtn) {
+        authBtn.addEventListener('click', () => {
+          if (modal) modal.classList.add('active');
+        });
+      }
     }
-    function saveEcon(list) {
-        localStorage.setItem('minara_econ_events', JSON.stringify(list));
+
+    // 3. Close Modal
+    if (closeBtn && modal) {
+      closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('active');
+      });
     }
-    function renderEcon() {
+
+    // 4. Tab Switching (Login vs Register)
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        forms.forEach(f => f.classList.remove('active'));
+        tab.classList.add('active');
+        const target = qs(`#${tab.dataset.target}`);
+        if (target) target.classList.add('active');
+      });
+    });
+
+    // 5. Handle Form Submit (Generic handler)
+    const handleAuth = async (e, endpoint) => {
+      e.preventDefault();
+      const form = e.target;
+      const msgEl = form.querySelector('.auth-msg');
+      const btn = form.querySelector('button[type="submit"]');
+      const originalText = btn.textContent;
+
+      const email = form.email.value;
+      const password = form.password.value;
+
+      btn.textContent = 'Processing...';
+      btn.disabled = true;
+      msgEl.textContent = '';
+      msgEl.style.color = 'var(--text-muted)';
+
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || 'Action failed');
+
+        msgEl.textContent = 'Success!';
+        msgEl.style.color = 'green';
+        
+        if (data.token) {
+          localStorage.setItem('minara_token', data.token);
+          setTimeout(() => window.location.reload(), 1000); // Reload to apply login state
+        } else {
+          // Registration successful, switch to login tab
+          setTimeout(() => {
+             qs('.auth-tab[data-target="loginForm"]').click();
+             msgEl.textContent = '';
+             form.reset();
+          }, 1500);
+        }
+
+      } catch (err) {
+        msgEl.textContent = err.message;
+        msgEl.style.color = 'red';
+      } finally {
+        btn.textContent = originalText;
+        btn.disabled = false;
+      }
+    };
+
+    if (loginForm) loginForm.addEventListener('submit', (e) => handleAuth(e, '/api/auth/login'));
+    if (registerForm) registerForm.addEventListener('submit', (e) => handleAuth(e, '/api/auth/register'));
+  }
+
+  /* ---------- Economic Calendar (localStorage with Backend Sync) ---------- */
+    async function loadEcon() {
+      if (isLoggedIn()) {
+        try {
+          const res = await fetch('/api/user/data', { headers: getAuthHeaders() });
+          const data = await res.json();
+          if (res.ok && data.userData.econ_events) {
+            localStorage.setItem('minara_econ_events', JSON.stringify(data.userData.econ_events)); // Sync local
+            return data.userData.econ_events;
+          }
+        } catch (e) { console.warn('Could not fetch econ events from server.', e); }
+      }
+      return JSON.parse(localStorage.getItem('minara_econ_events') || '[]');
+    }
+
+    async function saveEcon(list) {
+      localStorage.setItem('minara_econ_events', JSON.stringify(list));
+      if (isLoggedIn()) {
+        try {
+          await fetch('/api/user/data', { method: 'PUT', headers: getAuthHeaders(), body: JSON.stringify({ econ_events: list }) });
+        } catch (e) { console.warn('Could not save econ events to server.', e); }
+      }
+    }
+
+    async function renderEcon() {
         const ul = qs('#econList');
         if(!ul) return;
-        const events = loadEcon();
+        const events = await loadEcon();
         ul.innerHTML = events.map((e, i) => `<li>${e.time} - ${e.title} (${e.impact}) <button data-index="${i}" class="remove-econ">X</button></li>`).join('');
     }
 
     if(qs('#econAdd')){
-        qs('#econAdd').addEventListener('click', () => {
+        qs('#econAdd').addEventListener('click', async () => {
             const time = qs('#econTime').value || 'N/A';
             const title = qs('#econTitle').value || 'N/A';
             const impact = qs('#econImpact').value || 'N/A';
-            const events = loadEcon();
+            const events = await loadEcon();
             events.push({time, title, impact});
-            saveEcon(events);
-            renderEcon();
+            await saveEcon(events);
+            await renderEcon();
             qs('#econTime').value = '';
             qs('#econTitle').value = '';
         });
 
-        qs('#econList').addEventListener('click', e => {
+        qs('#econList').addEventListener('click', async e => {
             if(e.target.classList.contains('remove-econ')){
                 const index = e.target.dataset.index;
-                const events = loadEcon();
+                const events = await loadEcon();
                 events.splice(index, 1);
-                saveEcon(events);
-                renderEcon();
+                await saveEcon(events);
+                await renderEcon();
             }
         });
 
-        qs('#econClear').addEventListener('click', () => {
-            saveEcon([]);
-            renderEcon();
+        qs('#econClear').addEventListener('click', async () => {
+            await saveEcon([]);
+            await renderEcon();
         });
         renderEcon();
     }
@@ -620,6 +782,7 @@
     
   // --- Initialize on DOMContentLoaded ---
   document.addEventListener("DOMContentLoaded", () => {
+    setupAuthUI(); // Initialize Auth
     // Homepage specific
     if (qs("#home")) {
         setupCarousel();

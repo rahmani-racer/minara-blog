@@ -3,14 +3,30 @@ const bodyParser = require('body-parser');
 const fs = require('fs').promises;
 const path = require('path');
 const rateLimit = require('express-rate-limit');
+// FUTURE-READY: Dependencies for authentication and database
+// In a real app, you would install these: npm install jsonwebtoken bcryptjs mongoose
+const jwt = require('jsonwebtoken');
+// const bcrypt = require('bcryptjs'); // For password hashing
+// const mongoose = require('mongoose'); // For MongoDB
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const JWT_SECRET = 'your-super-secret-key-change-this'; // Change this to a long, random string
+
+// --- DATABASE PLACEHOLDER ---
+// In a real app, you'd connect to MongoDB and have a User model.
+// For now, we'll use an in-memory array to simulate a user database.
+let users = []; // {id, email, passwordHash, data: {watchlist: [], econ_events: []}}
 
 // Rate limiting
-const limiter = rateLimit({
+const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // limit each IP to 5 requests per windowMs
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.'
+});
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // Limit auth attempts
   message: 'Too many requests from this IP, please try again later.'
 });
 
@@ -19,6 +35,7 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
 // Serve static files from current directory
+app.use(apiLimiter); // Apply general rate limiting to all requests
 app.use(express.static('.'));
 
 // Input sanitization function
@@ -33,8 +50,73 @@ function isValidEmail(email) {
   return emailRegex.test(email);
 }
 
+// --- AUTHENTICATION MIDDLEWARE ---
+const authMiddleware = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Authentication required: No token provided' });
+  }
+  const token = authHeader.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = users.find(u => u.id === decoded.id);
+    if (!req.user) {
+      return res.status(401).json({ error: 'User not found' });
+    }
+    next();
+  } catch (error) {
+    res.status(401).json({ error: 'Authentication failed: Invalid token' });
+  }
+};
+
+// --- AUTHENTICATION API ENDPOINTS ---
+
+// User Registration (Placeholder)
+app.post('/api/auth/register', authLimiter, async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password || !isValidEmail(email) || password.length < 6) {
+    return res.status(400).json({ error: 'Valid email and password (min 6 chars) are required.' });
+  }
+  if (users.some(u => u.email === email)) {
+    return res.status(409).json({ error: 'User with this email already exists.' });
+  }
+  // In a real app, you would hash the password:
+  // const passwordHash = await bcrypt.hash(password, 10);
+  const newUser = {
+    id: Date.now(),
+    email: email,
+    passwordHash: password, // Storing plain text for demo only. DO NOT DO THIS IN PRODUCTION.
+    data: { watchlist: [], econ_events: [] }
+  };
+  users.push(newUser);
+  console.log(`New user registered: ${email}`);
+  res.status(201).json({ success: true, message: 'Registration successful!' });
+});
+
+// User Login
+app.post('/api/auth/login', authLimiter, (req, res) => {
+  const { email, password } = req.body;
+  const user = users.find(u => u.email === email);
+
+  // In a real app, you would compare hashed passwords:
+  // const isMatch = user && await bcrypt.compare(password, user.passwordHash);
+  const isMatch = user && user.passwordHash === password;
+
+  if (!isMatch) {
+    return res.status(401).json({ error: 'Invalid credentials' });
+  }
+
+  const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1d' });
+  res.json({
+    success: true,
+    message: 'Login successful!',
+    token: token
+  });
+});
+
+
 // API endpoint for contact form with rate limiting
-app.post('/api/contact', limiter, async (req, res) => {
+app.post('/api/contact', async (req, res) => {
   try {
     const { name, email, message } = req.body;
 
@@ -103,6 +185,27 @@ app.post('/api/contact', limiter, async (req, res) => {
       error: 'Internal server error. Please try again later.'
     });
   }
+});
+
+// --- USER DATA API ENDPOINTS (PROTECTED) ---
+
+// Get user-specific data (watchlist, etc.)
+app.get('/api/user/data', authMiddleware, (req, res) => {
+  res.json({
+    success: true,
+    userData: req.user.data
+  });
+});
+
+// Update user-specific data
+app.put('/api/user/data', authMiddleware, (req, res) => {
+  // Merge new data with existing data
+  req.user.data = { ...req.user.data, ...req.body };
+  console.log(`Updated data for user ${req.user.email}`);
+  res.json({
+    success: true,
+    message: 'Data saved successfully.'
+  });
 });
 
 // Health check endpoint
