@@ -877,17 +877,57 @@ a:focus, button:focus, input:focus { outline:3px solid var(--accent); outline-of
 .article-item .article-content strong { font-size: 15px; display:block; }
 
 /* Improve contrast and affordance for the small "Read →" links inside article lists */
-.article-item .article-content a {
-  background: var(--bg-main);
-  color: var(--text-main);
-  padding: 6px 10px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 13px;
-  border: 1px solid var(--border-soft);
+.article-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 100%;
 }
 
-.article-item .article-content a:hover { opacity: 0.95; transform: translateY(-1px); }
+.article-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;
+  gap: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.article-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-soft);
+  border-color: var(--accent);
+}
+
+.article-thumb {
+  flex: 0 0 60px;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border-radius: 8px;
+}
+
+.article-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.article-item .article-content a {
+  color: var(--text-main);
+  text-decoration: none;
+}
+
+.article-item .article-content a.btn {
+  color: #fff;
+  align-self: flex-start;
+  margin-top: auto;
+}
 
 /* Make interactive links keyboard-visible and easier to tap on mobile */
 .article-item .article-content a:focus,
