@@ -60,18 +60,21 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             text-align: center;
           }
+          /* FORCE ALL CHILDREN TO BE DARK */
+          .minara-box * { color: #0f172a !important; }
+
           .minara-stat-val { font-size: 1.5rem; font-weight: 700; color: #0f172a !important; }
-          .minara-stat-lbl { font-size: 0.8rem; color: #475569; font-weight: 500; }
+          .minara-stat-lbl { font-size: 0.8rem; color: #475569 !important; font-weight: 600; }
           
           .minara-widget {
-            background: #ffffff;
-            color: #000000;
+            background: #ffffff !important;
+            color: #000000 !important;
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
           }
-          .minara-widget div, .minara-widget div * { margin-bottom: 5px; font-size: 0.95rem; color: #000 !important; }
-          .minara-widget strong { color: #0f172a; }
+          .minara-widget div { margin-bottom: 5px; font-size: 0.95rem; color: #0f172a !important; }
+          .minara-widget small { color: #64748b !important; }
 
           @media (max-width: 768px) {
             .minara-hero-inner { grid-template-columns: 1fr; text-align: center; }
@@ -108,9 +111,9 @@
                 </div>
               </div>
               <div class="minara-widget minara-box" style="text-align:left;">
-                <div><strong>USD → INR:</strong> <span id="usdInrRate" style="color:#000 !important;">Loading...</span></div>
+                <div><strong>USD → INR:</strong> <span id="usdInrRate">Loading...</span></div>
                 <div><strong>INR → USD:</strong> <span id="inrUsdRate">Loading...</span></div>
-                <small style="color:#64748b; display:block; margin-top:5px;">Rates update every 60s</small>
+                <small>Rates update every 60s</small>
               </div>
             </div>
           </div>
