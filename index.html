@@ -574,29 +574,65 @@
 <!-- WHY MINARA -->
 <section class="section card">
   <h2>Why Minara Blog?</h2>
-  <ul style="text-align:left;max-width:720px;margin:20px auto;">
-    <li>No fake profit claims</li>
-    <li>Discipline-based learning</li>
-    <li>Beginner-friendly explanation</li>
-    <li>Risk management focused approach</li>
-    <li>Long-term mindset building</li>
-  </ul>
+  <p class="muted">We prioritize survival and discipline over hype.</p>
+  <div class="features-grid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:20px;margin-top:20px;text-align:left;">
+    <div class="feature-item">
+      <div class="feature-icon" style="font-size:24px;margin-bottom:10px;">🛡️</div>
+      <h3>Risk First</h3>
+      <p style="font-size:14px;color:var(--text-muted);">We teach you how not to lose money before teaching you how to make it.</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon" style="font-size:24px;margin-bottom:10px;">🧠</div>
+      <h3>Psychology Driven</h3>
+      <p style="font-size:14px;color:var(--text-muted);">Master your mind. 80% of trading success is psychology.</p>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon" style="font-size:24px;margin-bottom:10px;">🚫</div>
+      <h3>No Hype</h3>
+      <p style="font-size:14px;color:var(--text-muted);">No lambos, no fake screenshots. Just pure educational value.</p>
+    </div>
+  </div>
 </section>
 
 <!-- CONTACT FORM -->
 <section class="section card" id="contact-form">
   <h2>Contact Us</h2>
   <p>Have questions or feedback? Send us a message!</p>
-  <form id="contactForm" style="max-width:600px;margin:20px auto;">
+  <form id="contactForm" action="https://formspree.io/f/your_form_id" method="POST" style="max-width:600px;margin:20px auto;">
     <label for="contactName">Name:</label>
-    <input type="text" id="contactName" required style="width:100%;padding:8px;margin:8px 0;border:1px solid var(--border);border-radius:4px;">
+    <input type="text" id="contactName" name="name" required style="width:100%;padding:8px;margin:8px 0;border:1px solid var(--border);border-radius:4px;">
     <label for="contactEmail">Email:</label>
-    <input type="email" id="contactEmail" required style="width:100%;padding:8px;margin:8px 0;border:1px solid var(--border);border-radius:4px;">
+    <input type="email" id="contactEmail" name="email" required style="width:100%;padding:8px;margin:8px 0;border:1px solid var(--border);border-radius:4px;">
     <label for="contactMessage">Message:</label>
-    <textarea id="contactMessage" required rows="5" style="width:100%;padding:8px;margin:8px 0;border:1px solid var(--border);border-radius:4px;"></textarea>
+    <textarea id="contactMessage" name="message" required rows="5" style="width:100%;padding:8px;margin:8px 0;border:1px solid var(--border);border-radius:4px;"></textarea>
     <button type="submit" class="btn" style="margin-top:10px;">Send Message</button>
-    <div id="contactStatus" style="margin-top:10px;font-weight:700;"></div>
   </form>
+</section>
+
+<!-- FAQ SECTION -->
+<section class="section card" id="faq">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-grid" style="text-align:left;max-width:720px;margin:0 auto;">
+    <details class="faq-item" style="margin-bottom:10px;padding:10px;border:1px solid var(--border);border-radius:6px;">
+      <summary style="cursor:pointer;font-weight:600;">Is Minara Blog free?</summary>
+      <p style="margin-top:10px;font-size:14px;color:var(--text-muted);">Yes, all our educational content, tools, and guides are 100% free to access.</p>
+    </details>
+    <details class="faq-item" style="margin-bottom:10px;padding:10px;border:1px solid var(--border);border-radius:6px;">
+      <summary style="cursor:pointer;font-weight:600;">Do you provide trading signals?</summary>
+      <p style="margin-top:10px;font-size:14px;color:var(--text-muted);">No. We provide education to help you find your own trades. Relying on signals prevents you from becoming an independent trader.</p>
+    </details>
+    <details class="faq-item" style="margin-bottom:10px;padding:10px;border:1px solid var(--border);border-radius:6px;">
+      <summary style="cursor:pointer;font-weight:600;">Is forex trading legal in India?</summary>
+      <p style="margin-top:10px;font-size:14px;color:var(--text-muted);">Trading currency derivatives on recognized exchanges (NSE/BSE) is legal. Spot forex trading via offshore brokers is a grey area. Check our <a href="is-forex-trading-legal-in-india.html">legal guide</a> for details.</p>
+    </details>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="section card newsletter-section" style="background:linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(56, 189, 248, 0.05) 100%);border:1px solid rgba(56, 189, 248, 0.2);">
+  <h2>Join the Inner Circle</h2>
+  <p class="muted">Get weekly market insights and risk management tips.</p>
+  <button class="btn primary" onclick="document.getElementById('contact-form').scrollIntoView({behavior: 'smooth'});">Subscribe for Updates</button>
 </section>
 
 </div>
