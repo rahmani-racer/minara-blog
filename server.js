@@ -60,10 +60,8 @@ const authLimiter = rateLimit({
 // Middleware
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
-
-// Serve static files from current directory
 app.use(apiLimiter); // Apply general rate limiting to all requests
-app.use(express.static('.'));
+
 
 // Input sanitization function
 function sanitizeInput(input) {
@@ -376,6 +374,9 @@ app.get('/api/articles/search', async (req, res) => {
     });
   }
 });
+
+// Serve static files from current directory (Moved after API routes to avoid conflicts)
+app.use(express.static('.'));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
