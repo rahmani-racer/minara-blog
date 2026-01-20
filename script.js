@@ -21,11 +21,11 @@
         const style = document.createElement('style');
         style.textContent = `
           .minara-hero {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
             color: #ffffff;
             padding: 4rem 2rem;
             position: relative;
-            overflow: hidden;
+            overflow: hidden !important;
             border-bottom: 4px solid #fbbf24;
           }
           .minara-hero-inner {
@@ -33,13 +33,13 @@
             display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem;
             align-items: center;
           }
-          .minara-hero h1 {
+          .minara-hero h1, .minara-hero h1 * {
             font-size: 3rem; font-weight: 800; margin-bottom: 1rem; line-height: 1.1;
             background: linear-gradient(to right, #ffffff, #cbd5e1);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
           }
           .minara-hero .highlight { color: #fbbf24; -webkit-text-fill-color: #fbbf24; }
-          .minara-hero p { font-size: 1.2rem; color: #94a3b8; margin-bottom: 2rem; }
+          .minara-hero p, .minara-hero p * { font-size: 1.2rem; color: #94a3b8 !important; margin-bottom: 2rem; }
           
           .minara-btn {
             padding: 0.8rem 1.5rem; border-radius: 6px; font-weight: 600; text-decoration: none;
@@ -53,14 +53,14 @@
           /* Right Side - Black Text Boxes */
           .minara-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
           .minara-box {
-            background: #ffffff; /* White background */
-            color: #000000;      /* Black text */
+            background: #ffffff !important; /* White background */
+            color: #000000 !important;      /* Black text */
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             text-align: center;
           }
-          .minara-stat-val { font-size: 1.5rem; font-weight: 700; color: #0f172a; }
+          .minara-stat-val { font-size: 1.5rem; font-weight: 700; color: #0f172a !important; }
           .minara-stat-lbl { font-size: 0.8rem; color: #475569; font-weight: 500; }
           
           .minara-widget {
@@ -70,7 +70,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
           }
-          .minara-widget div { margin-bottom: 5px; font-size: 0.95rem; }
+          .minara-widget div, .minara-widget div * { margin-bottom: 5px; font-size: 0.95rem; color: #000 !important; }
           .minara-widget strong { color: #0f172a; }
 
           @media (max-width: 768px) {
@@ -108,7 +108,7 @@
                 </div>
               </div>
               <div class="minara-widget minara-box" style="text-align:left;">
-                <div><strong>USD → INR:</strong> <span id="usdInrRate">Loading...</span></div>
+                <div><strong>USD → INR:</strong> <span id="usdInrRate" style="color:#000 !important;">Loading...</span></div>
                 <div><strong>INR → USD:</strong> <span id="inrUsdRate">Loading...</span></div>
                 <small style="color:#64748b; display:block; margin-top:5px;">Rates update every 60s</small>
               </div>
