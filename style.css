@@ -310,7 +310,7 @@ header {
 /* HERO / DASHBOARD */
 .hero-dashboard { 
   padding: 80px 20px; 
-  background: radial-gradient(circle at 90% 10%, rgba(249, 115, 22, 0.15) 0%, transparent 40%), linear-gradient(135deg, #020617 0%, #0f172a 100%);
+  background: radial-gradient(circle at 90% 10%, rgba(249, 115, 22, 0.15) 0%, transparent 40%), linear-gradient(135deg, #2f4e0a 0%, #b4322d 100%);
   color: #ffffff; 
   position: relative;
   border-bottom: 4px solid var(--accent);
