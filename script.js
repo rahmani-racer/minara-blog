@@ -641,7 +641,12 @@
         try {
           data = await res.json();
         } catch (parseErr) {
-          throw new Error('Connection error. Please open http://localhost:3000');
+          // If JSON fails, it means the server returned HTML (like a 404 page from static host)
+          if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            throw new Error('Connection error. Please open http://localhost:3000');
+          } else {
+            throw new Error('Backend Error: Node.js server is not running here.');
+          }
         }
 
         if (!res.ok) throw new Error(data.error || 'Action failed');

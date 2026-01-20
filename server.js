@@ -16,7 +16,10 @@ const JWT_SECRET = 'your-super-secret-key-change-this'; // Change this to a long
 // --- DATABASE PLACEHOLDER ---
 // In a real app, you'd connect to MongoDB and have a User model.
 // For now, we'll use an in-memory array to simulate a user database.
-const USERS_FILE = path.join(__dirname, 'users.json');
+// NOTE: On Vercel, writing to files is ephemeral or restricted. 
+// Data will reset on redeploy. Use MongoDB for persistence.
+const DATA_DIR = process.env.VERCEL ? '/tmp' : __dirname;
+const USERS_FILE = path.join(DATA_DIR, 'users.json');
 let users = []; 
 
 // Load users from file on startup
@@ -178,7 +181,8 @@ app.post('/api/contact', async (req, res) => {
       ip: req.ip || req.connection.remoteAddress
     };
 
-    const filePath = path.join(__dirname, 'contacts.json');
+    // Use /tmp on Vercel to avoid Read-Only errors (Data will still be temporary)
+    const filePath = path.join(DATA_DIR, 'contacts.json');
 
     let contacts = [];
     try {
@@ -243,7 +247,7 @@ app.get('/api/admin/contacts', authMiddleware, async (req, res) => {
     return res.status(403).json({ error: 'Access denied. Admin only.' });
   }
   try {
-    const data = await fs.readFile(path.join(__dirname, 'contacts.json'), 'utf8');
+    const data = await fs.readFile(path.join(DATA_DIR, 'contacts.json'), 'utf8');
     res.json(JSON.parse(data));
   } catch (e) { res.json([]); }
 });
@@ -252,7 +256,7 @@ app.get('/api/admin/contacts', authMiddleware, async (req, res) => {
 app.delete('/api/admin/contacts/:id', authMiddleware, async (req, res) => {
   if (!ADMIN_EMAILS.includes(req.user.email)) return res.status(403).json({ error: 'Denied' });
   try {
-    const filePath = path.join(__dirname, 'contacts.json');
+    const filePath = path.join(DATA_DIR, 'contacts.json');
     const data = await fs.readFile(filePath, 'utf8');
     let contacts = JSON.parse(data);
     contacts = contacts.filter(c => c.id !== req.params.id);
@@ -388,7 +392,12 @@ app.use((req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-  console.log(`Health check: http://localhost:${PORT}/api/health`);
-});
+// Only listen if running locally (not on Vercel)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Health check: http://localhost:${PORT}/api/health`);
+  });
+}
+
+module.exports = app;
