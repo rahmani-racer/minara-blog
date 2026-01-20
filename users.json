@@ -16,5 +16,14 @@
       "watchlist": [],
       "econ_events": []
     }
+  },
+  {
+    "id": 1768938407845,
+    "email": "test@example.com",
+    "passwordHash": "password123",
+    "data": {
+      "watchlist": [],
+      "econ_events": []
+    }
   }
 ]
