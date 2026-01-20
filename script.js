@@ -645,7 +645,7 @@
           if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             throw new Error('Connection error. Please open http://localhost:3000');
           } else {
-            throw new Error('Backend Error: Node.js server is not running here.');
+            throw new Error('Backend Error: Vercel serverless function is not responding. Please check deployment.');
           }
         }
 
