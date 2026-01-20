@@ -1230,6 +1230,63 @@ nav a:hover { text-decoration: underline; }
 .card { padding: 40px; margin: 40px auto; }
 .stat { padding: 16px; text-align: center; min-width: 100px; }
 .trend { padding: 20px; }
+
+/* =========================
+   TOOLS PRODUCTIZATION
+========================= */
+.tool h4 {
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.tool-desc {
+  margin: 0 0 16px 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.tool-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tool-form label {
+  font-size: 0.85rem;
+  color: var(--text-main);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+}
+
+.tool-form input,
+.tool-form select {
+  padding: 8px 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: 6px;
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-size: 0.9rem;
+  width: 120px; /* Consistent width */
+  text-align: right;
+  transition: border-color 0.2s;
+}
+
+.tool-form input:focus,
+.tool-form select:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.tool-form button.btn {
+  width: 100%;
+  margin-top: 8px;
+  justify-content: center;
+}
 .pillar { padding: 24px; text-align: center; }
 .path { padding: 20px; }
 

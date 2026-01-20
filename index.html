@@ -118,13 +118,14 @@
     
     <h3>Market Data</h3>
     <div class="tool" id="ratesCard">
-      <h4>Live Rates (TradingView)</h4>
+      <h4>Live Rates</h4>
+      <p class="tool-desc">Real-time forex and commodity prices.</p>
       <div id="tv-ticker" class="rates-ticker"></div>
-      <small>Live rates from TradingView</small>
     </div>
 
     <div class="tool" id="sessionsCard">
-      <h4>Market Sessions (UTC)</h4>
+      <h4>Market Sessions</h4>
+      <p class="tool-desc">Track global trading hours and overlaps (UTC).</p>
       <div id="marketSessions" class="sessions" role="list">
         <span data-session="tokyo" class="session" role="button" tabindex="0">🌅 Tokyo</span>
         <span data-session="london" class="session" role="button" tabindex="0">🏴󠁧󠁢󠁥󠁮󠁧󠁿 London</span>
@@ -136,10 +137,10 @@
 
     <h3>Trading Tools</h3>
     <div class="tool" id="chartCard">
-      <h4>Mini Chart (TradingView)</h4>
-      <small>Click to load — lightweight widget</small>
+      <h4>Mini Chart</h4>
+      <p class="tool-desc">Quick technical analysis on any pair.</p>
       <div class="chart-controls" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:8px;">
-        <select id="chartPairSelect" style="font-size:12px;padding:6px;">
+        <select id="chartPairSelect" style="font-size:12px;padding:6px;width:auto;">
           <option value="EUR/USD">EUR/USD</option>
           <option value="GBP/USD">GBP/USD</option>
           <option value="USD/JPY">USD/JPY</option>
@@ -149,19 +150,20 @@
           <option value="EUR/GBP">EUR/GBP</option>
           <option value="XAU/USD">XAU/USD (Gold)</option>
         </select>
-        <input id="chartPairCustom" placeholder="e.g. EUR/USD" style="width:100px;font-size:12px;padding:6px;">
+        <input id="chartPairCustom" placeholder="e.g. EUR/USD" style="width:100px;font-size:12px;padding:6px;text-align:left;">
         <button id="openChart" class="btn small">Load</button>
       </div>
       <div id="chartContainer" style="margin-top:8px;max-height:280px;overflow:hidden;border-radius:8px;"></div>
     </div>
 
     <div class="tool" id="calcCard">
-      <h4>Position Size Calc</h4>
-      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
-        <label>Balance (USD): <input id="accountBalance" type="number" value="1000" style="width:90px;padding:4px;"></label>
-        <label>Risk %: <input id="riskPercent" type="number" value="1" step="0.1" style="width:70px;padding:4px;"></label>
-        <label>Stop Loss (pips): <input id="stopLoss" type="number" value="50" style="width:80px;padding:4px;"></label>
-        <label>Pair: <input id="pairCalc" value="EUR/USD" style="width:90px;padding:4px;"></label>
+      <h4>Position Size Calculator</h4>
+      <p class="tool-desc">Calculate lot size based on risk percentage.</p>
+      <div class="tool-form">
+        <label>Balance (USD) <input id="accountBalance" type="number" value="1000"></label>
+        <label>Risk % <input id="riskPercent" type="number" value="1" step="0.1"></label>
+        <label>Stop Loss (pips) <input id="stopLoss" type="number" value="50"></label>
+        <label>Pair <input id="pairCalc" value="EUR/USD"></label>
         <button id="calcBtn" class="btn small">Calculate</button>
         <div id="calcResult" class="calc-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
       </div>
@@ -169,57 +171,59 @@
 
     <div class="tool" id="convertCard">
       <h4>Currency Converter</h4>
-      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;margin-bottom:8px;">
-        <label>From: <select id="convFrom" style="width:70px;padding:4px;"><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="JPY">JPY</option><option value="AUD">AUD</option><option value="CAD">CAD</option><option value="CHF">CHF</option><option value="NZD">NZD</option><option value="INR">INR</option></select></label>
-        <label>To: <select id="convTo" style="width:70px;padding:4px;"><option value="INR">INR</option><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="JPY">JPY</option><option value="AUD">AUD</option><option value="CAD">CAD</option><option value="CHF">CHF</option><option value="NZD">NZD</option></select></label>
-        <label>Amount: <input id="convAmount" type="number" value="100" style="width:80px;padding:4px;"></label>
+      <p class="tool-desc">Convert currencies and calculate pip values.</p>
+      <div class="tool-form">
+        <label>From <select id="convFrom"><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="JPY">JPY</option><option value="AUD">AUD</option><option value="CAD">CAD</option><option value="CHF">CHF</option><option value="NZD">NZD</option><option value="INR">INR</option></select></label>
+        <label>To <select id="convTo"><option value="INR">INR</option><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="JPY">JPY</option><option value="AUD">AUD</option><option value="CAD">CAD</option><option value="CHF">CHF</option><option value="NZD">NZD</option></select></label>
+        <label>Amount <input id="convAmount" type="number" value="100"></label>
         <button id="convBtn" class="btn small">Convert</button>
-        <button id="convReverse" class="btn small" style="margin-left:4px;">↔️ Reverse</button>
+        <button id="convReverse" class="btn small secondary">↔️ Reverse</button>
         <div id="convResult" class="conv-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
       </div>
-      <hr style="margin:8px 0;opacity:0.3;">
-      <h5 style="font-size:13px;margin:0 0 6px;">Pip Value Calculator</h5>
-      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
-        <label>Lot Size: <input id="pipLotSize" type="number" value="0.1" step="0.01" style="width:80px;padding:4px;"></label>
-        <label>Pip Movement: <input id="pipMovement" type="number" value="10" style="width:80px;padding:4px;"></label>
+      <hr style="margin:16px 0;opacity:0.1;">
+      <h5 style="font-size:13px;margin:0 0 12px;color:var(--accent);">Pip Value Calculator</h5>
+      <div class="tool-form">
+        <label>Lot Size <input id="pipLotSize" type="number" value="0.1" step="0.01"></label>
+        <label>Pip Movement <input id="pipMovement" type="number" value="10"></label>
         <button id="pipBtn" class="btn small">Calculate Pip Value</button>
         <div id="pipResult" class="pip-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
       </div>
-      <div id="tv-converter" style="width:100%;height:200px;border-top:1px solid var(--border);padding-top:8px;margin-top:8px;"></div>
-      <small>Real-time conversions from TradingView</small>
     </div>
 
     <div class="tool" id="compoundCalcCard">
-      <h4>Compound Interest Calculator</h4>
-      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
-        <label>Principal: <input id="principal" type="number" value="1000" style="width:90px;padding:4px;"></label>
-        <label>Rate (%): <input id="rate" type="number" value="5" step="0.1" style="width:80px;padding:4px;"></label>
-        <label>Time (years): <input id="time" type="number" value="10" style="width:90px;padding:4px;"></label>
-        <label>Compounds/year: <input id="compounds" type="number" value="12" style="width:90px;padding:4px;"></label>
+      <h4>Compound Interest</h4>
+      <p class="tool-desc">Visualize the power of compounding over time.</p>
+      <div class="tool-form">
+        <label>Principal <input id="principal" type="number" value="1000"></label>
+        <label>Rate (%) <input id="rate" type="number" value="5" step="0.1"></label>
+        <label>Time (years) <input id="time" type="number" value="10"></label>
+        <label>Compounds/yr <input id="compounds" type="number" value="12"></label>
         <button id="compoundBtn" class="btn small">Calculate</button>
         <div id="compoundResult" class="compound-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
       </div>
     </div>
 
     <div class="tool" id="retirementCalcCard">
-      <h4>Retirement Calculator</h4>
-      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
-        <label>Current Savings: <input id="currentSavings" type="number" value="50000" style="width:90px;padding:4px;"></label>
-        <label>Monthly Contribution: <input id="monthlyContrib" type="number" value="500" style="width:90px;padding:4px;"></label>
-        <label>Expected Return (%): <input id="retirementRate" type="number" value="7" step="0.1" style="width:90px;padding:4px;"></label>
-        <label>Years to Retirement: <input id="retirementYears" type="number" value="30" style="width:90px;padding:4px;"></label>
+      <h4>Retirement Planner</h4>
+      <p class="tool-desc">Estimate future savings based on contributions.</p>
+      <div class="tool-form">
+        <label>Current Savings <input id="currentSavings" type="number" value="50000"></label>
+        <label>Monthly Contrib. <input id="monthlyContrib" type="number" value="500"></label>
+        <label>Exp. Return (%) <input id="retirementRate" type="number" value="7" step="0.1"></label>
+        <label>Years to Retire <input id="retirementYears" type="number" value="30"></label>
         <button id="retirementBtn" class="btn small">Calculate</button>
         <div id="retirementResult" class="retirement-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
       </div>
     </div>
 
     <div class="tool" id="simulatorCard">
-      <h4>Trading Simulator</h4>
-      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
-        <label>Initial Balance: <input id="simBalance" type="number" value="10000" style="width:90px;padding:4px;"></label>
-        <label>Entry Price: <input id="simEntry" type="number" value="1.1000" step="0.0001" style="width:90px;padding:4px;"></label>
-        <label>Exit Price: <input id="simExit" type="number" value="1.1050" step="0.0001" style="width:90px;padding:4px;"></label>
-        <label>Lot Size: <input id="simLot" type="number" value="0.1" step="0.1" style="width:90px;padding:4px;"></label>
+      <h4>Trade Simulator</h4>
+      <p class="tool-desc">Simulate P&L outcomes for hypothetical trades.</p>
+      <div class="tool-form">
+        <label>Initial Balance <input id="simBalance" type="number" value="10000"></label>
+        <label>Entry Price <input id="simEntry" type="number" value="1.1000" step="0.0001"></label>
+        <label>Exit Price <input id="simExit" type="number" value="1.1050" step="0.0001"></label>
+        <label>Lot Size <input id="simLot" type="number" value="0.1" step="0.1"></label>
         <button id="simBtn" class="btn small">Simulate Trade</button>
         <div id="simResult" class="sim-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
       </div>
@@ -227,10 +231,11 @@
 
     <div class="tool" id="loanCalcCard">
       <h4>Loan Calculator</h4>
-      <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
-        <label>Loan Amount: <input id="loanAmount" type="number" value="100000" style="width:90px;padding:4px;"></label>
-        <label>Interest Rate (%): <input id="loanRate" type="number" value="8" step="0.1" style="width:90px;padding:4px;"></label>
-        <label>Loan Term (years): <input id="loanTerm" type="number" value="20" style="width:90px;padding:4px;"></label>
+      <p class="tool-desc">Calculate monthly payments and total interest.</p>
+      <div class="tool-form">
+        <label>Loan Amount <input id="loanAmount" type="number" value="100000"></label>
+        <label>Interest Rate (%) <input id="loanRate" type="number" value="8" step="0.1"></label>
+        <label>Loan Term (years) <input id="loanTerm" type="number" value="20"></label>
         <button id="loanBtn" class="btn small">Calculate</button>
         <div id="loanResult" class="loan-result" style="margin-top:6px;font-size:11px;font-weight:700;"></div>
       </div>
@@ -238,20 +243,22 @@
 
     <h3>Your Lists</h3>
     <div class="tool" id="watchlistCard">
-      <h4>Watchlist</h4>
+      <h4>My Watchlist</h4>
+      <p class="tool-desc">Track your favorite pairs and instruments.</p>
       <div class="watchlist-input" style="display:flex;gap:6px;margin-bottom:8px;">
-        <input id="watchInput" placeholder="EUR/USD" style="width:90px;font-size:12px;padding:4px;">
+        <input id="watchInput" placeholder="EUR/USD" style="flex:1;padding:8px;border:1px solid var(--border-soft);border-radius:6px;background:var(--bg-main);color:var(--text-main);">
         <button id="watchAdd" class="btn small">Add</button>
       </div>
       <ul id="watchList" style="font-size:12px;list-style:none;padding:0;margin:0;"></ul>
     </div>
 
     <div class="tool" id="econCard">
-      <h4>Economic Calendar</h4>
+      <h4>Economic Events</h4>
+      <p class="tool-desc">Log important upcoming news events.</p>
       <div class="econ-controls" style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-bottom:8px;font-size:12px;">
-        <input id="econTime" placeholder="09:30" style="width:60px;padding:4px;">
-        <input id="econTitle" placeholder="Event" style="width:110px;padding:4px;">
-        <select id="econImpact" style="font-size:11px;padding:4px;">
+        <input id="econTime" placeholder="09:30" style="width:60px;padding:6px;border:1px solid var(--border-soft);border-radius:4px;background:var(--bg-main);color:var(--text-main);">
+        <input id="econTitle" placeholder="Event" style="flex:1;padding:6px;border:1px solid var(--border-soft);border-radius:4px;background:var(--bg-main);color:var(--text-main);">
+        <select id="econImpact" style="padding:6px;border:1px solid var(--border-soft);border-radius:4px;background:var(--bg-main);color:var(--text-main);">
           <option>Low</option>
           <option>Medium</option>
           <option selected>High</option>
