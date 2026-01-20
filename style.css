@@ -980,6 +980,140 @@ nav a:focus,
 nav a:hover { text-decoration: underline; }
 
 /* =====================================================
+   COURSE / LESSON UI ENHANCEMENTS
+   (Implements "Platform" feel)
+===================================================== */
+
+/* 1. Article Typography & Spacing (The "Course" Readability) */
+.article p {
+  margin-bottom: 24px;
+  font-size: 1.05rem; /* ~17px for better readability */
+  line-height: 1.8;
+  color: var(--text-main);
+}
+.article h2 {
+  margin-top: 50px;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  position: relative;
+  padding-bottom: 10px;
+}
+.article h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+.article h3 {
+  margin-top: 40px;
+  margin-bottom: 16px;
+  font-size: 1.4rem;
+  color: var(--text-main);
+}
+.article ul, .article ol {
+  margin-bottom: 24px;
+  padding-left: 24px;
+}
+.article li {
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+
+/* 2. Intro Box (Problem + Promise) */
+.intro {
+  background: linear-gradient(to right, var(--bg-card), rgba(255,255,255,0));
+  border-left: 5px solid var(--accent);
+  padding: 24px;
+  margin: 30px 0 40px;
+  border-radius: 0 12px 12px 0;
+}
+.intro h3 {
+  margin-top: 0;
+  color: var(--accent);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.intro p {
+  margin-bottom: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* 3. Key Takeaways (End of Lesson) */
+.key-takeaways {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-left: 5px solid var(--accent-gold);
+  border-radius: 12px;
+  padding: 28px;
+  margin: 50px 0;
+  box-shadow: var(--shadow-soft);
+}
+.key-takeaways h3 {
+  margin-top: 0;
+  color: var(--accent-gold);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.key-takeaways ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+/* 4. Recommended Links (Next Lesson) */
+.recommended-links {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 40px auto;
+  box-shadow: var(--shadow-soft);
+}
+.recommended-links h4 {
+  margin-top: 0;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+.recommended-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.recommended-links li {
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 12px;
+}
+.recommended-links li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.recommended-links a {
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.recommended-links a::after {
+  content: '→';
+  transition: transform 0.2s ease;
+}
+.recommended-links a:hover::after {
+  transform: translateX(4px);
+}
+
+/* =====================================================
    MOBILE VIEW FIX ONLY
    (Desktop untouched – safe patch)
 ===================================================== */

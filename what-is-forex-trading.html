@@ -1,4 +1,4 @@
-﻿<!doctype html>
+﻿﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -44,8 +44,20 @@
       </p>
     </section>
 
-    <section>
-      <h3>Step-by-step explanation</h3>
+    <!-- Table of Contents (Lesson Structure) -->
+    <div class="toc-inline" style="background:var(--bg-card); padding:20px; border-radius:12px; border:1px solid var(--border-soft); margin-bottom:30px;">
+      <h4 style="margin-top:0; color:var(--accent);">In this lesson:</h4>
+      <ul style="list-style:none; padding:0; margin:0; display:grid; gap:8px;">
+        <li><a href="#basics">1. Step-by-step explanation</a></li>
+        <li><a href="#logic">2. Real trading logic (GOLD example)</a></li>
+        <li><a href="#mechanics">3. How Forex Market Actually Works</a></li>
+        <li><a href="#costs">4. Cost Stack: Spread, Commission, Swap</a></li>
+        <li><a href="#roadmap">5. Beginner Roadmap</a></li>
+      </ul>
+    </div>
+
+    <section id="basics">
+      <h3>1. Step-by-step explanation</h3>
       <ol>
         <li><strong>Market ka basic:</strong> Forex is a global market where currencies are bought and sold. Example pair: XAU/USD (Gold priced in USD).</li>
         <li><strong>Currency pair:</strong> First symbol is base (XAU), second is quote (USD). A price 1950.00 means 1 ounce of gold = $1950.</li>
@@ -55,8 +67,8 @@
       </ol>
     </section>
 
-    <section>
-      <h3>Real trading logic (GOLD example)</h3>
+    <section id="logic">
+      <h3>2. Real trading logic (GOLD example)</h3>
       <p>
         Suppose XAU/USD is trading at 1950.50. A simple swing-trade logic:
       </p>
@@ -68,8 +80,8 @@
       </ol>
     </section>
 
-    <section>
-      <h3>How Forex Market Actually Works (Mechanics Simplified)</h3>
+    <section id="mechanics">
+      <h3>3. How Forex Market Actually Works</h3>
       <p>
         Forex decentralized hai — koi single exchange nahi. Price move hota hai banks, hedge funds, market makers, aur retail order flow se. Liquidity providers bid/ask quotes publish karte hain; brokers in quotes ko aggregate karke aapko spreads dikhaate hain. Large orders jab aate hain to spreads widen aur slippage hota hai.
       </p>
@@ -82,8 +94,8 @@
       <p><strong>Practical takeaway:</strong> Trade only when spreads normal hain, size small rakho news ke waqt, aur har trade ka slippage + spread journal karo.</p>
     </section>
 
-    <section>
-      <h3>Cost Stack: Spread, Commission, Swap (Math Example)</h3>
+    <section id="costs">
+      <h3>4. Cost Stack: Spread, Commission, Swap</h3>
       <p>
         Assume XAU/USD spread 30 cents (0.30). 0.01 lot (micro) per pip roughly $0.10 (check broker specs). Cost per round trip = spread × pip value × lot size + commission (if ECN) + swap (if overnight).
       </p>
@@ -107,8 +119,8 @@
       <p><strong>Action:</strong> Demo par slippage, spread, swap sab measure karo 2-3 weeks. Fir micro live try karo. Poor fills? immediately change broker.</p>
     </section>
 
-    <section>
-      <h3>Beginner Roadmap: 12-Week Start Plan</h3>
+    <section id="roadmap">
+      <h3>5. Beginner Roadmap: 12-Week Start Plan</h3>
       <ol>
         <li><strong>Weeks 1-2:</strong> Pure learning. Terms, order types, spreads, swap samjho. 0 trades live.</li>
         <li><strong>Weeks 3-4:</strong> Demo trading 10-15 trades on XAU/USD small timeframes. Focus: execution + journal.</li>
@@ -288,6 +300,17 @@
         </ul>
       </section>
 
+    <!-- Key Takeaways (Lesson Summary) -->
+    <div class="key-takeaways">
+      <h3><span style="font-size:1.5em">💡</span> Key Takeaways</h3>
+      <ul>
+        <li><strong>Forex = Exchange:</strong> Buying one currency against another. XAU/USD is Gold vs Dollar.</li>
+        <li><strong>Structure:</strong> Decentralized market. Banks move price, retail follows.</li>
+        <li><strong>Risk First:</strong> Leverage is dangerous. Stick to 1:10 leverage and 0.5% risk per trade.</li>
+        <li><strong>Process:</strong> Don't rush to live trading. Use the 12-week roadmap (Demo → Micro → Scale).</li>
+      </ul>
+    </div>
+
     <section>
       <h3>Risk Warning</h3>
       <p>
@@ -337,8 +360,8 @@
 </main>
 
 <script src="script.js" defer></script>
-<!-- Static recommended links (non-JS fallback) -->
-<div class="recommended-links" style="max-width:900px;margin:18px auto;padding:12px;border-top:1px solid rgba(255,255,255,0.04);">
+<!-- Recommended Next Lesson -->
+<div class="recommended-links">
   <h4>Recommended next</h4>
   <ul style="list-style:none;padding:0;margin:8px 0 0;">
     <li style="margin:6px 0;"><a href="trading-basics.html">Trading Basics – Strong Foundation</a></li>
@@ -348,5 +371,3 @@
 </div>
 </body>
 </html>
-
-
