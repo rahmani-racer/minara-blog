@@ -636,7 +636,13 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
         });
-        const data = await res.json();
+
+        let data;
+        try {
+          data = await res.json();
+        } catch (parseErr) {
+          throw new Error('Connection error. Please open http://localhost:3000');
+        }
 
         if (!res.ok) throw new Error(data.error || 'Action failed');
 
@@ -701,16 +707,52 @@
                         const list = qs('#contactList');
                         list.innerHTML = contacts.map(c => `
                             <li>
-                                <div><strong>${c.name}</strong> <small>(${c.email})</small><br>${c.message}</div>
-                                <small>${new Date(c.timestamp).toLocaleDateString()}</small>
+                                <div style="flex:1"><strong>${c.name}</strong> <small>(${c.email})</small><br>${c.message}</div>
+                                <div style="text-align:right"><small>${new Date(c.timestamp).toLocaleDateString()}</small><br><button data-id="${c.id}" class="btn small secondary del-msg" style="padding:2px 6px;font-size:10px;margin-top:4px;">Delete</button></div>
                             </li>
                         `).join('');
+                        
+                        // Add delete listeners for messages
+                        qsa('.del-msg').forEach(b => b.addEventListener('click', async (e) => {
+                            if(!confirm('Delete this message?')) return;
+                            await fetch(`/api/admin/contacts/${e.target.dataset.id}`, { method: 'DELETE', headers: getAuthHeaders() });
+                            e.target.closest('li').remove();
+                        }));
+
                         qs('#adminPanel').style.display = 'block'; // Show panel if request worked
                     } else {
                         alert('Access Denied: Admin only');
                     }
                 } catch(e) { console.error(e); }
             });
+
+            // Load Users Logic
+            const userBtn = qs('#loadUsers');
+            if(userBtn) {
+                userBtn.addEventListener('click', async () => {
+                    try {
+                        const res = await fetch('/api/admin/users', { headers: getAuthHeaders() });
+                        if(res.ok) {
+                            const users = await res.json();
+                            const list = qs('#userList');
+                            list.innerHTML = users.map(u => `
+                                <li>
+                                    <div><strong>${u.email}</strong><br><small>Joined: ${u.joined}</small></div>
+                                    <div><small>Data: ${u.dataCount}</small> <button data-id="${u.id}" class="btn small secondary del-user" style="color:red;border-color:red;padding:2px 6px;font-size:10px;">Ban</button></div>
+                                </li>
+                            `).join('');
+
+                            // Add delete listeners for users
+                            qsa('.del-user').forEach(b => b.addEventListener('click', async (e) => {
+                                if(!confirm('Ban this user permanently?')) return;
+                                await fetch(`/api/admin/users/${e.target.dataset.id}`, { method: 'DELETE', headers: getAuthHeaders() });
+                                e.target.closest('li').remove();
+                            }));
+                        }
+                    } catch(e) { console.error(e); }
+                });
+            }
+
             // Auto-trigger to check permission silently
             qs('#adminPanel').style.display = 'block'; // Show container, let button control fetch
         }

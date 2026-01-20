@@ -246,6 +246,41 @@ app.get('/api/admin/contacts', authMiddleware, async (req, res) => {
   } catch (e) { res.json([]); }
 });
 
+// Delete contact message
+app.delete('/api/admin/contacts/:id', authMiddleware, async (req, res) => {
+  if (req.user.email !== 'admin@minara.com') return res.status(403).json({ error: 'Denied' });
+  try {
+    const filePath = path.join(__dirname, 'contacts.json');
+    const data = await fs.readFile(filePath, 'utf8');
+    let contacts = JSON.parse(data);
+    contacts = contacts.filter(c => c.id !== req.params.id);
+    await fs.writeFile(filePath, JSON.stringify(contacts, null, 2));
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: 'Failed' }); }
+});
+
+// Get all users list
+app.get('/api/admin/users', authMiddleware, async (req, res) => {
+  if (req.user.email !== 'admin@minara.com') return res.status(403).json({ error: 'Denied' });
+  // Return users without sensitive passwords
+  const safeUsers = users.map(u => ({
+    id: u.id,
+    email: u.email,
+    joined: new Date(u.id).toLocaleDateString(),
+    dataCount: (u.data.watchlist?.length || 0) + (u.data.econ_events?.length || 0)
+  }));
+  res.json(safeUsers);
+});
+
+// Delete user (Ban)
+app.delete('/api/admin/users/:id', authMiddleware, async (req, res) => {
+  if (req.user.email !== 'admin@minara.com') return res.status(403).json({ error: 'Denied' });
+  const id = parseInt(req.params.id);
+  users = users.filter(u => u.id !== id);
+  await saveUsers(); // Save updated list to file
+  res.json({ success: true });
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({
