@@ -12,11 +12,10 @@
 
   /* ---------- Branded Hero Injection (Fixes UI issues) ---------- */
   const initBrandedHero = () => {
-    const target = qs("#autoText");
-    if (target) {
-      // Attempt to find the hero container to replace
-      const container = target.closest('section') || target.parentElement.parentElement;
-      if (container) {
+    // Target the specific Hero Section by ID
+    const container = qs("#home");
+    
+    if (container) {
         // Inject Styles for Premium Look
         const style = document.createElement('style');
         style.textContent = `
@@ -53,18 +52,18 @@
           /* Right Side - Black Text Boxes */
           .minara-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
           .minara-box {
-            background: #ffffff !important; /* White background */
-            color: #000000 !important;      /* Black text */
+            background: #ffffff !important;
+            color: #000000 !important;
             padding: 15px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             text-align: center;
           }
           /* FORCE ALL CHILDREN TO BE DARK */
-          .minara-box * { color: #0f172a !important; }
+          .minara-box * { color: #000000 !important; }
 
-          .minara-stat-val { font-size: 1.5rem; font-weight: 700; color: #0f172a !important; }
-          .minara-stat-lbl { font-size: 0.8rem; color: #475569 !important; font-weight: 600; }
+          .minara-stat-val { font-size: 1.5rem; font-weight: 700; color: #000000 !important; }
+          .minara-stat-lbl { font-size: 0.8rem; color: #333333 !important; font-weight: 600; }
           
           .minara-widget {
             background: #ffffff !important;
@@ -73,8 +72,8 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
           }
-          .minara-widget div { margin-bottom: 5px; font-size: 0.95rem; color: #0f172a !important; }
-          .minara-widget small { color: #64748b !important; }
+          .minara-widget div { margin-bottom: 5px; font-size: 0.95rem; color: #000000 !important; }
+          .minara-widget small { color: #555555 !important; }
 
           @media (max-width: 768px) {
             .minara-hero-inner { grid-template-columns: 1fr; text-align: center; }
@@ -118,7 +117,6 @@
             </div>
           </div>
         `;
-      }
     }
   };
   initBrandedHero();
