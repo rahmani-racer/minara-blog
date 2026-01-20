@@ -21,8 +21,8 @@
         const style = document.createElement('style');
         style.textContent = `
           .minara-hero {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #ffffff;
+            background: linear-gradient(135deg, #491c3e 0%, #267443 100%);
+            color: #811212;
             padding: 6rem 2rem;
             text-align: center;
             position: relative;
