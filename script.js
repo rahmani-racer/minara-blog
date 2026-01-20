@@ -10,6 +10,82 @@
   const qs = (s, p = document) => p.querySelector(s);
   const qsa = (s, p = document) => [...p.querySelectorAll(s)];
 
+  /* ---------- Branded Hero Injection (Fixes UI issues) ---------- */
+  const initBrandedHero = () => {
+    const target = qs("#autoText");
+    if (target) {
+      // Attempt to find the hero container to replace
+      const container = target.closest('section') || target.parentElement.parentElement;
+      if (container) {
+        // Inject Styles for Premium Look
+        const style = document.createElement('style');
+        style.textContent = `
+          .minara-hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 4px solid #fbbf24;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+          }
+          .minara-hero::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+          }
+          .minara-hero h1 {
+            font-size: 3.5rem; font-weight: 800; margin-bottom: 1.5rem; line-height: 1.2;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+          }
+          .minara-hero .highlight { color: #fbbf24; -webkit-text-fill-color: #fbbf24; }
+          .minara-hero p {
+            font-size: 1.5rem; color: #cbd5e1; margin-bottom: 2.5rem; max-width: 700px;
+          }
+          .minara-hero .cta-group { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+          .minara-btn {
+            padding: 1rem 2rem; border-radius: 50px; font-weight: 700; text-decoration: none;
+            transition: all 0.3s ease; cursor: pointer; font-size: 1.1rem;
+          }
+          .minara-btn-primary {
+            background: #fbbf24; color: #0f172a; border: 2px solid #fbbf24;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+          }
+          .minara-btn-primary:hover { background: #f59e0b; transform: translateY(-3px); }
+          .minara-btn-secondary {
+            background: rgba(255,255,255,0.05); color: #ffffff; border: 2px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+          }
+          .minara-btn-secondary:hover {
+            border-color: #ffffff; background: rgba(255,255,255,0.15); transform: translateY(-3px);
+          }
+          @media (max-width: 768px) {
+            .minara-hero h1 { font-size: 2.5rem; }
+            .minara-hero p { font-size: 1.1rem; }
+          }
+        `;
+        document.head.appendChild(style);
+
+        // Replace HTML Content
+        container.className = 'minara-hero';
+        container.innerHTML = `
+          <div class="hero-content">
+            <h1>Trade with <span class="highlight">Confidence</span></h1>
+            <p>Master <span id="autoText">Trading Knowledge</span></p>
+            <div class="cta-group">
+              <a href="learning-articles.html" class="minara-btn minara-btn-primary">Start Beginner Path</a>
+              <button class="minara-btn minara-btn-secondary tools-trigger">Use Pro Tools</button>
+            </div>
+          </div>
+        `;
+      }
+    }
+  };
+  initBrandedHero();
+
   /* ---------- Auto Hero Text ---------- */
   const autoText = qs("#autoText");
   if (autoText) {
