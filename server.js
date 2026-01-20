@@ -12,6 +12,7 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = 'your-super-secret-key-change-this'; // Change this to a long, random string
+app.set('trust proxy', 1); // Trust Vercel proxy for IP tracking
 
 // --- DATABASE PLACEHOLDER ---
 // In a real app, you'd connect to MongoDB and have a User model.
