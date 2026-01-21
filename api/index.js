@@ -16,17 +16,14 @@ app.set('trust proxy', 1); // Trust Vercel proxy for IP tracking
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://Admin:Prince1517@rahmani.nc6yh9x.mongodb.net/?appName=Rahmani';
 
 // FIX: Prevent multiple connections in serverless environment
-let isConnected = false;
-
 const connectToDatabase = async () => {
-  if (isConnected) return;
+  // Check if already connected (1 = connected, 2 = connecting)
+  if (mongoose.connection.readyState >= 1) return;
 
   try {
     await mongoose.connect(MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000, // Timeout after 5s to prevent Vercel hanging
     });
-    isConnected = true;
     console.log('MongoDB connected successfully');
   } catch (err) {
     console.error('MongoDB connection error:', err);
