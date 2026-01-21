@@ -32,7 +32,8 @@ const userSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-const User = mongoose.model('User', userSchema);
+// FIX: Check if model exists to prevent "OverwriteModelError" in serverless/dev
+const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 // NEW: Contact Schema for MongoDB
 const contactSchema = new mongoose.Schema({
@@ -42,7 +43,7 @@ const contactSchema = new mongoose.Schema({
   ip: { type: String },
 }, { timestamps: true });
 
-const Contact = mongoose.model('Contact', contactSchema);
+const Contact = mongoose.models.Contact || mongoose.model('Contact', contactSchema);
 
 // Rate limiting
 const apiLimiter = rateLimit({
@@ -131,6 +132,12 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
 app.post('/api/auth/login', authLimiter, async (req, res) => {
   try {
     const { email, password } = req.body;
+    
+    // FIX: Validate input to prevent empty query returning arbitrary user
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
     // Find user in MongoDB
     const user = await User.findOne({ email });
 
@@ -401,6 +408,10 @@ app.get('/api/articles/search', async (req, res) => {
 });
 
 // Static files are served automatically by Vercel from the root directory
+// FIX: Serve static files locally so "node api/index.js" works
+if (!process.env.VERCEL) {
+  app.use(express.static(path.join(__dirname, '..')));
+}
 
 // Error handling middleware
 app.use((err, req, res, next) => {
