@@ -461,7 +461,7 @@
       statusEl.style.color = 'var(--text-muted)';
 
       try {
-        const res = await fetch('/api/contact', {
+        const res = await fetch(getApiBase() + '/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
@@ -510,6 +510,15 @@
     'Authorization': `Bearer ${localStorage.getItem('minara_token')}`
   });
 
+  // API base URL - use absolute URL for live site
+  const getApiBase = () => {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      return ''; // Use relative URLs for localhost
+    } else {
+      return 'https://minarablog.in'; // Use absolute URL for live site
+    }
+  };
+
   /* ---------- Watchlist (localStorage with Backend Sync) ---------- */
   async function loadWatchlist() {
     if (isLoggedIn()) {
@@ -529,7 +538,7 @@
     localStorage.setItem('minara_watchlist', JSON.stringify(list));
     if (isLoggedIn()) {
       try {
-        await fetch('/api/user/data', { method: 'PUT', headers: getAuthHeaders(), body: JSON.stringify({ watchlist: list }) });
+        await fetch(getApiBase() + '/api/user/data', { method: 'PUT', headers: getAuthHeaders(), body: JSON.stringify({ watchlist: list }) });
       } catch (e) { console.warn('Could not save watchlist to server.', e); }
     }
   }
@@ -631,7 +640,7 @@
       msgEl.style.color = 'var(--text-muted)';
 
       try {
-        const res = await fetch(endpoint, {
+        const res = await fetch(getApiBase() + endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
@@ -684,7 +693,7 @@
     if (!qs('#userEmail')) return; // Not on dashboard page
 
     try {
-        const res = await fetch('/api/user/data', { headers: getAuthHeaders() });
+        const res = await fetch(getApiBase() + '/api/user/data', { headers: getAuthHeaders() });
         if (!res.ok) throw new Error('Failed to load data');
         const data = await res.json();
         
@@ -736,7 +745,7 @@
             if(userBtn) {
                 userBtn.addEventListener('click', async () => {
                     try {
-                        const res = await fetch('/api/admin/users', { headers: getAuthHeaders() });
+                        const res = await fetch(getApiBase() + '/api/admin/users', { headers: getAuthHeaders() });
                         if(res.ok) {
                             const users = await res.json();
                             const list = qs('#userList');
@@ -750,7 +759,7 @@
                             // Add delete listeners for users
                             qsa('.del-user').forEach(b => b.addEventListener('click', async (e) => {
                                 if(!confirm('Ban this user permanently?')) return;
-                                await fetch(`/api/admin/users/${e.target.dataset.id}`, { method: 'DELETE', headers: getAuthHeaders() });
+                                await fetch(getApiBase() + `/api/admin/users/${e.target.dataset.id}`, { method: 'DELETE', headers: getAuthHeaders() });
                                 e.target.closest('li').remove();
                             }));
                         }
@@ -784,7 +793,7 @@
       localStorage.setItem('minara_econ_events', JSON.stringify(list));
       if (isLoggedIn()) {
         try {
-          await fetch('/api/user/data', { method: 'PUT', headers: getAuthHeaders(), body: JSON.stringify({ econ_events: list }) });
+          await fetch(getApiBase() + '/api/user/data', { method: 'PUT', headers: getAuthHeaders(), body: JSON.stringify({ econ_events: list }) });
         } catch (e) { console.warn('Could not save econ events to server.', e); }
       }
     }
