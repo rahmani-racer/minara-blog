@@ -34,6 +34,16 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
+// NEW: Contact Schema for MongoDB
+const contactSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  message: { type: String, required: true },
+  ip: { type: String },
+}, { timestamps: true });
+
+const Contact = mongoose.model('Contact', contactSchema);
+
 // Rate limiting
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -149,9 +159,7 @@ app.post('/api/auth/login', authLimiter, async (req, res) => {
 
 // API endpoint for contact form with rate limiting
 app.post('/api/contact', async (req, res) => {
-  // Note: Contact form is still using file system (contacts.json). 
-  // Ideally, this should also move to MongoDB, but keeping it as is for now.
-  const DATA_DIR = process.env.VERCEL ? '/tmp' : __dirname;
+  // FIXED: Now uses MongoDB instead of file system
   try {
     const { name, email, message } = req.body;
 
@@ -179,34 +187,14 @@ app.post('/api/contact', async (req, res) => {
       });
     }
 
-    // Save to JSON file with atomic write
-    const contactData = {
-      id: Date.now().toString(),
+    // Save to MongoDB
+    const newContact = new Contact({
       name: sanitizedName,
       email: sanitizedEmail,
       message: sanitizedMessage,
-      timestamp: new Date().toISOString(),
       ip: req.ip || req.connection.remoteAddress
-    };
-
-    // Use /tmp on Vercel to avoid Read-Only errors (Data will still be temporary)
-    const filePath = path.join(DATA_DIR, 'contacts.json');
-
-    let contacts = [];
-    try {
-      const data = await fs.readFile(filePath, 'utf8');
-      contacts = JSON.parse(data);
-    } catch (error) {
-      // File doesn't exist or is corrupted, start with empty array
-      console.log('Creating new contacts file');
-    }
-
-    contacts.push(contactData);
-
-    // Write atomically
-    const tempFile = filePath + '.tmp';
-    await fs.writeFile(tempFile, JSON.stringify(contacts, null, 2));
-    await fs.rename(tempFile, filePath);
+    });
+    await newContact.save();
 
     console.log(`New contact message from ${sanitizedEmail}`);
 
@@ -236,8 +224,19 @@ app.get('/api/user/data', authMiddleware, (req, res) => {
 // Update user-specific data
 app.put('/api/user/data', authMiddleware, async (req, res) => {
   try {
-    // Merge new data with existing data
-    req.user.data = { ...req.user.data, ...req.body };
+    // SECURITY FIX: Only update allowed fields. Don't merge the whole body.
+    const { watchlist, econ_events } = req.body;
+
+    if (watchlist) {
+      req.user.data.watchlist = watchlist;
+    }
+    if (econ_events) {
+      req.user.data.econ_events = econ_events;
+    }
+
+    // Mark as modified for Mongoose to detect changes in nested objects
+    req.user.markModified('data');
+
     await req.user.save();
     console.log(`Updated data for user ${req.user.email}`);
     res.json({
@@ -260,22 +259,26 @@ app.get('/api/admin/contacts', authMiddleware, async (req, res) => {
     return res.status(403).json({ error: 'Access denied. Admin only.' });
   }
   try {
-    const data = await fs.readFile(path.join(DATA_DIR, 'contacts.json'), 'utf8');
-    res.json(JSON.parse(data));
-  } catch (e) { res.json([]); }
+    // FIXED: Read from MongoDB instead of file
+    const contacts = await Contact.find().sort({ createdAt: -1 });
+    res.json(contacts);
+  } catch (e) {
+    console.error('Error fetching contacts:', e);
+    res.status(500).json({ error: 'Failed to fetch contacts.' });
+  }
 });
 
 // Delete contact message
 app.delete('/api/admin/contacts/:id', authMiddleware, async (req, res) => {
   if (!ADMIN_EMAILS.includes(req.user.email)) return res.status(403).json({ error: 'Denied' });
   try {
-    const filePath = path.join(DATA_DIR, 'contacts.json');
-    const data = await fs.readFile(filePath, 'utf8');
-    let contacts = JSON.parse(data);
-    contacts = contacts.filter(c => c.id !== req.params.id);
-    await fs.writeFile(filePath, JSON.stringify(contacts, null, 2));
+    // FIXED: Delete from MongoDB
+    await Contact.findByIdAndDelete(req.params.id);
     res.json({ success: true });
-  } catch (e) { res.status(500).json({ error: 'Failed' }); }
+  } catch (e) {
+    console.error('Error deleting contact:', e);
+    res.status(500).json({ error: 'Failed' });
+  }
 });
 
 // Get all users list
@@ -320,8 +323,8 @@ app.get('/api/health', (req, res) => {
 // API endpoint to get list of articles
 app.get('/api/articles', async (req, res) => {
   try {
-    const articlesDir = path.join(__dirname);
-    const files = await fs.readdir(articlesDir);
+    const articlesDir = process.cwd(); // FIX: Use process.cwd() for Vercel
+    const files = await fs.readdir(articlesDir); // This reads from the project root
     const articles = files.filter(file => file.endsWith('.html') && !file.includes('template')).map(file => ({
       title: file.replace('.html', '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
       filename: file,
@@ -349,8 +352,8 @@ app.get('/api/articles/search', async (req, res) => {
       });
     }
 
-    const articlesDir = path.join(__dirname);
-    const files = await fs.readdir(articlesDir);
+    const articlesDir = process.cwd(); // FIX: Use process.cwd() for Vercel
+    const files = await fs.readdir(articlesDir); // This reads from the project root
     const matchingArticles = [];
 
     for (const file of files) {
