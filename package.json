@@ -1,9 +1,9 @@
 {
   "name": "minara-blog",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node api/index.js"
   },
   "dependencies": {
     "@vercel/analytics": "^1.6.1",
