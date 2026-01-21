@@ -185,6 +185,9 @@ app.post('/api/auth/login', authLimiter, async (req, res) => {
 app.post('/api/contact', async (req, res) => {
   // FIXED: Now uses MongoDB instead of file system
   try {
+    // Ensure database connection for serverless
+    await connectToDatabase();
+
     const { name, email, message } = req.body;
 
     // Sanitize inputs
