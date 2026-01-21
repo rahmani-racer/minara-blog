@@ -656,7 +656,7 @@
         
         if (data.token) {
           localStorage.setItem('minara_token', data.token);
-          setTimeout(() => window.location.reload(), 1000); // Reload to apply login state
+          setTimeout(() => window.location.href = 'dashboard.html', 1000); // Redirect to dashboard after login
         } else {
           // Registration successful, switch to login tab
           setTimeout(() => {
