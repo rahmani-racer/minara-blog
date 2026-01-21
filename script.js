@@ -645,7 +645,7 @@
           if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             throw new Error('Connection error. Please open http://localhost:3000');
           } else {
-            throw new Error('Backend Error: Node.js server is not running here.');
+            throw new Error('Backend Error: Vercel serverless function is not responding. Please check deployment.');
           }
         }
 
@@ -656,7 +656,7 @@
         
         if (data.token) {
           localStorage.setItem('minara_token', data.token);
-          setTimeout(() => window.location.reload(), 1000); // Reload to apply login state
+          setTimeout(() => window.location.href = 'dashboard.html', 1000); // Redirect to dashboard after login
         } else {
           // Registration successful, switch to login tab
           setTimeout(() => {
