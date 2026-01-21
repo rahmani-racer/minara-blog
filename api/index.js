@@ -392,13 +392,13 @@ app.use((req, res) => {
   });
 });
 
-// Start server
-// Only listen if running locally (not on Vercel)
+// Export for Vercel serverless functions
+module.exports = app;
+
+// For local development, you can run this file directly
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
     console.log(`Health check: http://localhost:${PORT}/api/health`);
   });
 }
-
-module.exports = app;
