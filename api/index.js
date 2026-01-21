@@ -3,16 +3,36 @@ const bodyParser = require('body-parser');
 const fs = require('fs').promises;
 const path = require('path');
 const rateLimit = require('express-rate-limit');
-// FUTURE-READY: Dependencies for authentication and database
-// In a real app, you would install these: npm install jsonwebtoken bcryptjs mongoose
 const jwt = require('jsonwebtoken');
-// const bcrypt = require('bcryptjs'); // For password hashing
-// const mongoose = require('mongoose'); // For MongoDB
+const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const JWT_SECRET = 'your-super-secret-key-change-this'; // Change this to a long, random string
+const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-key-change-this'; // Change this to a long, random string
 app.set('trust proxy', 1); // Trust Vercel proxy for IP tracking
+
+// MongoDB connection
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/minara-blog';
+
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.error('MongoDB connection error:', err));
+
+// User Schema
+const userSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  passwordHash: { type: String, required: true },
+  data: {
+    watchlist: [String],
+    econ_events: [Object]
+  }
+}, { timestamps: true });
+
+const User = mongoose.model('User', userSchema);
 
 // --- DATABASE PLACEHOLDER ---
 // In a real app, you'd connect to MongoDB and have a User model.
@@ -76,7 +96,7 @@ function isValidEmail(email) {
 }
 
 // --- AUTHENTICATION MIDDLEWARE ---
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Authentication required: No token provided' });
@@ -84,7 +104,7 @@ const authMiddleware = (req, res, next) => {
   const token = authHeader.split(' ')[1];
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = users.find(u => u.id === decoded.id);
+    req.user = await User.findById(decoded.id);
     if (!req.user) {
       return res.status(401).json({ error: 'User not found' });
     }
@@ -96,27 +116,36 @@ const authMiddleware = (req, res, next) => {
 
 // --- AUTHENTICATION API ENDPOINTS ---
 
-// User Registration (Placeholder)
+// User Registration
 app.post('/api/auth/register', authLimiter, async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password || !isValidEmail(email) || password.length < 6) {
     return res.status(400).json({ error: 'Valid email and password (min 6 chars) are required.' });
   }
-  if (users.some(u => u.email === email)) {
-    return res.status(409).json({ error: 'User with this email already exists.' });
+
+  try {
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ error: 'User with this email already exists.' });
+    }
+
+    // Hash password
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    const newUser = new User({
+      email,
+      passwordHash,
+      data: { watchlist: [], econ_events: [] }
+    });
+
+    await newUser.save();
+    console.log(`New user registered: ${email}`);
+    res.status(201).json({ success: true, message: 'Registration successful!' });
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ error: 'Registration failed. Please try again.' });
   }
-  // In a real app, you would hash the password:
-  // const passwordHash = await bcrypt.hash(password, 10);
-  const newUser = {
-    id: Date.now(),
-    email: email,
-    passwordHash: password, // Storing plain text for demo only. DO NOT DO THIS IN PRODUCTION.
-    data: { watchlist: [], econ_events: [] }
-  };
-  users.push(newUser);
-  await saveUsers(); // Save to file
-  console.log(`New user registered: ${email}`);
-  res.status(201).json({ success: true, message: 'Registration successful!' });
 });
 
 // User Login
@@ -225,15 +254,20 @@ app.get('/api/user/data', authMiddleware, (req, res) => {
 });
 
 // Update user-specific data
-app.put('/api/user/data', authMiddleware, (req, res) => {
-  // Merge new data with existing data
-  req.user.data = { ...req.user.data, ...req.body };
-  saveUsers(); // Save changes to file
-  console.log(`Updated data for user ${req.user.email}`);
-  res.json({
-    success: true,
-    message: 'Data saved successfully.'
-  });
+app.put('/api/user/data', authMiddleware, async (req, res) => {
+  try {
+    // Merge new data with existing data
+    req.user.data = { ...req.user.data, ...req.body };
+    await req.user.save();
+    console.log(`Updated data for user ${req.user.email}`);
+    res.json({
+      success: true,
+      message: 'Data saved successfully.'
+    });
+  } catch (error) {
+    console.error('Data update error:', error);
+    res.status(500).json({ error: 'Failed to save data.' });
+  }
 });
 
 const ADMIN_EMAILS = ['admin@minara.com', 'mdrahmani1566@gmail.com'];
@@ -267,23 +301,31 @@ app.delete('/api/admin/contacts/:id', authMiddleware, async (req, res) => {
 // Get all users list
 app.get('/api/admin/users', authMiddleware, async (req, res) => {
   if (!ADMIN_EMAILS.includes(req.user.email)) return res.status(403).json({ error: 'Denied' });
-  // Return users without sensitive passwords
-  const safeUsers = users.map(u => ({
-    id: u.id,
-    email: u.email,
-    joined: new Date(u.id).toLocaleDateString(),
-    dataCount: (u.data.watchlist?.length || 0) + (u.data.econ_events?.length || 0)
-  }));
-  res.json(safeUsers);
+  try {
+    const allUsers = await User.find({}, { passwordHash: 0 }); // Exclude password
+    const safeUsers = allUsers.map(u => ({
+      id: u._id,
+      email: u.email,
+      joined: new Date(u.createdAt).toLocaleDateString(),
+      dataCount: (u.data.watchlist?.length || 0) + (u.data.econ_events?.length || 0)
+    }));
+    res.json(safeUsers);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ error: 'Failed to fetch users.' });
+  }
 });
 
 // Delete user (Ban)
 app.delete('/api/admin/users/:id', authMiddleware, async (req, res) => {
   if (!ADMIN_EMAILS.includes(req.user.email)) return res.status(403).json({ error: 'Denied' });
-  const id = parseInt(req.params.id);
-  users = users.filter(u => u.id !== id);
-  await saveUsers(); // Save updated list to file
-  res.json({ success: true });
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ error: 'Failed to delete user.' });
+  }
 });
 
 // Health check endpoint
