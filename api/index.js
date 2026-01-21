@@ -13,7 +13,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-key-change-this'
 app.set('trust proxy', 1); // Trust Vercel proxy for IP tracking
 
 // MongoDB connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/minara-blog';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://Admin:Prince1517@rahmani.nc6yh9x.mongodb.net/?appName=Rahmani';
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
