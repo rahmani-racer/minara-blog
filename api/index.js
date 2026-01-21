@@ -8,19 +8,31 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-key-change-this'; // Fixed: Defined Secret
+const PORT = process.env.PORT || 3001;
+const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-key-change-this';
 app.set('trust proxy', 1); // Trust Vercel proxy for IP tracking
 
-// MongoDB connection
+// MongoDB connection - FIX: Connect only once for serverless
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://Admin:Prince1517@rahmani.nc6yh9x.mongodb.net/?appName=Rahmani';
 
-mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
+// FIX: Prevent multiple connections in serverless environment
+let isConnected = false;
+
+const connectToDatabase = async () => {
+  if (isConnected) return;
+
+  try {
+    await mongoose.connect(MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    isConnected = true;
+    console.log('MongoDB connected successfully');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    throw err;
+  }
+};
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -32,10 +44,7 @@ const userSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-// FIX: Check if model exists to prevent "OverwriteModelError" in serverless/dev
-const User = mongoose.models.User || mongoose.model('User', userSchema);
-
-// NEW: Contact Schema for MongoDB
+// Contact Schema for MongoDB
 const contactSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
@@ -43,6 +52,8 @@ const contactSchema = new mongoose.Schema({
   ip: { type: String },
 }, { timestamps: true });
 
+// FIX: Proper model registration for serverless environment
+const User = mongoose.models.User || mongoose.model('User', userSchema);
 const Contact = mongoose.models.Contact || mongoose.model('Contact', contactSchema);
 
 // Rate limiting
@@ -77,12 +88,15 @@ function isValidEmail(email) {
 
 // --- AUTHENTICATION MIDDLEWARE ---
 const authMiddleware = async (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Authentication required: No token provided' });
-  }
-  const token = authHeader.split(' ')[1];
   try {
+    // Ensure database connection for serverless
+    await connectToDatabase();
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ error: 'Authentication required: No token provided' });
+    }
+    const token = authHeader.split(' ')[1];
     const decoded = jwt.verify(token, JWT_SECRET);
     req.user = await User.findById(decoded.id);
     if (!req.user) {
@@ -104,6 +118,9 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
   }
 
   try {
+    // Ensure database connection for serverless
+    await connectToDatabase();
+
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -131,8 +148,11 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
 // User Login
 app.post('/api/auth/login', authLimiter, async (req, res) => {
   try {
+    // Ensure database connection for serverless
+    await connectToDatabase();
+
     const { email, password } = req.body;
-    
+
     // FIX: Validate input to prevent empty query returning arbitrary user
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password are required' });
@@ -262,10 +282,13 @@ const ADMIN_EMAILS = ['admin@minara.com', 'mdrahmani1566@gmail.com'];
 // Get all contact messages (Protected: Real app should check for admin role)
 app.get('/api/admin/contacts', authMiddleware, async (req, res) => {
   // Simple check: only allow specific email (Replace with your email)
-  if (!ADMIN_EMAILS.includes(req.user.email)) { 
+  if (!ADMIN_EMAILS.includes(req.user.email)) {
     return res.status(403).json({ error: 'Access denied. Admin only.' });
   }
   try {
+    // Ensure database connection for serverless
+    await connectToDatabase();
+
     // FIXED: Read from MongoDB instead of file
     const contacts = await Contact.find().sort({ createdAt: -1 });
     res.json(contacts);
@@ -292,6 +315,9 @@ app.delete('/api/admin/contacts/:id', authMiddleware, async (req, res) => {
 app.get('/api/admin/users', authMiddleware, async (req, res) => {
   if (!ADMIN_EMAILS.includes(req.user.email)) return res.status(403).json({ error: 'Denied' });
   try {
+    // Ensure database connection for serverless
+    await connectToDatabase();
+
     const allUsers = await User.find({}, { passwordHash: 0 }); // Exclude password
     const safeUsers = allUsers.map(u => ({
       id: u._id,
@@ -310,6 +336,9 @@ app.get('/api/admin/users', authMiddleware, async (req, res) => {
 app.delete('/api/admin/users/:id', authMiddleware, async (req, res) => {
   if (!ADMIN_EMAILS.includes(req.user.email)) return res.status(403).json({ error: 'Denied' });
   try {
+    // Ensure database connection for serverless
+    await connectToDatabase();
+
     await User.findByIdAndDelete(req.params.id);
     res.json({ success: true });
   } catch (error) {
