@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-key-change-this'; // Change this to a long, random string
+// JWT Secret is now set above
 app.set('trust proxy', 1); // Trust Vercel proxy for IP tracking
 
 // MongoDB connection
