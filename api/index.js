@@ -8,19 +8,28 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-// JWT Secret is now set above
+const PORT = process.env.PORT || 3001;
+const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-key-change-this';
 app.set('trust proxy', 1); // Trust Vercel proxy for IP tracking
 
-// MongoDB connection
+// MongoDB connection - FIX: Connect only once for serverless
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://Admin:Prince1517@rahmani.nc6yh9x.mongodb.net/?appName=Rahmani';
 
-mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB connected'))
-.catch(err => console.error('MongoDB connection error:', err));
+// FIX: Prevent multiple connections in serverless environment
+const connectToDatabase = async () => {
+  // Check if already connected (1 = connected, 2 = connecting)
+  if (mongoose.connection.readyState >= 1) return;
+
+  try {
+    await mongoose.connect(MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000, // Timeout after 5s to prevent Vercel hanging
+    });
+    console.log('MongoDB connected successfully');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    throw err;
+  }
+};
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -32,38 +41,17 @@ const userSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-const User = mongoose.model('User', userSchema);
+// Contact Schema for MongoDB
+const contactSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  message: { type: String, required: true },
+  ip: { type: String },
+}, { timestamps: true });
 
-// --- DATABASE PLACEHOLDER ---
-// In a real app, you'd connect to MongoDB and have a User model.
-// For now, we'll use an in-memory array to simulate a user database.
-// NOTE: On Vercel, writing to files is ephemeral or restricted. 
-// Data will reset on redeploy. Use MongoDB for persistence.
-const DATA_DIR = process.env.VERCEL ? '/tmp' : __dirname;
-const USERS_FILE = path.join(DATA_DIR, 'users.json');
-let users = []; 
-
-// Load users from file on startup
-async function initUsers() {
-  try {
-    const data = await fs.readFile(USERS_FILE, 'utf8');
-    users = JSON.parse(data);
-    console.log(`Loaded ${users.length} users from disk.`);
-  } catch (error) {
-    console.log('No users file found, creating new database on first registration.');
-    users = [];
-  }
-}
-initUsers();
-
-// Helper to save users to file
-async function saveUsers() {
-  try {
-    await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
-  } catch (error) {
-    console.error('Error saving users:', error);
-  }
-}
+// FIX: Proper model registration for serverless environment
+const User = mongoose.models.User || mongoose.model('User', userSchema);
+const Contact = mongoose.models.Contact || mongoose.model('Contact', contactSchema);
 
 // Rate limiting
 const apiLimiter = rateLimit({
@@ -97,12 +85,15 @@ function isValidEmail(email) {
 
 // --- AUTHENTICATION MIDDLEWARE ---
 const authMiddleware = async (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Authentication required: No token provided' });
-  }
-  const token = authHeader.split(' ')[1];
   try {
+    // Ensure database connection for serverless
+    await connectToDatabase();
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ error: 'Authentication required: No token provided' });
+    }
+    const token = authHeader.split(' ')[1];
     const decoded = jwt.verify(token, JWT_SECRET);
     req.user = await User.findById(decoded.id);
     if (!req.user) {
@@ -124,6 +115,9 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
   }
 
   try {
+    // Ensure database connection for serverless
+    await connectToDatabase();
+
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -149,29 +143,47 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
 });
 
 // User Login
-app.post('/api/auth/login', authLimiter, (req, res) => {
-  const { email, password } = req.body;
-  const user = users.find(u => u.email === email);
+app.post('/api/auth/login', authLimiter, async (req, res) => {
+  try {
+    // Ensure database connection for serverless
+    await connectToDatabase();
 
-  // In a real app, you would compare hashed passwords:
-  // const isMatch = user && await bcrypt.compare(password, user.passwordHash);
-  const isMatch = user && user.passwordHash === password;
+    const { email, password } = req.body;
 
-  if (!isMatch) {
-    return res.status(401).json({ error: 'Invalid credentials' });
+    // FIX: Validate input to prevent empty query returning arbitrary user
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    // Find user in MongoDB
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    // Compare hashed password
+    const isMatch = await bcrypt.compare(password, user.passwordHash);
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
+    res.json({
+      success: true,
+      message: 'Login successful!',
+      token: token
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Internal server error during login' });
   }
-
-  const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1d' });
-  res.json({
-    success: true,
-    message: 'Login successful!',
-    token: token
-  });
 });
 
 
 // API endpoint for contact form with rate limiting
 app.post('/api/contact', async (req, res) => {
+  // FIXED: Now uses MongoDB instead of file system
   try {
     const { name, email, message } = req.body;
 
@@ -199,34 +211,14 @@ app.post('/api/contact', async (req, res) => {
       });
     }
 
-    // Save to JSON file with atomic write
-    const contactData = {
-      id: Date.now().toString(),
+    // Save to MongoDB
+    const newContact = new Contact({
       name: sanitizedName,
       email: sanitizedEmail,
       message: sanitizedMessage,
-      timestamp: new Date().toISOString(),
       ip: req.ip || req.connection.remoteAddress
-    };
-
-    // Use /tmp on Vercel to avoid Read-Only errors (Data will still be temporary)
-    const filePath = path.join(DATA_DIR, 'contacts.json');
-
-    let contacts = [];
-    try {
-      const data = await fs.readFile(filePath, 'utf8');
-      contacts = JSON.parse(data);
-    } catch (error) {
-      // File doesn't exist or is corrupted, start with empty array
-      console.log('Creating new contacts file');
-    }
-
-    contacts.push(contactData);
-
-    // Write atomically
-    const tempFile = filePath + '.tmp';
-    await fs.writeFile(tempFile, JSON.stringify(contacts, null, 2));
-    await fs.rename(tempFile, filePath);
+    });
+    await newContact.save();
 
     console.log(`New contact message from ${sanitizedEmail}`);
 
@@ -256,8 +248,19 @@ app.get('/api/user/data', authMiddleware, (req, res) => {
 // Update user-specific data
 app.put('/api/user/data', authMiddleware, async (req, res) => {
   try {
-    // Merge new data with existing data
-    req.user.data = { ...req.user.data, ...req.body };
+    // SECURITY FIX: Only update allowed fields. Don't merge the whole body.
+    const { watchlist, econ_events } = req.body;
+
+    if (watchlist) {
+      req.user.data.watchlist = watchlist;
+    }
+    if (econ_events) {
+      req.user.data.econ_events = econ_events;
+    }
+
+    // Mark as modified for Mongoose to detect changes in nested objects
+    req.user.markModified('data');
+
     await req.user.save();
     console.log(`Updated data for user ${req.user.email}`);
     res.json({
@@ -276,32 +279,42 @@ const ADMIN_EMAILS = ['admin@minara.com', 'mdrahmani1566@gmail.com'];
 // Get all contact messages (Protected: Real app should check for admin role)
 app.get('/api/admin/contacts', authMiddleware, async (req, res) => {
   // Simple check: only allow specific email (Replace with your email)
-  if (!ADMIN_EMAILS.includes(req.user.email)) { 
+  if (!ADMIN_EMAILS.includes(req.user.email)) {
     return res.status(403).json({ error: 'Access denied. Admin only.' });
   }
   try {
-    const data = await fs.readFile(path.join(DATA_DIR, 'contacts.json'), 'utf8');
-    res.json(JSON.parse(data));
-  } catch (e) { res.json([]); }
+    // Ensure database connection for serverless
+    await connectToDatabase();
+
+    // FIXED: Read from MongoDB instead of file
+    const contacts = await Contact.find().sort({ createdAt: -1 });
+    res.json(contacts);
+  } catch (e) {
+    console.error('Error fetching contacts:', e);
+    res.status(500).json({ error: 'Failed to fetch contacts.' });
+  }
 });
 
 // Delete contact message
 app.delete('/api/admin/contacts/:id', authMiddleware, async (req, res) => {
   if (!ADMIN_EMAILS.includes(req.user.email)) return res.status(403).json({ error: 'Denied' });
   try {
-    const filePath = path.join(DATA_DIR, 'contacts.json');
-    const data = await fs.readFile(filePath, 'utf8');
-    let contacts = JSON.parse(data);
-    contacts = contacts.filter(c => c.id !== req.params.id);
-    await fs.writeFile(filePath, JSON.stringify(contacts, null, 2));
+    // FIXED: Delete from MongoDB
+    await Contact.findByIdAndDelete(req.params.id);
     res.json({ success: true });
-  } catch (e) { res.status(500).json({ error: 'Failed' }); }
+  } catch (e) {
+    console.error('Error deleting contact:', e);
+    res.status(500).json({ error: 'Failed' });
+  }
 });
 
 // Get all users list
 app.get('/api/admin/users', authMiddleware, async (req, res) => {
   if (!ADMIN_EMAILS.includes(req.user.email)) return res.status(403).json({ error: 'Denied' });
   try {
+    // Ensure database connection for serverless
+    await connectToDatabase();
+
     const allUsers = await User.find({}, { passwordHash: 0 }); // Exclude password
     const safeUsers = allUsers.map(u => ({
       id: u._id,
@@ -320,6 +333,9 @@ app.get('/api/admin/users', authMiddleware, async (req, res) => {
 app.delete('/api/admin/users/:id', authMiddleware, async (req, res) => {
   if (!ADMIN_EMAILS.includes(req.user.email)) return res.status(403).json({ error: 'Denied' });
   try {
+    // Ensure database connection for serverless
+    await connectToDatabase();
+
     await User.findByIdAndDelete(req.params.id);
     res.json({ success: true });
   } catch (error) {
@@ -340,8 +356,8 @@ app.get('/api/health', (req, res) => {
 // API endpoint to get list of articles
 app.get('/api/articles', async (req, res) => {
   try {
-    const articlesDir = path.join(__dirname);
-    const files = await fs.readdir(articlesDir);
+    const articlesDir = process.cwd(); // FIX: Use process.cwd() for Vercel
+    const files = await fs.readdir(articlesDir); // This reads from the project root
     const articles = files.filter(file => file.endsWith('.html') && !file.includes('template')).map(file => ({
       title: file.replace('.html', '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
       filename: file,
@@ -369,8 +385,8 @@ app.get('/api/articles/search', async (req, res) => {
       });
     }
 
-    const articlesDir = path.join(__dirname);
-    const files = await fs.readdir(articlesDir);
+    const articlesDir = process.cwd(); // FIX: Use process.cwd() for Vercel
+    const files = await fs.readdir(articlesDir); // This reads from the project root
     const matchingArticles = [];
 
     for (const file of files) {
@@ -418,6 +434,10 @@ app.get('/api/articles/search', async (req, res) => {
 });
 
 // Static files are served automatically by Vercel from the root directory
+// FIX: Serve static files locally so "node api/index.js" works
+if (!process.env.VERCEL) {
+  app.use(express.static(path.join(__dirname, '..')));
+}
 
 // Error handling middleware
 app.use((err, req, res, next) => {
