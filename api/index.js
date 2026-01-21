@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-// JWT Secret is now set above
+const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-key-change-this'; // Fixed: Defined Secret
 app.set('trust proxy', 1); // Trust Vercel proxy for IP tracking
 
 // MongoDB connection
@@ -33,37 +33,6 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
-
-// --- DATABASE PLACEHOLDER ---
-// In a real app, you'd connect to MongoDB and have a User model.
-// For now, we'll use an in-memory array to simulate a user database.
-// NOTE: On Vercel, writing to files is ephemeral or restricted. 
-// Data will reset on redeploy. Use MongoDB for persistence.
-const DATA_DIR = process.env.VERCEL ? '/tmp' : __dirname;
-const USERS_FILE = path.join(DATA_DIR, 'users.json');
-let users = []; 
-
-// Load users from file on startup
-async function initUsers() {
-  try {
-    const data = await fs.readFile(USERS_FILE, 'utf8');
-    users = JSON.parse(data);
-    console.log(`Loaded ${users.length} users from disk.`);
-  } catch (error) {
-    console.log('No users file found, creating new database on first registration.');
-    users = [];
-  }
-}
-initUsers();
-
-// Helper to save users to file
-async function saveUsers() {
-  try {
-    await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
-  } catch (error) {
-    console.error('Error saving users:', error);
-  }
-}
 
 // Rate limiting
 const apiLimiter = rateLimit({
@@ -149,29 +118,40 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
 });
 
 // User Login
-app.post('/api/auth/login', authLimiter, (req, res) => {
-  const { email, password } = req.body;
-  const user = users.find(u => u.email === email);
+app.post('/api/auth/login', authLimiter, async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    // Find user in MongoDB
+    const user = await User.findOne({ email });
 
-  // In a real app, you would compare hashed passwords:
-  // const isMatch = user && await bcrypt.compare(password, user.passwordHash);
-  const isMatch = user && user.passwordHash === password;
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
 
-  if (!isMatch) {
-    return res.status(401).json({ error: 'Invalid credentials' });
+    // Compare hashed password
+    const isMatch = await bcrypt.compare(password, user.passwordHash);
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
+    res.json({
+      success: true,
+      message: 'Login successful!',
+      token: token
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Internal server error during login' });
   }
-
-  const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1d' });
-  res.json({
-    success: true,
-    message: 'Login successful!',
-    token: token
-  });
 });
 
 
 // API endpoint for contact form with rate limiting
 app.post('/api/contact', async (req, res) => {
+  // Note: Contact form is still using file system (contacts.json). 
+  // Ideally, this should also move to MongoDB, but keeping it as is for now.
+  const DATA_DIR = process.env.VERCEL ? '/tmp' : __dirname;
   try {
     const { name, email, message } = req.body;
 
