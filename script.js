@@ -515,7 +515,7 @@
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
       return ''; // Use relative URLs for localhost
     } else {
-      return 'https://minarablog.in'; // Use absolute URL for live site
+      return 'https://minarablog.in'; // Use custom domain for live site
     }
   };
 
@@ -684,7 +684,7 @@
       }
     };
 
-    if (loginForm) loginForm.addEventListener('submit', (e) => handleAuth(e, '/api/auth/login'));
+    if (loginForm) loginForm.addEventListener('submit', (e) => handleAuth(e, '/api/login'));
     if (registerForm) registerForm.addEventListener('submit', (e) => handleAuth(e, '/api/auth/register'));
   }
 
