@@ -684,7 +684,7 @@
       }
     };
 
-    if (loginForm) loginForm.addEventListener('submit', (e) => handleAuth(e, '/api/auth/login'));
+    if (loginForm) loginForm.addEventListener('submit', (e) => handleAuth(e, '/api/login'));
     if (registerForm) registerForm.addEventListener('submit', (e) => handleAuth(e, '/api/auth/register'));
   }
 
