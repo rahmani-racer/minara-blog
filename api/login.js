@@ -3,20 +3,19 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
-// User Schema
-const userSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  passwordHash: { type: String, required: true },
-  data: {
-    watchlist: [String],
-    econ_events: [Object]
-  }
-}, { timestamps: true });
-
-// FIX: Proper model registration for serverless environment
-const User = mongoose.models.User || mongoose.model('User', userSchema);
-
 module.exports = async (req, res) => {
+  // User Schema - Define per invocation for serverless
+  const userSchema = new mongoose.Schema({
+    email: { type: String, required: true, unique: true },
+    passwordHash: { type: String, required: true },
+    data: {
+      watchlist: [String],
+      econ_events: [Object]
+    }
+  }, { timestamps: true });
+
+  // FIX: Proper model registration for serverless environment
+  const User = mongoose.models.User || mongoose.model('User', userSchema);
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');

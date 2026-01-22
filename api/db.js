@@ -8,10 +8,7 @@ async function connectToDatabase() {
     return cachedClient;
   }
 
-  const MONGODB_URI = process.env.MONGODB_URI;
-  if (!MONGODB_URI) {
-    throw new Error('MONGODB_URI environment variable is not set');
-  }
+  const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://Admin:Prince1517@rahmani.nc6yh9x.mongodb.net/?appName=Rahmani';
 
   try {
     cachedClient = await mongoose.connect(MONGODB_URI, {
