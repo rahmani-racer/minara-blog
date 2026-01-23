@@ -236,6 +236,38 @@ app.put('/api/user/data', authMiddleware, (req, res) => {
   });
 });
 
+// --- TRADING JOURNAL ENDPOINTS ---
+app.get('/api/user/journal', authMiddleware, (req, res) => {
+  res.json({ success: true, journal: req.user.data.journal || [] });
+});
+
+app.post('/api/user/journal', authMiddleware, async (req, res) => {
+  const { pair, type, entryPrice, exitPrice, lotSize, profit, notes } = req.body;
+  
+  if (!pair || !type || !entryPrice || !exitPrice) {
+    return res.status(400).json({ error: 'Missing required fields (pair, type, prices)' });
+  }
+
+  const newEntry = {
+    id: Date.now().toString(),
+    date: new Date().toISOString(),
+    pair, type, entryPrice, exitPrice, lotSize, profit, notes
+  };
+  
+  if (!req.user.data.journal) req.user.data.journal = [];
+  req.user.data.journal.unshift(newEntry); // Add to beginning
+  
+  await saveUsers();
+  res.json({ success: true, entry: newEntry });
+});
+
+app.delete('/api/user/journal/:id', authMiddleware, async (req, res) => {
+  if (!req.user.data.journal) return res.status(404).json({ error: 'Journal empty' });
+  req.user.data.journal = req.user.data.journal.filter(entry => entry.id !== req.params.id);
+  await saveUsers();
+  res.json({ success: true });
+});
+
 const ADMIN_EMAILS = ['admin@minara.com', 'mdrahmani1566@gmail.com'];
 
 // --- ADMIN ROUTES ---

@@ -4,12 +4,12 @@
 - [ ] Analyze current website structure and features
 
 ## In Progress
-- [ ] Add Dark Mode Toggle
-- [ ] Implement Progressive Web App (PWA) features
-- [ ] Integrate AI Chatbot Assistant
+- [x] Add Dark Mode Toggle
+- [x] Implement Progressive Web App (PWA) features
+- [x] Integrate AI Chatbot Assistant
 - [ ] Enhance Animations and Micro-interactions
 - [ ] Optimize Performance (Lazy Loading, etc.)
-- [ ] Add Advanced Tools (Trading Journal)
+- [x] Add Advanced Tools (Trading Journal)
 
 ## Details
 1. **Dark Mode Toggle**: CSS variables, toggle button in header, JS to switch themes.

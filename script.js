@@ -687,6 +687,114 @@
     if (loginForm) loginForm.addEventListener('submit', (e) => handleAuth(e, '/api/login'));
     if (registerForm) registerForm.addEventListener('submit', (e) => handleAuth(e, '/api/auth/register'));
   }
+  
+  /* ---------- DARK MODE TOGGLE ---------- */
+  function setupDarkMode() {
+    // Check for existing toggle or create one
+    let toggle = qs('#darkModeToggle');
+    if (!toggle) {
+        toggle = document.createElement('button');
+        toggle.id = 'darkModeToggle';
+        toggle.innerHTML = '🌙';
+        toggle.className = 'btn-floating'; 
+        toggle.title = 'Toggle Dark Mode';
+        toggle.style.cssText = 'position:fixed;bottom:20px;left:20px;z-index:9999;width:50px;height:50px;border-radius:50%;border:none;background:var(--primary, #333);color:#fff;font-size:24px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;';
+        document.body.appendChild(toggle);
+    }
+
+    const applyTheme = (isDark) => {
+        if (isDark) {
+            document.body.classList.add('dark-mode');
+            toggle.innerHTML = '☀️';
+            toggle.style.background = '#fff';
+            toggle.style.color = '#333';
+        } else {
+            document.body.classList.remove('dark-mode');
+            toggle.innerHTML = '🌙';
+            toggle.style.background = '#333';
+            toggle.style.color = '#fff';
+        }
+    };
+
+    // Load preference
+    const savedTheme = localStorage.getItem('minara_theme');
+    if (savedTheme === 'dark') applyTheme(true);
+
+    toggle.addEventListener('click', () => {
+        const isDark = !document.body.classList.contains('dark-mode');
+        applyTheme(isDark);
+        localStorage.setItem('minara_theme', isDark ? 'dark' : 'light');
+    });
+  }
+
+  /* ---------- AI CHATBOT WIDGET (Mock) ---------- */
+  function setupChatbot() {
+    if (qs('#aiChatWidget')) return;
+
+    const widget = document.createElement('div');
+    widget.id = 'aiChatWidget';
+    widget.innerHTML = `
+        <div id="aiChatIcon" style="position:fixed;bottom:20px;right:20px;z-index:9999;width:60px;height:60px;background:linear-gradient(135deg, #007bff, #00d2ff);border-radius:50%;box-shadow:0 4px 15px rgba(0,0,0,0.2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:white;font-size:30px;">🤖</div>
+        <div id="aiChatWindow" style="display:none;position:fixed;bottom:90px;right:20px;z-index:9999;width:300px;height:400px;background:white;border-radius:15px;box-shadow:0 5px 25px rgba(0,0,0,0.2);flex-direction:column;overflow:hidden;border:1px solid #eee;">
+            <div style="background:#007bff;color:white;padding:15px;font-weight:bold;display:flex;justify-content:space-between;align-items:center;">
+                <span>Minara AI Assistant</span>
+                <span id="aiClear" style="font-size:12px;cursor:pointer;margin-right:10px;opacity:0.8;" title="Clear Chat">Clear</span>
+                <span id="aiClose" style="cursor:pointer;">&times;</span>
+            </div>
+            <div id="aiMessages" style="flex:1;padding:15px;overflow-y:auto;background:#f9f9f9;font-size:14px;">
+                <div style="margin-bottom:10px;background:#e9ecef;padding:8px 12px;border-radius:15px 15px 15px 0;display:inline-block;max-width:80%;">Hello! I'm your trading assistant. Ask me about trends, risk, or psychology.</div>
+            </div>
+            <div style="padding:10px;border-top:1px solid #eee;display:flex;">
+                <input type="text" id="aiInput" placeholder="Ask something..." style="flex:1;border:1px solid #ddd;border-radius:20px;padding:8px 12px;outline:none;">
+                <button id="aiSend" style="background:#007bff;color:white;border:none;border-radius:50%;width:35px;height:35px;margin-left:5px;cursor:pointer;">➤</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(widget);
+
+    const icon = qs('#aiChatIcon');
+    const windowEl = qs('#aiChatWindow');
+    const close = qs('#aiClose');
+    const clear = qs('#aiClear');
+    const input = qs('#aiInput');
+    const send = qs('#aiSend');
+    const msgs = qs('#aiMessages');
+
+    icon.addEventListener('click', () => windowEl.style.display = 'flex');
+    close.addEventListener('click', () => windowEl.style.display = 'none');
+    clear.addEventListener('click', () => { msgs.innerHTML = ''; addMsg("Chat cleared. How can I help?", false); });
+
+    const addMsg = (text, isUser) => {
+        const div = document.createElement('div');
+        div.style.cssText = `margin-bottom:10px;padding:8px 12px;border-radius:${isUser ? '15px 15px 0 15px' : '15px 15px 15px 0'};max-width:80%;align-self:${isUser ? 'flex-end' : 'flex-start'};background:${isUser ? '#007bff' : '#e9ecef'};color:${isUser ? 'white' : '#333'};display:inline-block;float:${isUser ? 'right' : 'left'};clear:both;`;
+        div.textContent = text;
+        msgs.appendChild(div);
+        msgs.scrollTop = msgs.scrollHeight;
+    };
+
+    const processAI = (text) => {
+        const t = text.toLowerCase();
+        let reply = "I'm still learning! Try asking about 'risk', 'trend', or 'mindset'.";
+        if (t.includes('hello') || t.includes('hi')) reply = "Hi there! Ready to analyze the markets?";
+        else if (t.includes('risk')) reply = "Rule #1: Never risk more than 1-2% of your capital on a single trade.";
+        else if (t.includes('trend')) reply = "The trend is your friend until it bends. Look for higher highs or lower lows.";
+        else if (t.includes('mindset') || t.includes('psychology')) reply = "Trading is 90% psychology. Stay disciplined and stick to your plan.";
+        else if (t.includes('gold') || t.includes('xau')) reply = "Gold is highly volatile. Watch USD strength and geopolitical news.";
+        
+        setTimeout(() => addMsg(reply, false), 600 + Math.random() * 1000);
+    };
+
+    const handleSend = () => {
+        const val = input.value.trim();
+        if (!val) return;
+        addMsg(val, true);
+        input.value = '';
+        processAI(val);
+    };
+
+    send.addEventListener('click', handleSend);
+    input.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
+  }
 
   /* ---------- DASHBOARD LOGIC ---------- */
   async function loadDashboard() {
@@ -708,6 +816,54 @@
         
         qs('#watchCount').textContent = watchCount;
         qs('#eventCount').textContent = eventCount;
+
+        // --- Load Journal ---
+        if (qs('#journalTable')) {
+            try {
+                const jRes = await fetch('/api/user/journal', { headers: getAuthHeaders() });
+                if (jRes.ok) {
+                    const jData = await jRes.json();
+                    const tbody = qs('#journalTable tbody');
+                    if (tbody) {
+                        tbody.innerHTML = jData.journal.map(entry => `
+                            <tr>
+                                <td>${new Date(entry.date).toLocaleDateString()}</td>
+                                <td>${entry.pair}</td>
+                                <td style="color:${entry.type === 'Buy' ? 'green' : 'red'}">${entry.type}</td>
+                                <td>${entry.profit}</td>
+                                <td><button class="btn small danger del-journal" data-id="${entry.id}">X</button></td>
+                            </tr>
+                        `).join('');
+                        
+                        qsa('.del-journal').forEach(btn => btn.addEventListener('click', async (e) => {
+                            if(!confirm('Delete entry?')) return;
+                            await fetch(`/api/user/journal/${e.target.dataset.id}`, { method: 'DELETE', headers: getAuthHeaders() });
+                            loadDashboard(); // Reload
+                        }));
+                    }
+                }
+            } catch (e) { console.error('Journal load error', e); }
+        }
+
+        // --- Journal Add Logic ---
+        const jForm = qs('#journalForm');
+        if (jForm && !jForm.dataset.bound) {
+            jForm.dataset.bound = 'true';
+            jForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(jForm);
+                const data = Object.fromEntries(formData.entries());
+                try {
+                    await fetch('/api/user/journal', {
+                        method: 'POST',
+                        headers: getAuthHeaders(),
+                        body: JSON.stringify(data)
+                    });
+                    jForm.reset();
+                    loadDashboard();
+                } catch (e) { alert('Failed to add entry'); }
+            });
+        }
 
         // Admin Check (Simple client-side check, real security is on server)
         // We try to fetch admin data to see if we have permission
@@ -889,6 +1045,8 @@
   // --- Initialize on DOMContentLoaded ---
   document.addEventListener("DOMContentLoaded", () => {
     setupAuthUI(); // Initialize Auth
+    setupDarkMode(); // Initialize Dark Mode
+    setupChatbot(); // Initialize AI Chatbot
     
     // Add Dashboard Link if Logged In
     if (isLoggedIn()) {
