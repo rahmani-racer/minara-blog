@@ -1,20 +1,20 @@
-# Homepage Improvement Tasks
+# Website Enhancement Plan to 10+ Level
 
-## Step 1: Add Featured Carousel Section
-- Insert new "Featured Courses/Guides" carousel section after hero in index.html
-- Include carousel HTML structure with featured items
+## Completed
+- [ ] Analyze current website structure and features
 
-## Step 2: Enhance Hero CTA Buttons
-- Modify hero CTA in index.html to include "Start Beginner Path" and "Use Tools" buttons prominently
+## In Progress
+- [ ] Add Dark Mode Toggle
+- [ ] Implement Progressive Web App (PWA) features
+- [ ] Integrate AI Chatbot Assistant
+- [ ] Enhance Animations and Micro-interactions
+- [ ] Optimize Performance (Lazy Loading, etc.)
+- [ ] Add Advanced Tools (Trading Journal)
 
-## Step 3: Improve Spacing in CSS
-- Increase padding in .section and .card classes in style.css for better readability
-
-## Step 4: Add Carousel Styles
-- Add CSS for carousel functionality in style.css (sliding, controls, etc.)
-
-## Step 5: Implement Carousel JS
-- Add carousel JavaScript logic in home.js or script.js for sliding and controls
-
-## Step 6: Test Responsiveness
-- Ensure carousel and spacing work on different screen sizes
+## Details
+1. **Dark Mode Toggle**: CSS variables, toggle button in header, JS to switch themes.
+2. **PWA**: manifest.json, service worker for offline access and installability.
+3. **AI Chatbot**: Simple chat widget with predefined responses or API integration.
+4. **Animations**: Smooth transitions, hover effects, loading animations.
+5. **Performance**: Lazy load images, minify scripts if possible.
+6. **Trading Journal**: Add a tool to log trades, view history.
