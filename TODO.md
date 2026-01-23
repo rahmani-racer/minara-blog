@@ -10,6 +10,7 @@
 - [ ] Enhance Animations and Micro-interactions
 - [ ] Optimize Performance (Lazy Loading, etc.)
 - [x] Add Advanced Tools (Trading Journal)
+- [x] Fix PWA Registration and UI Injection
 
 ## Details
 1. **Dark Mode Toggle**: CSS variables, toggle button in header, JS to switch themes.

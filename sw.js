@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minara-blog-v3';
+const CACHE_NAME = 'minara-blog-v4';
 const urlsToCache = [
   '/',
   '/index.html',

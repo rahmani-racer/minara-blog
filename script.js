@@ -817,6 +817,32 @@
         qs('#watchCount').textContent = watchCount;
         qs('#eventCount').textContent = eventCount;
 
+        // --- Auto-Inject Journal UI (Fix if HTML is missing) ---
+        if (!qs('#journalTable')) {
+            const container = qs('.dashboard-container') || qs('main') || document.body;
+            const section = document.createElement('div');
+            section.className = 'journal-section';
+            section.style.marginTop = '30px';
+            section.innerHTML = `
+                <h3>Trading Journal</h3>
+                <form id="journalForm" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px;background:#f8f9fa;padding:15px;border-radius:8px;">
+                    <input type="text" name="pair" placeholder="Pair (e.g. XAUUSD)" required style="padding:8px;border:1px solid #ddd;border-radius:4px;flex:1;">
+                    <select name="type" style="padding:8px;border:1px solid #ddd;border-radius:4px;"><option>Buy</option><option>Sell</option></select>
+                    <input type="number" step="any" name="entryPrice" placeholder="Entry" required style="padding:8px;border:1px solid #ddd;border-radius:4px;width:80px;">
+                    <input type="number" step="any" name="exitPrice" placeholder="Exit" required style="padding:8px;border:1px solid #ddd;border-radius:4px;width:80px;">
+                    <input type="number" step="any" name="profit" placeholder="Profit ($)" style="padding:8px;border:1px solid #ddd;border-radius:4px;width:80px;">
+                    <button type="submit" class="btn" style="background:#007bff;color:#fff;border:none;padding:8px 15px;border-radius:4px;cursor:pointer;">Log Trade</button>
+                </form>
+                <div style="overflow-x:auto;background:white;border-radius:8px;box-shadow:0 2px 5px rgba(0,0,0,0.05);">
+                    <table id="journalTable" style="width:100%;border-collapse:collapse;">
+                        <thead><tr style="background:#eee;text-align:left;"><th style="padding:10px;">Date</th><th style="padding:10px;">Pair</th><th style="padding:10px;">Type</th><th style="padding:10px;">Profit</th><th style="padding:10px;">Action</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            `;
+            container.appendChild(section);
+        }
+
         // --- Load Journal ---
         if (qs('#journalTable')) {
             try {
@@ -1044,6 +1070,7 @@
     
   // --- Initialize on DOMContentLoaded ---
   document.addEventListener("DOMContentLoaded", () => {
+    console.log("Minara App Initialized"); // Debug check
     setupAuthUI(); // Initialize Auth
     setupDarkMode(); // Initialize Dark Mode
     setupChatbot(); // Initialize AI Chatbot
@@ -1058,6 +1085,13 @@
             nav.appendChild(dashLink);
         }
         loadDashboard(); // Load dashboard data if on dashboard page
+    }
+
+    // --- PWA Service Worker Registration (Fix) ---
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('Service Worker Registered', reg))
+            .catch(err => console.log('Service Worker Failed', err));
     }
 
     // Homepage specific
