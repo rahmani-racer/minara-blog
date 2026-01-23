@@ -1,1 +1,341 @@
-<script src="chatbot.js" defer></script>
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minara Blog - Advanced Forex Trading Education</title>
+    <meta name="description" content="Master forex trading with expert insights, tools, and strategies. Learn technical analysis, risk management, and trading psychology from a professional trader.">
+    <meta name="keywords" content="forex trading, technical analysis, trading strategies, risk management, trading psychology, forex education">
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="sw.js">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/@vercel/analytics/dist/index.js"></script>
+    <script src="https://unpkg.com/@vercel/speed-insights/dist/index.js"></script>
+</head>
+<body>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header>
+        <div class="header-inner">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <img src="profile.jpg" alt="Minara Logo" width="40" height="40" style="border-radius: 50%;">
+                </div>
+                <div class="logo-text">
+                    <div class="logo">Minara<span>Blog</span></div>
+                    <div class="tagline">Forex Trading Mastery</div>
+                </div>
+            </div>
+
+            <nav>
+                <a href="#home">Home</a>
+                <a href="#articles">Articles</a>
+                <a href="#tools">Tools</a>
+                <a href="#dashboard">Dashboard</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+
+            <div class="header-right">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search articles..." aria-label="Search articles">
+                    <button type="button" id="searchBtn" aria-label="Search">🔍</button>
+                </div>
+                <button id="themeToggle" aria-label="Toggle theme">🌙</button>
+                <button id="loginBtn" class="btn small">Login</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Scroll Progress Bar -->
+    <div id="scrollProgress"></div>
+
+    <!-- Main Content -->
+    <main id="main">
+        <!-- Hero Section -->
+        <section id="home" class="hero-dashboard">
+            <div class="hero-grid">
+                <div class="hero-left">
+                    <h1 class="hero-title">Master Forex Trading Like a Pro</h1>
+                    <p class="hero-sub">Unlock the secrets of successful trading with expert analysis, proven strategies, and cutting-edge tools. Join thousands of traders who've transformed their financial future.</p>
+
+                    <div class="hero-cta">
+                        <a href="#articles" class="btn primary">Start Learning</a>
+                        <a href="#tools" class="btn secondary">Explore Tools</a>
+                    </div>
+
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat">
+                            <div class="stat-value">50+</div>
+                            <div class="stat-label">Articles</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">10K+</div>
+                            <div class="stat-label">Readers</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">Years Exp</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-right">
+                    <!-- Mini Chart -->
+                    <div class="tv-chart">
+                        <div class="tv-placeholder">
+                            <h3>Live Market Data</h3>
+                            <p>Real-time forex charts and analysis</p>
+                            <div id="miniChart" style="height: 200px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- Trending Topics -->
+                    <div class="trending-grid">
+                        <div class="trend">
+                            <a href="technical-analysis.html">
+                                <strong>Technical Analysis</strong>
+                                <span>Master chart patterns & indicators</span>
+                            </a>
+                        </div>
+                        <div class="trend">
+                            <a href="risk-management.html">
+                                <strong>Risk Management</strong>
+                                <span>Protect your capital</span>
+                            </a>
+                        </div>
+                        <div class="trend">
+                            <a href="trading-psychology.html">
+                                <strong>Trading Psychology</strong>
+                                <span>Control your emotions</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Articles Section -->
+        <section id="articles" class="section">
+            <div class="card">
+                <h2>Latest Articles</h2>
+                <div id="articlesGrid" class="article-list">
+                    <!-- Articles will be loaded dynamically -->
+                </div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="learning-articles.html" class="btn primary">View All Articles</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tools Section -->
+        <section id="tools" class="section">
+            <div class="card">
+                <h2>Trading Tools</h2>
+                <div class="tools-preview-grid">
+                    <div class="tool-preview">
+                        <h3>Pip Calculator</h3>
+                        <p>Calculate pip values and position sizes instantly</p>
+                        <button class="btn small" onclick="openToolsPanel('pipCalc')">Calculate</button>
+                    </div>
+                    <div class="tool-preview">
+                        <h3>Risk Calculator</h3>
+                        <p>Determine optimal position sizes based on risk</p>
+                        <button class="btn small" onclick="openToolsPanel('riskCalc')">Calculate</button>
+                    </div>
+                    <div class="tool-preview">
+                        <h3>Watchlist</h3>
+                        <p>Track your favorite currency pairs</p>
+                        <button class="btn small" onclick="openToolsPanel('watchlist')">Manage</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section">
+            <div class="card">
+                <h2>Your Trading Dashboard</h2>
+                <div class="hero-grid">
+                    <div class="hero-left">
+                        <h3>Track Your Progress</h3>
+                        <p>Monitor your trading journal, performance metrics, and learning path.</p>
+
+                        <!-- Learning Paths -->
+                        <div class="paths-grid">
+                            <div class="path">
+                                <h4>Beginner</h4>
+                                <div class="progress">
+                                    <div class="bar" style="width: 75%;"></div>
+                                    <div class="pct">75%</div>
+                                </div>
+                            </div>
+                            <div class="path">
+                                <h4>Intermediate</h4>
+                                <div class="progress">
+                                    <div class="bar" style="width: 45%;"></div>
+                                    <div class="pct">45%</div>
+                                </div>
+                            </div>
+                            <div class="path">
+                                <h4>Advanced</h4>
+                                <div class="progress">
+                                    <div class="bar" style="width: 20%;"></div>
+                                    <div class="pct">20%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hero-right">
+                        <!-- Trading Pillars -->
+                        <div class="pillars-grid">
+                            <div class="pillar">
+                                <h4>Analysis</h4>
+                                <p>Technical & Fundamental</p>
+                            </div>
+                            <div class="pillar">
+                                <h4>Risk</h4>
+                                <p>Management & Psychology</p>
+                            </div>
+                            <div class="pillar">
+                                <h4>Execution</h4>
+                                <p>Timing & Discipline</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Founder Section -->
+        <section class="section">
+            <div class="card">
+                <div class="founder-grid">
+                    <div class="founder-img">
+                        <img src="profile.jpg" alt="Founder" width="200" height="200">
+                    </div>
+                    <div class="founder-content">
+                        <h3>About the Founder</h3>
+                        <blockquote class="founder-quote">
+                            "Trading is not about predicting the future, it's about managing risk and following a proven process."
+                        </blockquote>
+                        <p>With over 5 years of experience in forex markets, I've helped thousands of traders transform their approach to trading. My mission is to provide clear, actionable education that cuts through the noise and focuses on what really works.</p>
+
+                        <div class="mission-box">
+                            <h4>My Mission</h4>
+                            <div class="mission-grid">
+                                <div>
+                                    <ul>
+                                        <li><strong>Education:</strong> Make complex trading concepts accessible</li>
+                                        <li><strong>Transparency:</strong> Share real strategies and results</li>
+                                        <li><strong>Community:</strong> Build a supportive trading network</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <ul>
+                                        <li><strong>Tools:</strong> Provide practical trading utilities</li>
+                                        <li><strong>Psychology:</strong> Address the mental side of trading</li>
+                                        <li><strong>Consistency:</strong> Focus on sustainable long-term success</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Tools Panel (Off-canvas) -->
+    <div id="toolsPanel" class="tools-panel">
+        <div class="tools-inner">
+            <button id="toolsClose" aria-label="Close tools panel">×</button>
+            <h3>Pip Calculator</h3>
+            <div id="pipCalc" class="tool">
+                <div class="tool-form">
+                    <div class="calc-grid">
+                        <label>Account Currency: <select id="accCurrency"><option>USD</option><option>EUR</option><option>GBP</option></select></label>
+                        <label>Pair: <input type="text" id="pair" value="EURUSD" placeholder="EURUSD"></label>
+                        <label>Lot Size: <input type="number" id="lotSize" value="0.01" step="0.01"></label>
+                        <label>Pip Movement: <input type="number" id="pipMove" value="10"></label>
+                    </div>
+                    <button class="btn" onclick="calculatePip()">Calculate</button>
+                    <div id="pipResult" class="calc-result"></div>
+                </div>
+            </div>
+
+            <h3>Risk Calculator</h3>
+            <div id="riskCalc" class="tool">
+                <div class="tool-form">
+                    <div class="calc-grid">
+                        <label>Account Balance: <input type="number" id="balance" value="1000"></label>
+                        <label>Risk %: <input type="number" id="riskPct" value="1" step="0.1"></label>
+                        <label>Stop Loss (pips): <input type="number" id="stopLoss" value="20"></label>
+                        <label>Pip Value: <input type="number" id="pipValue" value="10" step="0.01"></label>
+                    </div>
+                    <button class="btn" onclick="calculateRisk()">Calculate Position Size</button>
+                    <div id="riskResult" class="calc-result"></div>
+                </div>
+            </div>
+
+            <h3>Watchlist</h3>
+            <div id="watchlist" class="tool">
+                <div class="watchlist-input">
+                    <input type="text" id="newPair" placeholder="Add pair (e.g., GBPJPY)">
+                    <button class="btn small" onclick="addToWatchlist()">Add</button>
+                </div>
+                <ul id="watchList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal-overlay">
+        <div class="auth-box">
+            <button class="close-modal" aria-label="Close modal">×</button>
+            <div class="auth-header">
+                <h2>Welcome Back</h2>
+            </div>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Login</button>
+                <button class="auth-tab" data-tab="register">Register</button>
+            </div>
+            <form id="loginForm" class="auth-form active">
+                <input type="email" class="auth-input" placeholder="Email" required>
+                <input type="password" class="auth-input" placeholder="Password" required>
+                <button type="submit" class="btn">Login</button>
+                <div class="auth-msg"></div>
+            </form>
+            <form id="registerForm" class="auth-form">
+                <input type="email" class="auth-input" placeholder="Email" required>
+                <input type="password" class="auth-input" placeholder="Password (min 6 chars)" required>
+                <button type="submit" class="btn">Register</button>
+                <div class="auth-msg"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-pro">
+        <div class="footer-content">
+            <p>&copy; 2024 Minara Blog. All rights reserved. | <a href="contact.html">Contact</a> | <a href="about.html">About</a></p>
+            <div class="footer-links">
+                <a href="trading.html">Trading</a> |
+                <a href="forex.html">Forex</a> |
+                <a href="technical-analysis.html">Analysis</a> |
+                <a href="risk-management.html">Risk</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="home.js"></script>
+    <script src="chatbot.js" defer></script>
+</body>
+</html>
