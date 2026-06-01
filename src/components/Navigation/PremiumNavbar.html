@@ -1,0 +1,340 @@
+<!-- PREMIUM NAVIGATION BAR -->
+
+<nav class="navbar">
+  <div class="navbar-container">
+    <!-- Logo -->
+    <div class="navbar-logo">
+      <a href="/" class="logo-link">
+        <div class="logo-icon">⚡</div>
+        <span class="logo-text">MINARA</span>
+        <span class="logo-badge">PREMIUM</span>
+      </a>
+    </div>
+
+    <!-- Main Navigation -->
+    <div class="navbar-menu">
+      <a href="/" class="nav-link">Home</a>
+      
+      <!-- Education Dropdown -->
+      <div class="nav-dropdown">
+        <button class="nav-link dropdown-toggle">Education</button>
+        <div class="dropdown-menu">
+          <a href="/learning-paths" class="dropdown-item">Learning Paths</a>
+          <a href="/courses" class="dropdown-item">Courses</a>
+          <a href="/articles" class="dropdown-item">Articles</a>
+          <a href="/certifications" class="dropdown-item">Certifications</a>
+        </div>
+      </div>
+
+      <!-- Tools Dropdown -->
+      <div class="nav-dropdown">
+        <button class="nav-link dropdown-toggle">Trading Tools</button>
+        <div class="dropdown-menu">
+          <a href="/tools/pip-calculator" class="dropdown-item">Pip Calculator</a>
+          <a href="/tools/risk-reward" class="dropdown-item">Risk/Reward Calculator</a>
+          <a href="/tools/position-size" class="dropdown-item">Position Size</a>
+          <a href="/tools/currency-strength" class="dropdown-item">Currency Strength</a>
+          <a href="/tools/economic-calendar" class="dropdown-item">Economic Calendar</a>
+          <a href="/tools/session-clock" class="dropdown-item">Session Clock</a>
+        </div>
+      </div>
+
+      <!-- Community Dropdown -->
+      <div class="nav-dropdown">
+        <button class="nav-link dropdown-toggle">Community</button>
+        <div class="dropdown-menu">
+          <a href="/community/profiles" class="dropdown-item">Trader Profiles</a>
+          <a href="/community/forums" class="dropdown-item">Forums</a>
+          <a href="/community/challenges" class="dropdown-item">Trading Challenges</a>
+          <a href="/community/leaderboard" class="dropdown-item">Leaderboard</a>
+        </div>
+      </div>
+
+      <a href="/membership" class="nav-link nav-premium">Premium</a>
+    </div>
+
+    <!-- Search & Profile -->
+    <div class="navbar-right">
+      <!-- Search -->
+      <div class="search-box">
+        <input type="text" placeholder="Search..." class="search-input">
+        <span class="search-icon">🔍</span>
+      </div>
+
+      <!-- User Menu -->
+      <div class="user-menu">
+        <button class="btn-profile">👤</button>
+        <div class="profile-dropdown">
+          <a href="/dashboard" class="profile-item">Dashboard</a>
+          <a href="/trading-journal" class="profile-item">Trading Journal</a>
+          <a href="/achievements" class="profile-item">Achievements</a>
+          <a href="/settings" class="profile-item">Settings</a>
+          <hr class="divider">
+          <a href="/logout" class="profile-item logout">Logout</a>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-toggle">☰</button>
+    </div>
+  </div>
+</nav>
+
+<style>
+.navbar {
+  position: sticky;
+  top: 0;
+  background: rgba(5, 10, 18, 0.95);
+  border-bottom: 1px solid rgba(0, 168, 255, 0.2);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  padding: 0.75rem 0;
+}
+
+.navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-xl);
+}
+
+.navbar-logo {
+  flex-shrink: 0;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  text-decoration: none;
+  transition: all var(--transition-base);
+}
+
+.logo-icon {
+  font-size: 1.5rem;
+  animation: pulse 2s infinite;
+}
+
+.logo-text {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-badge {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  background: rgba(0, 168, 255, 0.2);
+  color: var(--accent-cyan);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--accent-blue);
+}
+
+.navbar-menu {
+  display: flex;
+  gap: var(--spacing-xl);
+  flex: 1;
+}
+
+.nav-link {
+  color: var(--neutral-gray-2);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: var(--font-size-base);
+  transition: all var(--transition-base);
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  color: var(--accent-blue);
+}
+
+.nav-link.nav-premium {
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+
+.nav-dropdown {
+  position: relative;
+}
+
+.dropdown-toggle::after {
+  content: '▼';
+  font-size: 0.6rem;
+  margin-left: var(--spacing-sm);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: rgba(10, 20, 40, 0.95);
+  border: 1px solid rgba(0, 168, 255, 0.2);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(10px);
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all var(--transition-base);
+  margin-top: var(--spacing-md);
+  box-shadow: var(--shadow-glass);
+}
+
+.nav-dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: block;
+  padding: var(--spacing-md) var(--spacing-lg);
+  color: var(--neutral-gray-2);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-base);
+}
+
+.dropdown-item:hover {
+  background: rgba(0, 168, 255, 0.15);
+  color: var(--accent-blue);
+  padding-left: calc(var(--spacing-lg) + 0.5rem);
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  flex-shrink: 0;
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 168, 255, 0.2);
+  color: var(--neutral-light);
+  padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-full);
+  width: 250px;
+  transition: all var(--transition-base);
+}
+
+.search-input:focus {
+  border-color: var(--accent-blue);
+  background: rgba(0, 168, 255, 0.1);
+  box-shadow: 0 0 0 3px rgba(0, 168, 255, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  right: var(--spacing-lg);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-blue);
+}
+
+.user-menu {
+  position: relative;
+}
+
+.btn-profile {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: rgba(0, 168, 255, 0.15);
+  border: 2px solid var(--accent-blue);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.btn-profile:hover {
+  background: rgba(0, 168, 255, 0.25);
+  box-shadow: 0 0 15px rgba(0, 168, 255, 0.3);
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: rgba(10, 20, 40, 0.95);
+  border: 1px solid rgba(0, 168, 255, 0.2);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(10px);
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all var(--transition-base);
+  margin-top: var(--spacing-md);
+  box-shadow: var(--shadow-glass);
+  z-index: 1001;
+}
+
+.user-menu:hover .profile-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.profile-item {
+  display: block;
+  padding: var(--spacing-md) var(--spacing-lg);
+  color: var(--neutral-gray-2);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
+  transition: all var(--transition-base);
+}
+
+.profile-item:hover {
+  background: rgba(0, 168, 255, 0.15);
+  color: var(--accent-blue);
+}
+
+.profile-item.logout:hover {
+  background: rgba(255, 0, 110, 0.15);
+  color: var(--accent-pink);
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: var(--spacing-sm) 0;
+}
+
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--accent-blue);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .navbar-menu {
+    display: none;
+  }
+  
+  .search-input {
+    width: 200px;
+  }
+  
+  .mobile-toggle {
+    display: block;
+  }
+}
+</style>

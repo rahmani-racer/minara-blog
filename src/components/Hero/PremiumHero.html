@@ -1,0 +1,347 @@
+<!-- PREMIUM HERO SECTION -->
+
+<section class="hero">
+  <!-- Animated Background -->
+  <div class="hero-bg">
+    <div class="hero-gradient-1"></div>
+    <div class="hero-gradient-2"></div>
+    <div class="hero-grid"></div>
+  </div>
+
+  <!-- Hero Content -->
+  <div class="hero-container">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        Master Forex Trading<br>
+        <span class="text-gradient">Like A Pro</span>
+      </h1>
+      
+      <p class="hero-subtitle">
+        Professional-grade education, advanced tools, and a thriving community
+        dedicated to your trading success.
+      </p>
+
+      <!-- Trust Indicators -->
+      <div class="trust-indicators">
+        <div class="trust-item">
+          <span class="trust-number">15K+</span>
+          <span class="trust-label">Active Traders</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-number">500+</span>
+          <span class="trust-label">Learning Resources</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-number">4.9⭐</span>
+          <span class="trust-label">User Rating</span>
+        </div>
+      </div>
+
+      <!-- CTAs -->
+      <div class="hero-ctas">
+        <button class="btn btn-primary btn-lg">
+          Start Learning Free
+          <span class="btn-arrow">→</span>
+        </button>
+        <button class="btn btn-secondary btn-lg">
+          Upgrade to Premium
+        </button>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="scroll-indicator">
+        <span>Scroll to explore</span>
+        <div class="scroll-arrow">⬇</div>
+      </div>
+    </div>
+
+    <!-- Hero Image/Chart -->
+    <div class="hero-visual">
+      <div class="chart-card">
+        <div class="chart-header">
+          <span class="pair">EUR/USD</span>
+          <span class="price">1.0850</span>
+        </div>
+        <div class="mini-chart">
+          <svg viewBox="0 0 100 60" preserveAspectRatio="none">
+            <polyline
+              points="0,40 10,35 20,38 30,30 40,28 50,32 60,25 70,28 80,20 90,22 100,15"
+              fill="none"
+              stroke="url(#gradient)"
+              stroke-width="2"
+            />
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#00a8ff;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#00d96f;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="chart-stats">
+          <span class="stat">High: 1.0950</span>
+          <span class="stat">Low: 1.0750</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.hero-gradient-1 {
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(0, 168, 255, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.hero-gradient-2 {
+  position: absolute;
+  bottom: -50%;
+  left: -20%;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(159, 0, 255, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float 8s ease-in-out infinite reverse;
+}
+
+.hero-grid {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(0, 168, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 168, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.3;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(30px);
+  }
+}
+
+.hero-container {
+  position: relative;
+  z-index: 10;
+  max-width: 1400px;
+  width: 100%;
+  padding: var(--spacing-4xl) var(--spacing-xl);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-4xl);
+  align-items: center;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--neutral-white);
+  animation: slideUp 0.8s ease-out;
+}
+
+.hero-subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--neutral-gray-3);
+  max-width: 500px;
+  line-height: var(--line-height-relaxed);
+  animation: slideUp 0.8s ease-out 0.1s backwards;
+}
+
+.trust-indicators {
+  display: flex;
+  gap: var(--spacing-2xl);
+  animation: slideUp 0.8s ease-out 0.2s backwards;
+}
+
+.trust-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.trust-number {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.trust-label {
+  font-size: var(--font-size-sm);
+  color: var(--neutral-gray-4);
+}
+
+.hero-ctas {
+  display: flex;
+  gap: var(--spacing-lg);
+  animation: slideUp 0.8s ease-out 0.3s backwards;
+}
+
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.btn-arrow {
+  margin-left: var(--spacing-md);
+  transition: transform var(--transition-base);
+}
+
+.btn-primary:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+.scroll-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+  animation: slideUp 0.8s ease-out 0.4s backwards;
+}
+
+.scroll-indicator span {
+  color: var(--neutral-gray-4);
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.scroll-arrow {
+  font-size: 1.5rem;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+.hero-visual {
+  position: relative;
+  height: 400px;
+  animation: slideUp 0.8s ease-out backwards;
+}
+
+.chart-card {
+  background: rgba(10, 20, 40, 0.7);
+  border: 1px solid rgba(0, 168, 255, 0.2);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  backdrop-filter: var(--backdrop-blur);
+  box-shadow: var(--shadow-glass);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  transition: all var(--transition-base);
+}
+
+.chart-card:hover {
+  border-color: rgba(0, 168, 255, 0.4);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 168, 255, 0.2);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pair {
+  font-weight: 700;
+  color: var(--neutral-white);
+  font-size: var(--font-size-lg);
+}
+
+.price {
+  font-weight: 700;
+  background: var(--gradient-success);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: var(--font-size-lg);
+}
+
+.mini-chart {
+  flex: 1;
+}
+
+.chart-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+  color: var(--neutral-gray-4);
+}
+
+@media (max-width: 1024px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2xl);
+  }
+  
+  .hero-visual {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-container {
+    padding: var(--spacing-2xl) var(--spacing-lg);
+  }
+  
+  .hero-title {
+    font-size: var(--font-size-3xl);
+  }
+  
+  .trust-indicators {
+    gap: var(--spacing-xl);
+  }
+  
+  .hero-ctas {
+    flex-direction: column;
+  }
+}
+</style>
